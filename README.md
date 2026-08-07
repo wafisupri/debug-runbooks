@@ -89,3 +89,11 @@ A useful runbook should answer four questions:
 4. How do I prove it is fixed?
 
 The emphasis is on verified solutions rather than reproducing every troubleshooting step.
+## License
+
+The original documentation in this repository is licensed under the
+[Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
+
+You are free to share and adapt these runbooks, including for commercial purposes, provided appropriate credit is given.
+
+Third-party software, command output, logs, trademarks, screenshots, code snippets, and other referenced material remain subject to their respective licenses and rights.

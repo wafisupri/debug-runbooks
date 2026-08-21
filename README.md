@@ -74,6 +74,8 @@ The shortest reliable diagnostic and recovery procedure.
 
 |---|---|---|
 
+| 2026-08-21 | Claude Code + OmniRoute Environment Setup | Fixed |
+
 | 2026-08-07 | Hermes + Composio + GitHub Fix | Fixed |
 
 | 2026-08-07 | FreeLLM + OmniRoute + OpenCode Terminal Recovery | Fixed |

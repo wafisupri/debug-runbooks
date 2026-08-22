@@ -74,6 +74,8 @@ The shortest reliable diagnostic and recovery procedure.
 
 |---|---|---|
 
+| 2026-08-22 | FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup | Fixed |
+
 | 2026-08-22 | OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling) | Fixed |
 
 | 2026-08-22 | TokenRouter Multi-CLI Integration & Claude Code Bridge Setup | Fixed |

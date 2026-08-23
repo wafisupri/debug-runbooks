@@ -91,7 +91,9 @@ The shortest reliable diagnostic and recovery procedure.
 ## Windows
 ---
 
-No runbooks yet.
+| Date | Runbook | Status |
+|---|---|---|
+| 2026-08-23 | [PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping & Daemonization)](windows/2026-08-23-pm2-windows-dual-router-setup.md) | Fixed |
 
 ## Linux
 ---

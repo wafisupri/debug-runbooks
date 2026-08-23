@@ -1,0 +1,241 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "basic-memory": {
+      "type": "local",
+      "command": ["basic-memory", "mcp"],
+      "enabled": true
+    },
+    "memory-service": {
+      "type": "local",
+      "command": ["memory", "server"],
+      "enabled": true
+    },
+    "graph-memory": {
+      "type": "local",
+      "command": ["cmd", "/c", "npx", "-y", "@modelcontextprotocol/server-memory"],
+      "environment": {
+        "MEMORY_FILE_PATH": "C:\\Users\\1\\ai-memory\\memory.jsonl"
+      },
+      "enabled": true
+    }
+  },
+  "provider": {
+    "9router": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:20138/v1",
+        "apiKey": "<9ROUTER_API_KEY>"
+      },
+      "models": {
+        "siliconflow/deepseek-ai/DeepSeek-V4-Pro": {
+          "name": "siliconflow/deepseek-ai/DeepSeek-V4-Pro",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        },
+        "volcengine-ark/Doubao-Seed-2.0-Code": {
+          "name": "volcengine-ark/Doubao-Seed-2.0-Code",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        }
+      }
+    },
+    "openrouter": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1",
+        "apiKey": "<OPENROUTER_API_KEY>"
+      },
+      "models": {
+        "z-ai/glm-5.2:free": {
+          "name": "GLM 5.2 Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "nvidia/nemotron-3-ultra-550b-a55b:free": {
+          "name": "Nemotron 3 Ultra 550B Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "nvidia/nemotron-3-super-120b-a12b:free": {
+          "name": "Nemotron 3 Super 120B Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "poolside/laguna-s-2.1:free": {
+          "name": "Laguna S 2.1 Code Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "thinkingmachines/inkling:free": {
+          "name": "Inkling Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "google/gemma-4-31b-it:free": {
+          "name": "Gemma 4 31B Free",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "groq": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.groq.com/openai/v1",
+        "apiKey": "<GROQ_API_KEY>"
+      },
+      "models": {
+        "openai/gpt-oss-120b": {
+          "name": "GPT-OSS 120B (Groq)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "qwen/qwen3.6-27b": {
+          "name": "Qwen3.6 27B (Groq)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "groq/compound-mini": {
+          "name": "Compound Mini (Groq)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        }
+      }
+    },
+    "google": {
+      "npm": "@ai-sdk/google",
+      "options": {
+        "apiKey": "<GOOGLE_API_KEY>"
+      },
+      "models": {
+        "gemini-2.5-flash": {
+          "name": "Gemini 2.5 Flash",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "gemini-3-flash": {
+          "name": "Gemini 3 Flash",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "cerebras": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.cerebras.ai/v1",
+        "apiKey": "<CEREBRAS_API_KEY>"
+      },
+      "models": {
+        "gpt-oss-120b": {
+          "name": "GPT-OSS 120B (Cerebras)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        }
+      }
+    },
+    "nvidia": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "NVIDIA NIM",
+      "options": {
+        "baseURL": "https://integrate.api.nvidia.com/v1",
+        "apiKey": "<NVIDIA_API_KEY>"
+      },
+      "models": {
+        "meta/llama-3.3-70b-instruct": {
+          "name": "Llama 3.3 70B (NVIDIA)",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "nvidia/llama-3.1-nemotron-70b-instruct": {
+          "name": "Nemotron 70B (NVIDIA)",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "options": {
+        "apiKey": "<ANTHROPIC_API_KEY>"
+      },
+      "models": {
+        "claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        },
+        "claude-haiku-4-5": {
+          "name": "Claude Haiku 4.5",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "openai": {
+      "npm": "@ai-sdk/openai",
+      "options": {
+        "apiKey": "<OPENAI_API_KEY>"
+      },
+      "models": {
+        "gpt-5.5-instant": {
+          "name": "GPT-5.5 Instant",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "ollama-cloud": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama Cloud",
+      "options": {
+        "baseURL": "https://ollama.com/v1",
+        "apiKey": "<OLLAMA_API_KEY>"
+      },
+      "models": {
+        "gpt-oss:120b-cloud": {
+          "name": "GPT-OSS 120B (Cloud)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "deepseek-v4-flash:cloud": {
+          "name": "DeepSeek V4 Flash (Cloud)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "qwen3.5:cloud": {
+          "name": "Qwen3.5 (Cloud)",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        }
+      }
+    },
+    "kimi": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Kimi",
+      "options": {
+        "baseURL": "https://api.kimi.ai/v1",
+        "apiKey": "<KIMI_API_KEY>"
+      },
+      "models": {
+        "kimi-chat": {
+          "name": "Kimi Chat",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "moonshot-ai/kimi-k2.7-code": {
+          "name": "Kimi K2.7 Code",
+          "modalities": { "input": ["text", "image"], "output": ["text"] }
+        }
+      }
+    },
+    "deepseek": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.deepseek.com/v1",
+        "apiKey": "<DEEPSEEK_API_KEY>"
+      },
+      "models": {
+        "deepseek-chat": {
+          "name": "DeepSeek V3",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        },
+        "deepseek-reasoner": {
+          "name": "DeepSeek R1",
+          "modalities": { "input": ["text"], "output": ["text"] }
+        }
+      }
+    }
+  },
+  "model": "openrouter/z-ai/glm-5.2:free",
+  "agent": {
+    "explorer": {
+      "description": "Fast explorer subagent for codebase exploration",
+      "model": "openrouter/nvidia/nemotron-3-nano-30b-a3b:free"
+    }
+  }
+}

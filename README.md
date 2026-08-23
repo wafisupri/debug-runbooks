@@ -95,6 +95,9 @@ The shortest reliable diagnostic and recovery procedure.
 |---|---|---|
 | 2026-08-23 | [PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping & Daemonization)](windows/2026-08-23-pm2-windows-dual-router-setup.md) | Fixed |
 
+| 2026-08-23 | [Windows Multi-CLI Free-Tier Model Setup (OmniRoute + OpenClaw + Hermes)](windows/2026-08-23-windows-multi-cli-free-model-setup.md) | Fixed |
+| 2026-08-23 | [Windows Multi-Provider Kimi/DeepSeek Setup (PWA + OpenCode + Pi + OpenClaude + Kimi Code)](windows/2026-08-23-windows-multi-provider-kimi-deepseek-setup.md) | Fixed |
+
 ## Linux
 ---
 

@@ -1,0 +1,5 @@
+{
+  "kimi-coding": { "type": "api_key", "key": "<KIMI_API_KEY>" },
+  "deepseek": { "type": "api_key", "key": "<DEEPSEEK_API_KEY>" },
+  "huggingface": { "type": "api_key", "key": "<HUGGINGFACE_API_KEY>" }
+}

@@ -1,0 +1,22 @@
+default_model = "moonshot-ai/kimi-k2.7-code"
+
+[providers.moonshot-ai]
+base_url = "https://api.moonshot.ai/v1"
+type = "kimi"
+api_key = "<KIMI_API_KEY>"
+
+[models."moonshot-ai/kimi-k2.7-code"]
+provider = "moonshot-ai"
+model = "kimi-k2.7-code"
+max_context_size = 262144
+capabilities = [ "thinking", "image_in", "video_in", "tool_use" ]
+
+[models."moonshot-ai/kimi-k2.6"]
+provider = "moonshot-ai"
+model = "kimi-k2.6"
+max_context_size = 262144
+capabilities = [ "thinking", "image_in", "video_in", "tool_use" ]
+
+[thinking]
+enabled = true
+

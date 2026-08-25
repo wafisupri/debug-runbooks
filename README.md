@@ -102,7 +102,7 @@ The shortest reliable diagnostic and recovery procedure.
 
 | Date | Runbook | Status |
 |---|---|---|
-| 2026-08-23 | [Local Memory MCP Fleet Setup (Windows + macOS)](cross-platform/local-memory-mcp-setup-runbook.md) | Fixed |
+| 2026-08-23 | [Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)](cross-platform/local-memory-mcp-setup-runbook.md) | Fixed |
 
 ## Philosophy
 ---

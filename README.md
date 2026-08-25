@@ -71,24 +71,15 @@ The shortest reliable diagnostic and recovery procedure.
 ---
 
 | Date | Runbook | Status |
-
 |---|---|---|
-
 | 2026-08-25 | [Kimi Code 0.38 Provider Recovery & Verified 9Router Gemini Default](macos/kimi-code-0.38-provider-recovery-2026-08-25.md) | Fixed |
-
-| 2026-08-22 | FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup | Fixed |
-
-| 2026-08-22 | OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling) | Fixed |
-
-| 2026-08-22 | TokenRouter Multi-CLI Integration & Claude Code Bridge Setup | Fixed |
-
-| 2026-08-22 | Claude Code Permissions Setup (Global) | Fixed |
-
-| 2026-08-21 | Claude Code + OmniRoute Environment Setup | Fixed |
-
-| 2026-08-07 | Hermes + Composio + GitHub Fix | Fixed |
-
-| 2026-08-07 | FreeLLM + OmniRoute + OpenCode Terminal Recovery | Fixed |
+| 2026-08-22 | [FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup](macos/freellm-multi-cli-free-models-setup-2026-08-22.md) | Fixed |
+| 2026-08-22 | [OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling)](macos/opencode-vercel-ai-gateway-setup-2026-08-22.md) | Fixed |
+| 2026-08-22 | [TokenRouter Multi-CLI Integration & Claude Code Bridge Setup](macos/tokenrouter-multi-cli-setup-2026-08-22.md) | Fixed |
+| 2026-08-22 | [Claude Code Permissions Setup (Global)](macos/claude-code-permissions-setup-2026-08-22.md) | Fixed |
+| 2026-08-21 | [Claude Code + OmniRoute Environment Setup](macos/claude-code-omniroute-env-setup-2026-08-21.md) | Fixed |
+| 2026-08-07 | [Hermes + Composio + GitHub Fix](macos/hermes-composio-github-session-2026-08-07.md) | Fixed |
+| 2026-08-07 | [FreeLLM + OmniRoute + OpenCode Terminal Recovery](macos/terminal-crash-recovery-runbook.md) | Fixed |
 
 ## Windows
 ---
@@ -96,19 +87,22 @@ The shortest reliable diagnostic and recovery procedure.
 | Date | Runbook | Status |
 |---|---|---|
 | 2026-08-23 | [PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping & Daemonization)](windows/2026-08-23-pm2-windows-dual-router-setup.md) | Fixed |
-
 | 2026-08-23 | [Windows Multi-CLI Free-Tier Model Setup (OmniRoute + OpenClaw + Hermes)](windows/2026-08-23-windows-multi-cli-free-model-setup.md) | Fixed |
 | 2026-08-23 | [Windows Multi-Provider Kimi/DeepSeek Setup (PWA + OpenCode + Pi + OpenClaude + Kimi Code)](windows/2026-08-23-windows-multi-provider-kimi-deepseek-setup.md) | Fixed |
 
 ## Linux
 ---
 
-No runbooks yet.
+| Date | Runbook | Status |
+|---|---|---|
+| — | *No runbooks yet.* | — |
 
 ## Cross-platform
 ---
 
-No runbooks yet.
+| Date | Runbook | Status |
+|---|---|---|
+| 2026-08-23 | [Local Memory MCP Fleet Setup (Windows + macOS)](cross-platform/local-memory-mcp-setup-runbook.md) | Fixed |
 
 ## Philosophy
 ---

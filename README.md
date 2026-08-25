@@ -74,6 +74,8 @@ The shortest reliable diagnostic and recovery procedure.
 
 |---|---|---|
 
+| 2026-08-25 | [Kimi Code 0.38 Provider Recovery & Verified 9Router Gemini Default](macos/kimi-code-0.38-provider-recovery-2026-08-25.md) | Fixed |
+
 | 2026-08-22 | FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup | Fixed |
 
 | 2026-08-22 | OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling) | Fixed |

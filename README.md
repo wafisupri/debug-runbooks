@@ -70,39 +70,132 @@ The shortest reliable diagnostic and recovery procedure.
 ## macOS
 ---
 
-| Date | Runbook | Status |
-|---|---|---|
-| 2026-08-25 | [Kimi Code 0.38 Provider Recovery & Verified 9Router Gemini Default](macos/kimi-code-0.38-provider-recovery-2026-08-25.md) | Fixed |
-| 2026-08-22 | [FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup](macos/freellm-multi-cli-free-models-setup-2026-08-22.md) | Fixed |
-| 2026-08-22 | [OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling)](macos/opencode-vercel-ai-gateway-setup-2026-08-22.md) | Fixed |
-| 2026-08-22 | [TokenRouter Multi-CLI Integration & Claude Code Bridge Setup](macos/tokenrouter-multi-cli-setup-2026-08-22.md) | Fixed |
-| 2026-08-22 | [Claude Code Permissions Setup (Global)](macos/claude-code-permissions-setup-2026-08-22.md) | Fixed |
-| 2026-08-21 | [Claude Code + OmniRoute Environment Setup](macos/claude-code-omniroute-env-setup-2026-08-21.md) | Fixed |
-| 2026-08-07 | [Hermes + Composio + GitHub Fix](macos/hermes-composio-github-session-2026-08-07.md) | Fixed |
-| 2026-08-07 | [FreeLLM + OmniRoute + OpenCode Terminal Recovery](macos/terminal-crash-recovery-runbook.md) | Fixed |
+<table>
+  <thead>
+    <tr>
+      <th style="white-space: nowrap; width: 1%;">Date</th>
+      <th style="width: 100%;">Runbook</th>
+      <th style="white-space: nowrap; width: 1%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-26</td>
+      <td><a href="macos/9router-apple-silicon-headless-openclaude-recovery-2026-08-26.md">9Router Apple Silicon Headless Recovery &amp; OpenClaude Integration</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-25</td>
+      <td><a href="macos/kimi-code-0.38-provider-recovery-2026-08-25.md">Kimi Code 0.38 Provider Recovery &amp; Verified 9Router Gemini Default</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-22</td>
+      <td><a href="macos/freellm-multi-cli-free-models-setup-2026-08-22.md">FreeLLM Multi-CLI Free-Tier Model Aggregation &amp; Failover Setup</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-22</td>
+      <td><a href="macos/opencode-vercel-ai-gateway-setup-2026-08-22.md">OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-22</td>
+      <td><a href="macos/tokenrouter-multi-cli-setup-2026-08-22.md">TokenRouter Multi-CLI Integration &amp; Claude Code Bridge Setup</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-22</td>
+      <td><a href="macos/claude-code-permissions-setup-2026-08-22.md">Claude Code Permissions Setup (Global)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-21</td>
+      <td><a href="macos/claude-code-omniroute-env-setup-2026-08-21.md">Claude Code + OmniRoute Environment Setup</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-07</td>
+      <td><a href="macos/hermes-composio-github-session-2026-08-07.md">Hermes + Composio + GitHub Fix</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-07</td>
+      <td><a href="macos/terminal-crash-recovery-runbook.md">FreeLLM + OmniRoute + OpenCode Terminal Recovery</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Windows
 ---
 
-| Date | Runbook | Status |
-|---|---|---|
-| 2026-08-23 | [PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping & Daemonization)](windows/2026-08-23-pm2-windows-dual-router-setup.md) | Fixed |
-| 2026-08-23 | [Windows Multi-CLI Free-Tier Model Setup (OmniRoute + OpenClaw + Hermes)](windows/2026-08-23-windows-multi-cli-free-model-setup.md) | Fixed |
-| 2026-08-23 | [Windows Multi-Provider Kimi/DeepSeek Setup (PWA + OpenCode + Pi + OpenClaude + Kimi Code)](windows/2026-08-23-windows-multi-provider-kimi-deepseek-setup.md) | Fixed |
+<table>
+  <thead>
+    <tr>
+      <th style="white-space: nowrap; width: 1%;">Date</th>
+      <th style="width: 100%;">Runbook</th>
+      <th style="white-space: nowrap; width: 1%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-23</td>
+      <td><a href="windows/2026-08-23-pm2-windows-dual-router-setup.md">PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping &amp; Daemonization)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-23</td>
+      <td><a href="windows/2026-08-23-windows-multi-cli-free-model-setup.md">Windows Multi-CLI Free-Tier Model Setup (OmniRoute + OpenClaw + Hermes)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-23</td>
+      <td><a href="windows/2026-08-23-windows-multi-provider-kimi-deepseek-setup.md">Windows Multi-Provider Kimi/DeepSeek Setup (PWA + OpenCode + Pi + OpenClaude + Kimi Code)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Linux
 ---
 
-| Date | Runbook | Status |
-|---|---|---|
-| — | *No runbooks yet.* | — |
+<table>
+  <thead>
+    <tr>
+      <th style="white-space: nowrap; width: 1%;">Date</th>
+      <th style="width: 100%;">Runbook</th>
+      <th style="white-space: nowrap; width: 1%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap;">—</td>
+      <td><em>No runbooks yet.</em></td>
+      <td style="white-space: nowrap;">—</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Cross-platform
 ---
 
-| Date | Runbook | Status |
-|---|---|---|
-| 2026-08-23 | [Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)](cross-platform/local-memory-mcp-setup-runbook.md) | Fixed |
+<table>
+  <thead>
+    <tr>
+      <th style="white-space: nowrap; width: 1%;">Date</th>
+      <th style="width: 100%;">Runbook</th>
+      <th style="white-space: nowrap; width: 1%;">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-23</td>
+      <td><a href="cross-platform/local-memory-mcp-setup-runbook.md">Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Philosophy
 ---

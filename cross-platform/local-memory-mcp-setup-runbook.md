@@ -2,7 +2,7 @@
 
 **Date:** 2026-08-23  
 
-**Status:** Fixed — all 7 CLIs configured on this PC  
+**Status:** Fixed — configured on Windows & macOS  
 
 **Platform:** Cross-platform (Windows + macOS)
 

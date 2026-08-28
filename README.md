@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-08-29</td>
+      <td><a href="macos/tokenrouter-glm53-claude-launcher-recovery-2026-08-29.md">TokenRouter GLM 5.3 Free + Claude/OpenClaude Launcher Recovery</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-26</td>
       <td><a href="macos/9router-apple-silicon-headless-openclaude-recovery-2026-08-26.md">9Router Apple Silicon Headless Recovery &amp; OpenClaude Integration</a></td>
       <td style="white-space: nowrap;">Fixed</td>

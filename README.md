@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-08-29</td>
+      <td><a href="macos/tokenrouter-credential-rotation-post-verification-2026-08-29.md">TokenRouter Credential Rotation — Post-Rotation Verification &amp; Credential Hygiene</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-26</td>
       <td><a href="macos/9router-apple-silicon-headless-openclaude-recovery-2026-08-26.md">9Router Apple Silicon Headless Recovery &amp; OpenClaude Integration</a></td>
       <td style="white-space: nowrap;">Fixed</td>

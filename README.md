@@ -90,6 +90,11 @@ The shortest reliable diagnostic and recovery procedure.
       <td style="white-space: nowrap;">Fixed</td>
     </tr>
     <tr>
+      <td style="white-space: nowrap;">2026-08-30</td>
+      <td><a href="macos/openclaude-omniroute-model-catalogue-repair-2026-08-30.md">OpenClaude / OmniRoute Model Catalogue Repair — Stray 9Router Node Removal &amp; FREE-FIRST Verification</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-29</td>
       <td><a href="macos/tokenrouter-glm53-claude-launcher-recovery-2026-08-29.md">TokenRouter GLM 5.3 Free + Claude/OpenClaude Launcher Recovery</a></td>
       <td style="white-space: nowrap;">Fixed</td>
@@ -97,6 +102,11 @@ The shortest reliable diagnostic and recovery procedure.
     <tr>
       <td style="white-space: nowrap;">2026-08-29</td>
       <td><a href="macos/tokenrouter-credential-rotation-post-verification-2026-08-29.md">TokenRouter Credential Rotation — Post-Rotation Verification &amp; Credential Hygiene</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-28</td>
+      <td><a href="macos/stage-f0d-launchd-gateway-optimization-2026-08-28.md">Stage F0D launchd Gateway Optimization &amp; DFlash 2 Caching</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>
     <tr>

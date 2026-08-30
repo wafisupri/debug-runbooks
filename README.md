@@ -81,6 +81,11 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-08-30</td>
+      <td><a href="macos/openclaude-9router-silvermbn-auth-recovery-2026-08-30.md">OpenClaude → 9Router silverMBN Authentication &amp; Persistent Wrapper Recovery</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-30</td>
       <td><a href="macos/kimi-freellm-ingress-compatibility-recovery-2026-08-30.md">Kimi Code → FreeLLM Ingress Compatibility Recovery</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>

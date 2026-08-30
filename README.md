@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-08-31</td>
+      <td><a href="macos/kimi-cross-provider-payload-compatibility-repair-2026-08-31.md">Kimi Code Cross-Provider Payload Compatibility &amp; Model Catalogue Repair</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-30</td>
       <td><a href="macos/openclaude-9router-silvermbn-auth-recovery-2026-08-30.md">OpenClaude → 9Router silverMBN Authentication &amp; Persistent Wrapper Recovery</a></td>
       <td style="white-space: nowrap;">Fixed</td>

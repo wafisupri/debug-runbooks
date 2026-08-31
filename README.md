@@ -81,6 +81,11 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-08-31</td>
+      <td><a href="macos/omniroute-3.8.50-launchd-pm2-upgrade-recovery-2026-08-31.md">OmniRoute 3.8.50 Upgrade &amp; LaunchAgent/PM2 Recovery</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-31</td>
       <td><a href="macos/claude-freefirst-openrouter-routing-2026-08-31.md">Claude Code Free-First / OpenRouter Routing — validated 3-stage free-first → paid fallback with SSE streaming, 8s/15s/90s timeout tuning, controlled paid-fallback verification, and intentional post-validation disablement</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>

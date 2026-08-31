@@ -81,6 +81,11 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-08-31</td>
+      <td><a href="macos/claude-freefirst-openrouter-routing-2026-08-31.md">Claude Code Free-First / OpenRouter Routing — validated 3-stage free-first → paid fallback with SSE streaming, 8s/15s/90s timeout tuning, controlled paid-fallback verification, and intentional post-validation disablement</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-31</td>
       <td><a href="macos/kimi-cross-provider-payload-compatibility-repair-2026-08-31.md">Kimi Code Cross-Provider Payload Compatibility &amp; Model Catalogue Repair</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>

@@ -116,6 +116,11 @@ The shortest reliable diagnostic and recovery procedure.
     </tr>
     <tr>
       <td style="white-space: nowrap;">2026-08-29</td>
+      <td><a href="macos/omniroute-asymmetric-timeout-hardening-2026-08-29.md">OmniRoute Asymmetric Timeout Hardening — closure/hardening follow-on to the asymmetric-combo-timeouts runbook: broad paid-family substring matcher replaced with an exact <code>openrouter-paid</code> whitelist, negative-case validation matrix, and post-restart health verification</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-08-29</td>
       <td><a href="macos/omniroute-asymmetric-combo-timeouts-2026-08-29.md">OmniRoute Asymmetric Combo Timeout Optimisation</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>

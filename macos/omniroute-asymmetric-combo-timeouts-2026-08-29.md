@@ -90,7 +90,7 @@ known premium families                               90,000 ms
 unknown/other                                        existing default
 ```
 
-The current implementation reportedly recognizes paid families including:
+At the time this runbook was written, the implementation reportedly recognized paid families including:
 
 ```
 claude-*
@@ -102,7 +102,9 @@ gemini-2*
 deepseek-reasoner
 ```
 
-Record this as a future hardening concern.
+Recorded here as a future hardening concern. This broad substring matcher was
+subsequently replaced with an exact `openrouter-paid` whitelist; see
+`omniroute-asymmetric-timeout-hardening-2026-08-29.md` for the closure work.
 
 Do NOT claim that every `anthropic/*` or `openai/*` model is inherently paid.
 
@@ -342,5 +344,5 @@ routing order preserved                PASS
 timeout cancellation preserved        PASS
 internal 524 semantics preserved       PASS
 upgrade persistence                    NO
-paid matcher hardening audit          PENDING
+paid matcher hardening audit          CLOSED (see omniroute-asymmetric-timeout-hardening-2026-08-29.md)
 ```

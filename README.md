@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-01</td>
+      <td><a href="macos/cli-environment-keychain-hardening-2026-09-01.md">macOS CLI Environment &amp; Keychain Hardening Runbook</a></td>
+      <td style="white-space: nowrap;">PASS WITH ACCEPTED EXCEPTIONS</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-31</td>
       <td><a href="macos/omniroute-3.8.50-launchd-pm2-upgrade-recovery-2026-08-31.md">OmniRoute 3.8.50 Upgrade &amp; LaunchAgent/PM2 Recovery</a></td>
       <td style="white-space: nowrap;">Fixed</td>

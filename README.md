@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-02</td>
+      <td><a href="macos/chatgpt-desktop-omniroute-launchd-auth-recovery-2026-09-02.md">ChatGPT Desktop + OmniRoute launchd Authentication Recovery</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-31</td>
       <td><a href="macos/omniroute-3.8.50-launchd-pm2-upgrade-recovery-2026-08-31.md">OmniRoute 3.8.50 Upgrade &amp; LaunchAgent/PM2 Recovery</a></td>
       <td style="white-space: nowrap;">Fixed</td>

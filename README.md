@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-03</td>
+      <td><a href="macos/bai-free-models-cli-configuration-2026-09-03.md">B.AI Free Models — macOS CLI Configuration Runbook</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-01</td>
       <td><a href="macos/cli-environment-keychain-hardening-2026-09-01.md">macOS CLI Environment &amp; Keychain Hardening Runbook</a></td>
       <td style="white-space: nowrap;">PASS WITH ACCEPTED EXCEPTIONS</td>

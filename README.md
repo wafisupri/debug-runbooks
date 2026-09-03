@@ -255,6 +255,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-04</td>
+      <td><a href="cross-platform/universal-ai-cli-gateway-launcher-2026-09-04.md">Universal AI CLI Gateway Launcher — CLI × gateway selection with native /model control</a></td>
+      <td style="white-space: nowrap;">Partial</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-08-23</td>
       <td><a href="cross-platform/local-memory-mcp-setup-runbook.md">Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)</a></td>
       <td style="white-space: nowrap;">Fixed</td>

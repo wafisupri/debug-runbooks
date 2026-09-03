@@ -1,268 +1,236 @@
 # Universal AI CLI Gateway Launcher — Cross-Platform Runbook
 
+**Date:** 2026-09-04  
+**Status:** Partial / v0.4 ready for workstation validation  
+**Platform validated so far:** macOS  
+
 ## Summary
 
-Build a thin, reversible launcher above the existing AI CLI and API-gateway stack so the CLI and gateway can be selected independently without replacing existing gateway work.
+A thin launcher now sits above the existing CLI and gateway stack so the CLI and gateway can be chosen independently without replacing prior gateway work.
 
-Target usage:
+Core rule:
 
-```text
-qwen-openrouter
-kimi-groq
-cline-9router
-openclaude-freellmapi
-```
+> Launcher chooses CLI + gateway. Native `/model` chooses the model where supported.
 
-Equivalent explicit form:
+Verified on the target workstation:
 
-```bash
-ai run qwen openrouter
-ai run kimi groq
-ai run cline 9router
-ai run openclaude freellmapi
-```
+- Universal launcher installs and runs.
+- `qwen-openrouter` works.
+- Qwen native `/model` works with the curated provider catalogue.
+- `if/qwen3.7-max` through OmniRoute works.
+- B.AI MiMo V2.5 works.
 
-The launcher chooses **CLI + gateway**. The CLI's own `/model` or model picker should remain responsible for model selection wherever the client supports it.
+Not yet fully verified:
 
-Status: **Designed / pending validation on the actual workstation.**
+- Kimi -> Groq direct is blocked by a known Kimi 0.39.1 payload incompatibility.
+- Cline -> 9Router must be re-tested after correcting the launcher from the guessed `:9000` endpoint to the verified policy-guard endpoint `:20138`.
+- FreeLLMAPI is not installed yet and must not collide with the existing FreeLLM service on `:3001`.
 
-## Objective
+## Verified workstation inventory
 
-Provide a universal selection layer while preserving every existing gateway and native CLI configuration.
+- Aider 0.82.3
+- Claude Code 2.1.251
+- Cline 3.0.60
+- Codex CLI 0.152.1
+- Kimi Code 0.39.1
+- OpenClaude 0.29.1
+- OpenCode 1.18.15
+- Qwen Code 0.23.0 during validation
 
-The launcher must remain additive:
-
-- no gateway replacement
-- no forced migration
-- no automatic overwrite of native CLI configuration
-- no API keys stored in launcher configuration
-- no nested gateway chain by default
-
-## Architecture
+## Verified local gateway topology
 
 ```text
-                       User
-                        |
-                 Universal launcher
-                        |
-       +----------------+----------------+
-       |                |                |
-    Qwen Code       Kimi Code          Cline
-       |                |                |
-       +--------+-------+-------+--------+
-                |               |
-          selectable gateways / providers
-                |
-   OpenRouter / Groq / 9Router / FreeLLMAPI
-   Cerebras / NVIDIA / existing local gateways
+FreeLLM              127.0.0.1:3001
+OmniRoute            127.0.0.1:20128
+9Router Policy Guard 127.0.0.1:20138   <- client-facing endpoint
+9Router Backend      127.0.0.1:20139
 ```
 
-The launcher only selects session context. Native CLI configuration remains authoritative when a client requires its own provider or model catalog.
+The original launcher scaffold used `localhost:9000` for 9Router. That value was incorrect for this workstation and is fixed in v0.4.
 
-## Launcher Commands
+## v0.4 fixes
+
+### 1. Dry-run semantics fixed
+
+Observed failure:
 
 ```bash
-ai list
-ai status
-ai doctor
-ai doctor --json
-ai models openrouter
-ai models groq
-ai models freellmapi
-ai run qwen openrouter --dry-run
 ai run kimi groq --dry-run
-ai run cline 9router --dry-run
-ai run openclaude freellmapi --dry-run
 ```
 
-Create literal wrapper commands after validation:
+The launcher printed the configuration but then forwarded `--dry-run` into Kimi, causing:
+
+```text
+error: unknown option '--dry-run'
+```
+
+The same problem occurred with Cline.
+
+Root cause: `argparse.REMAINDER` consumed launcher options written after the positional `CLIENT GATEWAY` arguments.
+
+v0.4 recovers `--dry-run`, `--force`, and `--model` from the remainder before constructing the client command. A dry run now exits before the CLI is executed.
+
+### 2. 9Router endpoint corrected
+
+Old scaffold value:
+
+```text
+http://localhost:9000/v1
+```
+
+Verified client-facing endpoint:
+
+```text
+http://127.0.0.1:20138/v1
+```
+
+The `:20138` policy guard is intentionally preferred over direct backend `:20139` because it preserves local catalogue and request-time policy enforcement.
+
+### 3. OmniRoute added as a first-class gateway
+
+```text
+http://127.0.0.1:20128/v1
+```
+
+New aliases include:
+
+```text
+qwen-omniroute
+kimi-omniroute
+```
+
+### 4. Kimi 0.39.1 -> direct Groq compatibility guard
+
+Groq itself was healthy during validation:
+
+```text
+HTTP 200
+14 models
+```
+
+But Kimi Code 0.39.1 injected `prompt_cache_key`. Direct Groq calls rejected the field with HTTP 400.
+
+This is a previously solved compatibility class in the existing Kimi cross-provider runbook: unsupported `prompt_cache_key` must be stripped only for providers that reject it, while preserving prompt caching where supported.
+
+v0.4 therefore blocks `kimi + groq` by default and recommends:
 
 ```bash
+kimi-omniroute
+```
+
+Then choose a `groq/...` model from Kimi `/model`. The existing OmniRoute compatibility layer is the intended sanitizing path.
+
+A deliberate direct retest can still be forced with `--force`, but it is not the recommended daily path.
+
+### 5. FreeLLMAPI collision guard
+
+Existing FreeLLM already owns:
+
+```text
+127.0.0.1:3001
+```
+
+Therefore the prospective FreeLLMAPI entry is disabled in v0.4 until a distinct verified listener is chosen during installation. The launcher must never silently connect `openclaude-freellmapi` to the existing FreeLLM service and mislabel it as FreeLLMAPI.
+
+### 6. Safe config migration
+
+v0.4 adds:
+
+```bash
+ai migrate
+```
+
+It backs up the existing launcher config and only changes recognized v0.3 defaults:
+
+- `9router` `:9000` -> `:20138`
+- add OmniRoute `:20128`
+- add `qwen-omniroute`
+- add `kimi-omniroute`
+- add Kimi->Groq compatibility guard
+- disable the uninstalled FreeLLMAPI `:3001` placeholder
+
+## Upstream model observations
+
+Two OpenRouter free slugs returned HTTP 404 during Qwen validation:
+
+```text
+z-ai/glm-4.5-air:free
+openai/gpt-oss-120b:free
+```
+
+Those are upstream catalogue changes, not launcher failures. The paid slugs were reported by OpenRouter as the available replacements.
+
+## Current validation matrix
+
+| Combination | Status |
+|---|---|
+| Universal launcher | Working |
+| Qwen -> OpenRouter | Verified |
+| Qwen -> OmniRoute -> `if/qwen3.7-max` | Verified |
+| Qwen -> B.AI MiMo V2.5 | Verified |
+| Kimi -> Groq direct | Blocked: `prompt_cache_key` HTTP 400 |
+| Kimi -> OmniRoute -> Groq model | Ready for re-validation in v0.4 |
+| Cline -> 9Router `:20138` | Ready for re-validation in v0.4 |
+| OpenClaude -> FreeLLMAPI | Pending FreeLLMAPI install on non-conflicting port |
+
+## Upgrade / validation commands
+
+```bash
+./install.sh
+rehash
+ai migrate
 ai wrappers
-```
+rehash
 
-Expected wrappers include:
+ai health 9router
+ai models 9router | head -20
 
-```text
-qwen-openrouter
-kimi-groq
+ai health omniroute
+ai models omniroute | head -20
+
+ai run kimi groq --dry-run
+# Expected: compatibility BLOCK; Kimi must not launch.
+
+ai run kimi omniroute --dry-run
+# Expected: Command: kimi, then exit without launching.
+
+kimi-omniroute
+# In Kimi /model choose a groq/... model and send a minimal test.
+
 cline-9router
-openclaude-freellmapi
-codex-openrouter
-aider-cerebras
+# Verify the selected 9Router model actually uses the corrected :20138 path.
 ```
 
-## Security Design
+## Security / secret hygiene
 
-API secrets are referenced only by environment-variable name.
-
-Example gateway mappings:
-
-```text
-OPENROUTER_API_KEY
-GROQ_API_KEY
-NINEROUTER_API_KEY
-FREELLMAPI_API_KEY
-CEREBRAS_API_KEY
-NVIDIA_API_KEY
-```
-
-The launcher must not contain real secret values.
-
-Before every commit, scan tracked and untracked candidate files for provider-key patterns and redact any credential found.
-
-## Client Compatibility Notes
-
-### Qwen Code
-
-Qwen Code supports OpenAI-compatible endpoints using environment overrides such as `OPENAI_BASE_URL`, `OPENAI_API_KEY`, and `OPENAI_MODEL` / `QWEN_MODEL`. It also supports provider/model selection through its native configuration and `/model` flow.
-
-Recommended launcher role:
-
-```text
-qwen-openrouter
-    -> set OpenRouter session variables
-    -> launch Qwen Code as OpenAI-compatible
-    -> choose the actual model with /model or startup model selection
-```
-
-### Kimi Code CLI
-
-Kimi Code supports OpenAI-compatible provider types and environment overrides, but arbitrary gateways and models may still require a provider/model entry in Kimi's native configuration.
-
-Therefore the launcher should not pretend that environment variables alone create Kimi's model catalog.
-
-### OpenCode
-
-OpenCode supports custom OpenAI-compatible providers. Provider identity, base URL, package/wire protocol, and model catalog are native OpenCode configuration concerns.
-
-The launcher should select the session and inject secrets, but must not silently overwrite `opencode` configuration.
-
-### Codex
-
-Codex supports a base-URL override for its built-in OpenAI provider. Third-party gateways may require a dedicated `model_provider` profile so the wire API and key environment variable are explicit.
-
-### Claude Code
-
-Claude Code expects Anthropic-compatible semantics. Only pair it with a gateway that explicitly exposes an Anthropic-compatible endpoint.
-
-An OpenAI-compatible `/v1` endpoint is not automatically suitable for Claude Code.
-
-### Cline / OpenClaude / Qoder
-
-Do not finalize adapters from assumptions. Inventory the exact installed build, version, provider options, configuration location, model picker, and supported environment variables on the workstation first.
-
-## Local Inventory
-
-Run:
-
-```bash
-ai doctor
-ai doctor --json > ai-doctor.json
-```
-
-For every CLI, record:
-
-- executable path
-- version
-- native configuration location
-- base-URL override
-- API-key override
-- startup model argument
-- slash-command model picker
-- whether model discovery is dynamic from `/v1/models` or static from native config
-- required wire API: OpenAI Chat Completions, OpenAI Responses, Anthropic, Gemini, or another protocol
-
-For every gateway, record:
-
-- actual base URL
-- secret environment-variable name
-- whether `/v1/models` works
-- authentication header format
-- supported wire APIs
-- health check
-
-## Validation Sequence
-
-Do not begin with a real model call.
-
-1. Run `ai doctor`.
-2. Correct executable names and real gateway URLs.
-3. Verify secrets are present only in the environment or credential store.
-4. Run each intended combination with `--dry-run`.
-5. Query `/v1/models` where supported.
-6. Launch the CLI.
-7. Confirm the native model picker behaves as expected.
-8. Send one minimal test request.
-9. Confirm the direct/original CLI configuration still works without the launcher.
-10. Create literal wrappers only after the pair is validated.
+- No API key values are stored in launcher JSON.
+- Only environment-variable names are stored.
+- Diagnostic output masks credentials.
+- Do not commit `.env`, shell profiles, credential exports, debug ZIPs, or full API responses containing secrets.
+- FreeLLMAPI must receive a distinct verified port before enabling its alias.
 
 ## Rollback
 
-Delete only the launcher and generated wrappers.
+`ai migrate` writes a backup next to the current config:
 
-Existing gateways and native CLI configuration remain untouched.
-
-Windows:
-
-```powershell
-Remove-Item -Recurse -Force "$HOME\.ai-launcher" -ErrorAction SilentlyContinue
-Remove-Item -Force "$HOME\bin\ai.cmd" -ErrorAction SilentlyContinue
+```text
+config.json.pre-v0.4.bak
 ```
 
-macOS / Linux:
+To roll back the migration, restore that backup and regenerate wrappers.
 
-```bash
-rm -rf ~/.config/ai-launcher
-rm -f ~/.local/bin/ai
-```
+The launcher remains additive; existing gateways and native CLI configuration are not replaced.
 
-Remove generated alias wrappers from the selected bin directory if they were created.
+## Blockers before marking Fixed
 
-## Secret Scan Before Commit
+- Verify `kimi-omniroute` with at least one `groq/...` model.
+- Verify `cline-9router` after the `:20138` correction.
+- Install FreeLLMAPI on a distinct port and verify `openclaude-freellmapi`.
+- Re-run secret scan and working-tree checks after the final documentation update.
 
-At minimum:
+## AI / CLI credit
 
-```bash
-git grep -nIE '(sk-[A-Za-z0-9_-]{10,}|gsk_[A-Za-z0-9_-]{10,}|nvapi-[A-Za-z0-9_-]{10,}|api[_-]?key\s*[:=]\s*[^<[:space:]]+)' -- .
-```
-
-Any plausible credential match must be treated as sensitive until reviewed.
-
-## Working Tree / Blocker Checks
-
-Before commit:
-
-```bash
-git status --short
-git diff --check
-git diff -- README.md cross-platform/universal-ai-cli-gateway-launcher-2026-09-04.md
-```
-
-Block commit if:
-
-- a real secret is present
-- the launcher overwrites existing native CLI configuration without explicit intent
-- a gateway URL is guessed rather than verified
-- an adapter is marked working without a real local test
-- generated runtime files or credential files are staged
-
-## Final Working State
-
-Not yet declared.
-
-The architecture and launcher scaffold are complete, but machine-specific executable discovery and gateway compatibility testing must be run on the user's actual workstation before this runbook can be marked **Fixed**.
-
-## If This Happens Again
-
-Use this rule:
-
-> Launcher chooses CLI + gateway. Native CLI model picker chooses the model. Native provider configuration remains authoritative where required.
-
-Do not rebuild the entire gateway stack just to test a new CLI/provider combination.
-
-## AI / CLI Credit
-
-Initial architecture, compatibility research, launcher scaffold, security constraints, and runbook: **OpenAI ChatGPT — GPT-5.6 Sol**.
-
-For every later configuration/debugging session, append the AI assistant and CLI used for the change.
+- **OpenAI ChatGPT — GPT-5.6 Sol:** launcher architecture, v0.4 debugging, migration design, compatibility analysis, packaging, and runbook maintenance.
+- **Qwen Code CLI:** workstation validation of `qwen-openrouter`, model switching, OmniRoute, OpenRouter, and B.AI model paths.
+- **Kimi Code CLI:** exposed the direct Groq `prompt_cache_key` incompatibility during validation.
+- **Cline CLI:** launched during 9Router testing; routing verification remains pending after endpoint correction.

@@ -1,7 +1,7 @@
 # Universal AI CLI Gateway Launcher — Cross-Platform Runbook
 
 **Date:** 2026-09-04  
-**Status:** Partial / v0.5 hardening package ready for workstation migration  
+**Status:** Partial / v0.5.2 policy-guard hardening verified  
 **Platform validated so far:** macOS  
 
 ## Summary
@@ -327,9 +327,6 @@ Kimi 0.40.1 still injects `prompt_cache_key`. Direct Groq rejects it, and the cu
 
 ### Blockers before marking Fixed
 
-- Install v0.5 on the workstation and run `ai guard install`.
-- Run `ai guard verify` from the persistent location.
-- Confirm a future 9Router service restart leaves the guard healthy.
 - Verify Kimi -> 9Router -> Groq or document the remaining protocol incompatibility.
 - Verify Cline -> 9Router.
 - Install FreeLLMAPI on a distinct port and validate OpenClaude -> FreeLLMAPI.
@@ -447,3 +444,32 @@ Expected version:
 ```text
 ai 0.5.2
 ```
+
+
+## v0.5.2 workstation verification — PASS
+
+The persistent policy-guard migration is now verified on the target workstation.
+
+Final observed state:
+
+```text
+ai --version                         -> ai 0.5.2
+ai guard repair                      -> listener :20138 ready
+catalogue HTTP                       -> 200
+visible guarded models               -> 686
+Aion catalogue exposure              -> 0
+synthetic Aion request               -> HTTP 403
+x-local-policy                       -> blocked
+launchd state                        -> running
+last exit code                       -> never exited
+```
+
+The policy guard now runs from `~/.config/ai-launcher/policy-guard/`, independent of the deleted `~/Unified-AI-Gateway-Tests/stage-f0d-staging/` directory.
+
+Dedicated incident runbook:
+
+```text
+macos/9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05.md
+```
+
+The wider Universal AI Launcher remains Partial only because Kimi -> 9Router -> Groq, Cline -> 9Router, and OpenClaude -> FreeLLMAPI are still pending. The policy-guard hardening itself is Fixed / Verified.

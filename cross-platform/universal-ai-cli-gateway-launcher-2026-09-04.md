@@ -342,3 +342,45 @@ Kimi 0.40.1 still injects `prompt_cache_key`. Direct Groq rejects it, and the cu
 - **Kimi Code CLI 0.40.1:** exposed current Groq and OmniRoute/Groq protocol incompatibilities.
 - **Qwen Code CLI:** previously verified launcher, OpenRouter, OmniRoute, and model-switching paths.
 - **9Router v0.5.65:** current backend under test; package update triggered the persistence regression.
+
+
+## v0.5 packaging correction — v0.5.1
+
+During workstation installation, the user executed `./install.sh` from an existing `~/Downloads/universal-ai-launcher` directory that still contained the older v0.4 source tree. The installer therefore copied the older `ai.py` back into `~/.config/ai-launcher`, so `ai guard ...` was unavailable even though a separate v0.5 ZIP had been generated.
+
+This was a source-tree/version-selection problem, not a failure of the v0.5 guard implementation.
+
+v0.5.1 hardens installation against this mistake:
+
+- adds `ai --version`
+- includes a `VERSION` file
+- refuses installation if the source tree does not contain the packaged policy-guard files
+- refuses installation if `ai.py` does not define the `guard` subcommand
+- performs a post-install self-check that `ai -h` exposes `guard`
+- explicitly recommends extracting upgrades into a fresh directory instead of reusing a stale source folder
+
+Recommended upgrade pattern:
+
+```bash
+cd ~/Downloads
+rm -rf universal-ai-launcher-v0.5.1
+mkdir universal-ai-launcher-v0.5.1
+cd universal-ai-launcher-v0.5.1
+unzip ../universal-ai-launcher-v0.5.1.zip
+cd universal-ai-launcher
+
+./install.sh
+rehash
+
+ai --version
+ai -h | grep guard
+ai guard install
+ai guard status
+ai guard verify
+```
+
+Expected launcher version:
+
+```text
+ai 0.5.1
+```

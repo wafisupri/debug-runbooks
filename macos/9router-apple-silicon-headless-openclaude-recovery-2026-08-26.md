@@ -460,3 +460,60 @@ Disable com.9router.autostart                   Restart target LaunchAgent
 
 ### Deferred
 - [ ] One normal macOS reboot and login cycle verification with the finalized `ai.9router.backend` configuration (previous reboot on 2026-08-26 verified the failure of `com.9router.autostart`; post-repair reboot deferred to avoid interrupting active terminal workflows).
+
+
+---
+
+## 16. 2026-09-05 Persistence Hardening Addendum
+
+The original 2026-08-26 topology remains valid, but the policy-guard source ownership has changed.
+
+The earlier guard LaunchAgent referenced a temporary staging path under:
+
+```text
+~/Unified-AI-Gateway-Tests/stage-f0d-staging/
+```
+
+That directory later disappeared while `ai.f0d.policyguard` remained loaded, producing a `MODULE_NOT_FOUND` crash loop after a 9Router v0.5.65 update.
+
+The current hardened source location is:
+
+```text
+~/.config/ai-launcher/policy-guard/
+├── policy-proxy.mjs
+└── proxy.config.json
+```
+
+The client-facing topology remains unchanged:
+
+```text
+clients -> 127.0.0.1:20138 -> policy guard -> 127.0.0.1:20139 -> 9Router backend
+```
+
+Current maintenance commands:
+
+```bash
+ai guard status
+ai guard verify
+ai guard repair
+```
+
+Final v0.5.2 verification on 2026-09-05:
+
+```text
+catalogue HTTP 200
+guarded models = 686
+Aion exposure = 0
+synthetic Aion request = HTTP 403
+x-local-policy = blocked
+launchd = running
+last exit code = never exited
+```
+
+The old staging source path should now be considered **SUPERSEDED**.
+
+See:
+
+```text
+macos/9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05.md
+```

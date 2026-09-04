@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-05</td>
+      <td><a href="macos/9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05.md">9Router v0.5.65 Policy Guard Persistence Hardening — Universal AI Launcher v0.5.2</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-03</td>
       <td><a href="macos/bai-free-models-cli-configuration-2026-09-03.md">B.AI Free Models — macOS CLI Configuration Runbook</a></td>
       <td style="white-space: nowrap;">Fixed</td>
@@ -257,7 +262,7 @@ The shortest reliable diagnostic and recovery procedure.
     <tr>
       <td style="white-space: nowrap;">2026-09-04</td>
       <td><a href="cross-platform/universal-ai-cli-gateway-launcher-2026-09-04.md">Universal AI CLI Gateway Launcher — CLI × gateway selection with native /model control</a></td>
-      <td style="white-space: nowrap;">Partial / v0.5 hardening</td>
+      <td style="white-space: nowrap;">Partial / v0.5.2 hardening verified</td>
     </tr>
     <tr>
       <td style="white-space: nowrap;">2026-08-23</td>

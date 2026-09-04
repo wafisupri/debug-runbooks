@@ -416,3 +416,34 @@ ai guard install
 ai guard status
 ai guard verify
 ```
+
+
+## v0.5.2 guard launch readiness correction — 2026-09-05
+
+v0.5.1 successfully installed the new `ai guard` command and persistent guard files, but immediate verification returned connection refused even though `launchctl print` briefly reported the job as running. The package also emitted a Python `SyntaxWarning` caused by a `return` inside a `finally` block in BrokenPipe handling.
+
+v0.5.2 corrects both problems:
+
+- removes the `return in finally` warning
+- prefers the known-good Hermes arm64 Node runtime at `~/.hermes/node/bin/node` when present, matching the previously verified 9Router backend/guard environment
+- adds explicit `WorkingDirectory` and `PATH` entries to the generated LaunchAgent
+- waits up to 12 seconds for `127.0.0.1:20138` to accept connections after bootstrap
+- if the listener never appears, prints the last guard stdout/stderr lines immediately instead of claiming installation succeeded
+- `ai guard repair` remains the recommended corrective command after upgrading from v0.5.1
+
+Recommended migration:
+
+```bash
+./install-universal-ai-launcher-v0.5.2-macos.sh
+rehash
+ai --version
+ai guard repair
+ai guard status
+ai guard verify
+```
+
+Expected version:
+
+```text
+ai 0.5.2
+```

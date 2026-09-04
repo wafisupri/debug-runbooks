@@ -257,7 +257,7 @@ The shortest reliable diagnostic and recovery procedure.
     <tr>
       <td style="white-space: nowrap;">2026-09-04</td>
       <td><a href="cross-platform/universal-ai-cli-gateway-launcher-2026-09-04.md">Universal AI CLI Gateway Launcher — CLI × gateway selection with native /model control</a></td>
-      <td style="white-space: nowrap;">Partial</td>
+      <td style="white-space: nowrap;">Partial / v0.5 hardening</td>
     </tr>
     <tr>
       <td style="white-space: nowrap;">2026-08-23</td>

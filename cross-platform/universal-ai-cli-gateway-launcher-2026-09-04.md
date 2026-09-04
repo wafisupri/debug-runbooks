@@ -1,7 +1,7 @@
 # Universal AI CLI Gateway Launcher — Cross-Platform Runbook
 
 **Date:** 2026-09-04  
-**Status:** Partial / v0.4 ready for workstation validation  
+**Status:** Partial / v0.5 hardening package ready for workstation migration  
 **Platform validated so far:** macOS  
 
 ## Summary
@@ -32,7 +32,7 @@ Not yet fully verified:
 - Claude Code 2.1.251
 - Cline 3.0.60
 - Codex CLI 0.152.1
-- Kimi Code 0.39.1
+- Kimi Code 0.40.1
 - OpenClaude 0.29.1
 - OpenCode 1.18.15
 - Qwen Code 0.23.0 during validation
@@ -234,3 +234,111 @@ The launcher remains additive; existing gateways and native CLI configuration ar
 - **Qwen Code CLI:** workstation validation of `qwen-openrouter`, model switching, OmniRoute, OpenRouter, and B.AI model paths.
 - **Kimi Code CLI:** exposed the direct Groq `prompt_cache_key` incompatibility during validation.
 - **Cline CLI:** launched during 9Router testing; routing verification remains pending after endpoint correction.
+
+
+## v0.5 upgrade-resilient policy-guard hardening — 2026-09-05
+
+### Failure discovered after 9Router v0.5.65 update
+
+The 9Router package update recreated the vendor `com.9router.autostart.plist` and again exposed the Apple Silicon tray failure (`spawn Unknown system error -86`). The custom backend service remained alive on `127.0.0.1:20139`, but `ai.f0d.policyguard` crash-looped because its source files under `~/Unified-AI-Gateway-Tests/stage-f0d-staging/` had disappeared.
+
+Observed guard state before repair:
+
+```text
+state = spawn scheduled
+runs = 4612
+last exit code = 1
+```
+
+Root error:
+
+```text
+MODULE_NOT_FOUND
+~/Unified-AI-Gateway-Tests/stage-f0d-staging/policy-proxy.mjs
+```
+
+The temporary/staging project directory was therefore an unsuitable production dependency.
+
+### Recovery verification
+
+9Router v0.5.65 backend was verified directly with authentication:
+
+```text
+127.0.0.1:20139/v1/models      -> HTTP 200
+127.0.0.1:20139/api/v1/models  -> HTTP 200
+```
+
+The policy guard was reconstructed and reloaded on `:20138`. Verified state:
+
+```text
+127.0.0.1:20138 listening
+127.0.0.1:20139 listening
+guarded models: 675
+Aion models exposed: 0
+synthetic Aion request: HTTP 403
+x-local-policy: blocked
+ai health 9router: HTTP 200, models=675
+```
+
+### Permanent hardening design
+
+v0.5 packages the guard as part of the Universal AI CLI Launcher and installs it under:
+
+```text
+~/.config/ai-launcher/policy-guard/
+├── policy-proxy.mjs
+└── proxy.config.json
+```
+
+The generated LaunchAgent points to this persistent path rather than a staging/test project.
+
+New commands:
+
+```bash
+ai guard install
+ai guard status
+ai guard verify
+ai guard repair
+```
+
+`ai guard verify` validates both policy invariants after any gateway update:
+
+1. `GET :20138/v1/models` succeeds and exposes zero IDs matching `aion`.
+2. A synthetic `aion-test-model` request returns HTTP 403 with `x-local-policy: blocked`.
+
+Normal post-update procedure becomes:
+
+```bash
+ai guard verify
+```
+
+Use `ai guard repair` only if verification fails. Rebuilding the proxy manually should no longer be part of normal maintenance.
+
+### Kimi 0.40.1 / Groq status
+
+Kimi 0.40.1 still injects `prompt_cache_key`. Direct Groq rejects it, and the current OmniRoute -> Groq path also rejects it. In addition, `groq/compound-mini` is stale in the live Groq catalogue. Therefore `kimi-groq` remains blocked and `kimi-omniroute -> Groq` is not marked working. The next candidate is Kimi -> 9Router -> Groq after policy-guard hardening is migrated.
+
+### Additional v0.5 launcher fixes
+
+- Gracefully handle Unix closed-pipe output so `ai models ... | head` no longer emits a Python `BrokenPipeError`.
+- Preserve existing launcher configuration during install.
+- Preserve the policy-guard source independently of 9Router/OmniRoute/FreeLLM package directories.
+- Keep FreeLLMAPI disabled until it is assigned a non-conflicting listener because existing FreeLLM owns `:3001`.
+
+### Blockers before marking Fixed
+
+- Install v0.5 on the workstation and run `ai guard install`.
+- Run `ai guard verify` from the persistent location.
+- Confirm a future 9Router service restart leaves the guard healthy.
+- Verify Kimi -> 9Router -> Groq or document the remaining protocol incompatibility.
+- Verify Cline -> 9Router.
+- Install FreeLLMAPI on a distinct port and validate OpenClaude -> FreeLLMAPI.
+- Rotate any credential exposed during terminal diagnostics.
+- Complete a final secret scan and local working-tree check.
+
+### AI / CLI credit for v0.5
+
+- **OpenAI ChatGPT — GPT-5.6 Sol:** root-cause analysis, policy-guard recovery, upgrade-resilient architecture, v0.5 launcher packaging, validation design, and documentation.
+- **Kimi Code CLI 0.40.1:** exposed current Groq and OmniRoute/Groq protocol incompatibilities.
+- **Qwen Code CLI:** previously verified launcher, OpenRouter, OmniRoute, and model-switching paths.
+- **9Router v0.5.65:** current backend under test; package update triggered the persistence regression.

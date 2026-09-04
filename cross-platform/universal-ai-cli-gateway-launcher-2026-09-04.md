@@ -384,3 +384,35 @@ Expected launcher version:
 ```text
 ai 0.5.1
 ```
+
+
+## v0.5.1 macOS self-contained installer correction — 2026-09-05
+
+The first self-contained macOS installer used:
+
+```bash
+base64 -D "$ZIP.b64" > "$ZIP"
+```
+
+On the target macOS `base64` implementation this invocation was parsed incorrectly and failed with:
+
+```text
+base64: invalid argument ...zip.b64
+```
+
+No launcher files were changed, so the workstation correctly remained on the older launcher.
+
+The corrected self-contained installer now uses Python's standard-library `base64.b64decode()` instead of relying on platform-specific `base64` CLI syntax. This removes BSD/GNU command incompatibility from the bootstrap path.
+
+The installer also validates that both `ai.py` and `policy-guard/policy-proxy.mjs` exist in the embedded package before executing `install.sh`.
+
+Expected post-install verification remains:
+
+```bash
+rehash
+ai --version
+ai -h | grep guard
+ai guard install
+ai guard status
+ai guard verify
+```

@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-06</td>
+      <td><a href="macos/openclaw-2026.9.1-skills-dependency-hardening-2026-09-06.md">OpenClaw 2026.9.1 Skills Dependency Hardening — resolved macOS/Homebrew/Go/npm/uv/LaunchAgent PATH dependencies, removed unwanted ClawHub tracking, retained 97 ready skills, intentionally disabled 5 unused/billing-dependent skills, and reached zero missing requirements</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-05</td>
       <td><a href="macos/9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05.md">9Router v0.5.65 Policy Guard Persistence Hardening — Universal AI Launcher v0.5.2</a></td>
       <td style="white-space: nowrap;">Fixed</td>

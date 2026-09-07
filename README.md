@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-07</td>
+      <td><a href="macos/macos-free-claude-code-fcc-multi-cli-routing.md">macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook — kept three independent paths intact (native <code>claude</code> → Anthropic/Claude Pro, <code>openclaude</code> → 127.0.0.1:20138/v1 silverMBN, <code>fcc-*</code> → FCC 127.0.0.1:8082 on LaunchAgent <code>ai.fcc.server</code>), trimmed the fallback chain from 14 entries to 7 across 6 providers (removed the Whisper audio model), removed duplicate OpenCode/Aider installs, fixed 4 skill-format warnings, recovered the Hermes gateway, and verified all 9 FCC clients</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-06</td>
       <td><a href="macos/openclaw-2026.9.1-skills-dependency-hardening-2026-09-06.md">OpenClaw 2026.9.1 Skills Dependency Hardening — resolved macOS/Homebrew/Go/npm/uv/LaunchAgent PATH dependencies, removed unwanted ClawHub tracking, retained 97 ready skills, intentionally disabled 5 unused/billing-dependent skills, and reached zero missing requirements</a></td>
       <td style="white-space: nowrap;">Fixed</td>

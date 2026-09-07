@@ -81,7 +81,7 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-09-07</td>
-      <td><a href="macos/macos-free-claude-code-fcc-multi-cli-routing.md">macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook — kept three independent paths intact (native <code>claude</code> → Anthropic/Claude Pro, <code>openclaude</code> → 127.0.0.1:20138/v1 silverMBN, <code>fcc-*</code> → FCC 127.0.0.1:8082 on LaunchAgent <code>ai.fcc.server</code>), trimmed the fallback chain from 14 entries to 7 across 6 providers (removed the Whisper audio model), removed duplicate OpenCode/Aider installs, fixed 4 skill-format warnings, recovered the Hermes gateway, and verified all 9 FCC clients</a></td>
+      <td><a href="macos/macos-free-claude-code-fcc-multi-cli-routing.md">macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook — final known-good state with native Claude and OpenClaude isolated, FCC on <code>ai.fcc.server</code> at 127.0.0.1:8082, explicit free-only TokenRouter/OpenRouter routing, corrected client compatibility, and the OpenRouter paid-credit incident documented</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>
     <tr>

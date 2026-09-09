@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-09</td>
+      <td><a href="macos/openclaw-provider-auth-routing-hardening-macos-2026-09-09.md">OpenClaw Provider Authentication, Model Routing, and Security Hardening — resolved provider auth failures, SecretRef mismatches, gateway cleanup, browser hardening, Telegram tool-policy fix, duplicate skill cleanup, and validated final routing policy</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-07</td>
       <td><a href="macos/macos-free-claude-code-fcc-multi-cli-routing.md">macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook — final known-good state with native Claude and OpenClaude isolated, FCC on <code>ai.fcc.server</code> at 127.0.0.1:8082, explicit free-only TokenRouter/OpenRouter routing, corrected client compatibility, and the OpenRouter paid-credit incident documented</a></td>
       <td style="white-space: nowrap;">Fixed</td>

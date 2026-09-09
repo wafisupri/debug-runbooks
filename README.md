@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-10</td>
+      <td><a href="macos/openclaw-secretref-migration-macos-2026-09-10.md">OpenClaw 2026.9.1 SecretRef Migration and Gateway Recovery - env-backed provider workaround, Keychain/login-shell loading, dotenv overwrite and token recovery, clean audit, protected backups, and JSON/SQLite rollback</a></td>
+      <td style="white-space: nowrap;">Reported resolved; diagnostic debt remains</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-09</td>
       <td><a href="macos/openclaw-provider-auth-routing-hardening-macos-2026-09-09.md">OpenClaw Provider Authentication, Model Routing, and Security Hardening — resolved provider auth failures, SecretRef mismatches, gateway cleanup, browser hardening, Telegram tool-policy fix, duplicate skill cleanup, and validated final routing policy</a></td>
       <td style="white-space: nowrap;">Fixed</td>

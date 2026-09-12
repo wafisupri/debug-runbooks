@@ -2,6 +2,14 @@
 
 The [root README](../README.md#macos) contains the complete dated macOS index.
 
+## Local service security
+
+| Date | Runbook | Status |
+| --- | --- | --- |
+| 2026-09-10 | [macOS localhost AI-service hardening and security cleanup](localhost-ai-service-hardening-security-cleanup-macos-2026-09-10.md) | Completed; credential rotation and launchd inheritance follow-up remain |
+
+This runbook records loopback binding for FreeLLM, FCC, and OmniRoute, persistent startup ownership, OpenClaw shared-store SecretRef cleanup, safe read-only verification, and unresolved credential-hygiene recommendations.
+
 ## OpenClaw credential recovery
 
 | Date | Runbook | Status |

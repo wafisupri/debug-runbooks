@@ -81,6 +81,11 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-09-10</td>
+      <td><a href="macos/localhost-ai-service-hardening-security-cleanup-macos-2026-09-10.md">macOS Localhost AI-Service Hardening and Security Cleanup — loopback binding for FreeLLM, FCC, and OmniRoute; persistent-owner inventory; OpenClaw shared-store SecretRefs; clean audit; and credential follow-up</a></td>
+      <td style="white-space: nowrap;">Completed; follow-up remains</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-09-10</td>
       <td><a href="macos/openclaw-secretref-migration-macos-2026-09-10.md">OpenClaw 2026.9.1 SecretRef Migration and Gateway Recovery - env-backed provider workaround, Keychain/login-shell loading, dotenv overwrite and token recovery, clean audit, protected backups, and JSON/SQLite rollback</a></td>
       <td style="white-space: nowrap;">Reported resolved; diagnostic debt remains</td>
     </tr>

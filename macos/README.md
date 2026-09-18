@@ -7,8 +7,11 @@ The [root README](../README.md#macos) contains the complete dated macOS index.
 | Date | Runbook | Status |
 | --- | --- | --- |
 | 2026-09-10 | [macOS localhost AI-service hardening and security cleanup](localhost-ai-service-hardening-security-cleanup-macos-2026-09-10.md) | Completed; credential rotation and launchd inheritance follow-up remain |
+| 2026-09-07 | [macOS Localhost AI Service Hardening](macos-localhost-ai-service-hardening-2026-09-07.md) | Fixed / Verified |
 
 This runbook records loopback binding for FreeLLM, FCC, and OmniRoute, persistent startup ownership, OpenClaw shared-store SecretRef cleanup, safe read-only verification, and unresolved credential-hygiene recommendations.
+
+The 2026-09-07 hardening runbook documents the verified current state (FreeLLM :3001, FreeLLM custom :3002, FCC :8082, OmniRoute :20128 all localhost-only), the persistent LaunchAgent architecture (ai.fcc.server, ai.freellm.gateway, ai.freellm.gateway-3002, ai.9router.backend, ai.omniroute.gateway, ai.omniroute.openrouter-free-sync, ai.f0d.policyguard, ai.openclaw.gateway, ai.groq-kimi.compat), the port 3002 ownership discovery, FreeLLM source-patch technical debt (server.ts modified from 0.0.0.0 to 127.0.0.1), the CODEX_OMNIROUTE_API_KEY launchd inheritance security finding requiring user rotation, and the read-only final QA across 12 ports.
 
 ## OpenClaw credential recovery
 

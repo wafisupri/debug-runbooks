@@ -1,1 +1,4 @@
 .DS_Store
+
+# Local service backups may contain machine-specific configuration.
+backups/

@@ -13,6 +13,14 @@ This runbook records loopback binding for FreeLLM, FCC, and OmniRoute, persisten
 
 The 2026-09-07 hardening runbook documents the verified current state (FreeLLM :3001, FreeLLM custom :3002, FCC :8082, OmniRoute :20128 all localhost-only), the persistent LaunchAgent architecture (ai.fcc.server, ai.freellm.gateway, ai.freellm.gateway-3002, ai.9router.backend, ai.omniroute.gateway, ai.omniroute.openrouter-free-sync, ai.f0d.policyguard, ai.openclaw.gateway, ai.groq-kimi.compat), the port 3002 ownership discovery, FreeLLM source-patch technical debt (server.ts modified from 0.0.0.0 to 127.0.0.1), the CODEX_OMNIROUTE_API_KEY launchd inheritance security finding requiring user rotation, and the read-only final QA across 12 ports.
 
+## OpenClaw version, runtime, and Gateway recovery
+
+| Date | Runbook | Status |
+| --- | --- | --- |
+| 2026-09-19 | [OpenClaw 2026.9.4 Gateway, Node runtime, and OmniRoute credential recovery](openclaw-2026.9.4-gateway-node-omniroute-recovery-2026-09-19.md) | Fixed |
+
+This runbook covers Desktop/CLI/Gateway version skew after the Desktop app reached 2026.9.4, a managed Gateway running on a too-old Hermes Node.js v22.23.2, the LaunchAgent reinstall against the supported 2026.9.4 CLI, official plugin alignment, `gateway.mode` restored from `remote` to `local`, and OmniRoute credential routing corrected through the supported secrets migration with a clean audit.
+
 ## OpenClaw credential recovery
 
 | Date | Runbook | Status |

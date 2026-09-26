@@ -63,16 +63,16 @@ const AUTHOR = {
       <h2 id="ai">How I use AI tools</h2>
       <p class="pull">AI assists the engineer. Evidence establishes correctness.</p>
       <p>
-        I use AI as a reviewer, not as the source of truth. Important changes are challenged through repeated CLI/IDE reviews,
-        coding-agent review and an independent second opinion before being verified against the actual system.
+        I use AI as a reviewer, not as the source of truth. Important changes are challenged through two CLI/IDE review passes,
+        a coding-agent review and an independent ChatGPT second opinion before being verified against the actual system.
       </p>
       <ol class="pipeline" role="list">
         <li>Implementation</li>
-        <li>CLI/IDE review</li>
-        <li>CLI/IDE review again</li>
-        <li>Coding-agent review</li>
-        <li>Independent second opinion</li>
-        <li class="pipeline__evidence">Evidence-based verification</li>
+        <li>CLI/IDE Review #1</li>
+        <li>CLI/IDE Review #2</li>
+        <li>Coding-Agent Review</li>
+        <li>Independent ChatGPT Second Opinion</li>
+        <li class="pipeline__evidence">Evidence-Based Verification</li>
       </ol>
       <p>
         Several agreeing models are still not proof. Confidence comes from builds, tests, command output, logs, configuration

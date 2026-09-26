@@ -7,7 +7,7 @@ const { redactions } = loadPolicy();
 
 describe("redaction policy", () => {
   it("replaces the macOS home directory but not similar names", () => {
-    expect(redact("cd /Users/wfspr/GitHub/x && ls /Users/wfspr", redactions).text).toBe("cd ~/GitHub/x && ls ~");
+    expect(redact("cd /Users/wfspr/GitHub/x && ls /Users/wfspr", redactions).text).toBe("cd /Users/USERNAME/GitHub/x && ls /Users/USERNAME");
     expect(redact("/Users/wfsprx/y", redactions).text).toBe("/Users/wfsprx/y");
   });
   it("replaces Windows profile paths in plain and JSON-escaped form", () => {
@@ -35,11 +35,22 @@ describe("secret scan", () => {
   });
 });
 
+describe("redaction keeps literal-path semantics", () => {
+  it("uses a literal placeholder, never a shell-only '~', inside quoted config values", () => {
+    const json = '{ "path": "/Users/wfspr/.config/example" }';
+    const out = redact(json, redactions).text;
+    expect(out).toBe('{ "path": "/Users/USERNAME/.config/example" }');
+    expect(out).not.toContain("~");
+    expect(redact("key: '/Users/wfspr/.config/example'", redactions).text).toBe("key: '/Users/USERNAME/.config/example'");
+    expect(redact(String.raw`{"p":"\/Users\/wfspr\/.config\/example"}`, redactions).text).toBe(String.raw`{"p":"\/Users\/USERNAME\/.config\/example"}`);
+  });
+});
+
 describe("redaction edge cases", () => {
   it("covers PATH separators, trailing dots, JSON escapes and lowercase Windows paths", () => {
-    expect(redact("PATH=/Users/wfspr/.local/bin:/Users/wfspr:/usr", redactions).text).toBe("PATH=~/.local/bin:~:/usr");
-    expect(redact("cd /Users/wfspr.", redactions).text).toBe("cd ~.");
-    expect(redact(String.raw`"\/Users\/wfspr\/x"`, redactions).text).toBe(String.raw`"~\/x"`);
+    expect(redact("PATH=/Users/wfspr/.local/bin:/Users/wfspr:/usr", redactions).text).toBe("PATH=/Users/USERNAME/.local/bin:/Users/USERNAME:/usr");
+    expect(redact("cd /Users/wfspr.", redactions).text).toBe("cd /Users/USERNAME.");
+    expect(redact(String.raw`"\/Users\/wfspr\/x"`, redactions).text).toBe(String.raw`"\/Users\/USERNAME\/x"`);
     expect(redact(String.raw`c:\users\alice\x`, redactions).text).toBe(String.raw`C:\Users\USERNAME\x`);
   });
 });

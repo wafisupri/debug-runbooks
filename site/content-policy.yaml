@@ -14,17 +14,18 @@ private: []
 # Render-time redactions. Applied to the Markdown before rendering, so they
 # cover page HTML, meta descriptions, the search index and structured data.
 # `pattern` is a JavaScript regular expression (always global; optional `flags`).
+# Placeholders are literal paths, never variables: "~" and "%USERPROFILE%" only
+# expand in some shells, so inside JSON/YAML/config values they would change
+# the meaning of a copied example.
 redactions:
   - id: macos-home
     description: Local macOS home directory
     pattern: '/Users/wfspr(?![A-Za-z0-9_.-]*[A-Za-z0-9_-])'
-    replacement: '~'
+    replacement: '/Users/USERNAME'
   - id: macos-home-json-escaped
     description: Local macOS home directory with JSON-escaped slashes
     pattern: '\\/Users\\/wfspr(?![A-Za-z0-9_-])'
-    replacement: '~'
-  # Windows paths often appear inside JSON/env values where %USERPROFILE% or ~
-  # would NOT expand, so an explicit placeholder is used instead of a variable.
+    replacement: '\/Users\/USERNAME'
   - id: windows-home
     description: Local Windows user profile directory
     pattern: 'C:(\\\\|\\|/)Users\1[^\\/\s"''`]+'

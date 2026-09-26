@@ -18,6 +18,11 @@ describe("repository content", () => {
       expect(r.markdown, r.repoPath).not.toMatch(/C:(\\\\|\\|\/)Users\1(?!USERNAME\b)[^\\/\s"'`]+/);
     }
   });
+  it("publishes literal /Users/USERNAME placeholders for macOS home paths (never a shell-only ~)", () => {
+    const redacted = result.runbooks.filter((r) => r.redactions["macos-home"]);
+    expect(redacted.length).toBeGreaterThan(0);
+    for (const r of redacted) expect(r.markdown, r.repoPath).toContain("/Users/USERNAME");
+  });
   it("gives every runbook a date and a summary", () => {
     for (const r of result.runbooks) {
       expect(r.date.value, r.repoPath).toMatch(/^\d{4}-\d{2}-\d{2}$/);

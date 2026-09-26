@@ -54,6 +54,13 @@ for (const r of discoverRunbooks().runbooks) {
   }
 }
 
+// Redaction must leave an explicit literal placeholder in the output.
+const terminal = readFileSync(join(dist, "runbooks", "terminal-crash-recovery-runbook", "index.html"), "utf8");
+if (!terminal.includes("/Users/USERNAME")) {
+  problems++;
+  console.error("✖ expected /Users/USERNAME placeholder in a redacted runbook page");
+}
+
 const about = readFileSync(join(dist, "about", "index.html"), "utf8");
 if (about.includes("data-placeholder")) {
   console.warn("⚠ about/index.html still contains author placeholders — fill them in src/pages/about.astro before publishing");

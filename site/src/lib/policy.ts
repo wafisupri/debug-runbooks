@@ -8,6 +8,8 @@ export interface RedactionRule {
   description?: string;
   pattern: string;
   replacement: string;
+  /** Extra RegExp flags, e.g. "i". "g" is always applied. */
+  flags?: string;
 }
 
 export interface RunbookOverride {
@@ -35,7 +37,7 @@ export function loadPolicy(path = resolve(SITE_ROOT, "content-policy.yaml")): Co
     if (!rule.id || typeof rule.pattern !== "string" || typeof rule.replacement !== "string") {
       throw new Error(`content-policy.yaml: redaction rule is missing id/pattern/replacement: ${JSON.stringify(rule)}`);
     }
-    new RegExp(rule.pattern, "g"); // throws on an invalid expression
+    new RegExp(rule.pattern, "g" + (rule.flags ?? "")); // throws on an invalid expression
   }
   for (const [path, override] of Object.entries(policy.overrides)) {
     if (!override?.reason) {

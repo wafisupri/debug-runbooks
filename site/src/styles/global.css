@@ -392,6 +392,13 @@ samp {
   }
 }
 
+:root[data-theme="dark"] {
+  --astro-code-token-constant: var(--brand-200);
+  --astro-code-token-string: var(--brand-300);
+  --astro-code-token-function: var(--brand-100);
+  --astro-code-token-string-expression: var(--brand-300);
+}
+
 /* Callouts: border weight and label carry meaning, not hue. */
 .callout {
   margin: 0 0 var(--space-5);

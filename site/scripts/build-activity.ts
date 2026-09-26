@@ -13,6 +13,8 @@ import { SITE_ROOT } from "../src/lib/paths.ts";
 import { isShallow, readCommits, tryUnshallow } from "../src/lib/git.ts";
 import { aggregateActivity } from "../src/lib/activity.ts";
 import { discoverRunbooks } from "../src/lib/runbooks.ts";
+import { loadPolicy } from "../src/lib/policy.ts";
+import { redact } from "../src/lib/redact.ts";
 
 const out = resolve(SITE_ROOT, "src/data/activity.json");
 const snapshot = resolve(SITE_ROOT, "src/data/activity.snapshot.json");
@@ -35,7 +37,9 @@ if (!isShallow()) {
   else {
     const refs = new Map(discoverRunbooks().runbooks.map((r) => [r.repoPath, { slug: r.slug, title: r.title, created: r.history?.created }]));
     const today = new Date().toISOString().slice(0, 10);
-    const activity = aggregateActivity(commits, refs, today);
+    const { redactions } = loadPolicy();
+    const safe = commits.map((c) => ({ ...c, subject: redact(c.subject, redactions).text }));
+    const activity = aggregateActivity(safe, refs, today);
     writeFileSync(out, JSON.stringify(activity, null, 2) + "\n");
     if (process.argv.includes("--snapshot")) writeFileSync(snapshot, JSON.stringify({ ...activity, source: "snapshot" }, null, 2) + "\n");
     console.log(`[activity] ${activity.totalCommits} commits over ${activity.activeDays} active days (${activity.firstDay} → ${activity.lastDay})`);

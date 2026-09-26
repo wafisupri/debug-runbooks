@@ -5,7 +5,8 @@ import { REPO_URL } from "../lib/paths.ts";
 
 const runbooks = await getRunbooks();
 const withCredits = runbooks.filter((r) => r.data.provenance).length;
-const withFailed = runbooks.filter((r) => r.data.phases.hypothesize.length).length;
+// Counted strictly by section title, not by the broader "hypothesize & test" phase.
+const withFailed = runbooks.filter((r) => r.data.sections.some((s) => /did not work|didn['’]t work|failed approach/i.test(s))).length;
 
 /*
  * TODO(author): replace the three marked placeholders below with your own

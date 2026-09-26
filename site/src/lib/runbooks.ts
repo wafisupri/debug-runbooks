@@ -11,7 +11,7 @@ import { deriveMeta, findMetaLine, type DerivedMeta } from "./metadata.ts";
 import { normaliseStatus, type StatusKind } from "./status.ts";
 import { redact } from "./redact.ts";
 import { scanForSecrets, type SecretFinding } from "./secret-scan.ts";
-import { fileHistories, readCommits, type FileHistory } from "./git.ts";
+import { fileHistories, isShallow, readCommits, type FileHistory } from "./git.ts";
 
 export interface Runbook extends DerivedMeta {
   slug: string;
@@ -40,7 +40,8 @@ export interface DiscoveryResult {
 export function discoverRunbooks(policy: ContentPolicy = loadPolicy()): DiscoveryResult {
   const readmePath = join(REPO_ROOT, "README.md");
   const index = existsSync(readmePath) ? parseReadmeIndex(readFileSync(readmePath, "utf8")) : new Map();
-  const commits = readCommits();
+  // A shallow clone's history would make every file look created/changed at HEAD.
+  const commits = isShallow() ? null : readCommits();
   const histories = commits ? fileHistories(commits) : new Map<string, FileHistory>();
 
   const runbooks: Runbook[] = [];

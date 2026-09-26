@@ -5,7 +5,7 @@
  * the content report (npm run check:content) can show it for review.
  */
 import { AI_TOOLS, matchTerms } from "./taxonomy.ts";
-import { cleanHeading, extractHeadings, phasesPresent, sectionDepth, splitSections, type PhaseId } from "./sections.ts";
+import { cleanHeading, createFenceTracker, extractHeadings, headingsInsideCode, phasesPresent, sectionDepth, splitSections, unclosedFence, type PhaseId } from "./sections.ts";
 
 export type Source = "runbook" | "filename" | "readme-index" | "git" | "policy-override" | "none";
 
@@ -21,7 +21,7 @@ const MONTHS = ["january", "february", "march", "april", "may", "june", "july", 
 function preambleLines(markdown: string): string[] {
   const out: string[] = [];
   for (const line of markdown.split("\n")) {
-    if (/^#{2,6}\s/.test(line) || /^\s*(```|~~~)/.test(line)) break;
+    if (/^#{2,6}\s/.test(line) || /^ {0,3}(```|~~~)/.test(line)) break;
     out.push(line);
   }
   return out;
@@ -72,10 +72,11 @@ export function toPlainText(md: string): string {
   return md
     .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
     .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-    .replace(/<[^>]+>/g, "")
+    .replace(/<\/?[a-z][a-z0-9-]*(\s[^>]*)?\/?>/g, "")
     .replace(/`([^`]*)`/g, "$1")
-    .replace(/(\*\*|__)(.*?)\1/g, "$2")
-    .replace(/(^|\s)[*_]([^*_\n]+)[*_]/g, "$1$2")
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/(^|\s)__(\S(?:.*?\S)?)__(?=\s|[,;:!?]|\.(?!\w)|$)/g, "$1$2")
+    .replace(/(^|\s)[*_]([^*_\n]+)[*_](?=\s|[,;:!?]|\.(?!\w)|$)/g, "$1$2")
     .replace(/^>\s?/gm, "")
     .replace(/\s+/g, " ")
     .trim();
@@ -85,14 +86,12 @@ export function toPlainText(md: string): string {
 export function firstParagraph(md: string): string | undefined {
   const lines = md.split("\n");
   const block: string[] = [];
-  let inFence = false;
+  const fence = createFenceTracker();
   for (const line of lines) {
-    if (/^\s*(```|~~~)/.test(line)) {
-      inFence = !inFence;
+    if (fence.update(line)) {
       if (block.length) break;
       continue;
     }
-    if (inFence) continue;
     const trimmed = line.trim();
     if (!block.length && /^>/.test(trimmed)) continue;
     const skippable = trimmed === "" || /^-{3,}$|^\*{3,}$|^_{3,}$/.test(trimmed) || /^#{1,6}\s/.test(trimmed) || /^\|/.test(trimmed) || /^<\/?[a-z]/i.test(trimmed);
@@ -116,14 +115,11 @@ export function truncate(text: string, max = 180): string {
 export function readingMinutes(md: string): number {
   let prose = 0;
   let code = 0;
-  let inFence = false;
+  const fence = createFenceTracker();
   for (const line of md.split("\n")) {
-    if (/^\s*(```|~~~)/.test(line)) {
-      inFence = !inFence;
-      continue;
-    }
+    const inCode = fence.update(line);
     const words = line.split(/\s+/).filter(Boolean).length;
-    if (inFence) code += words;
+    if (inCode) code += words;
     else prose += words;
   }
   return Math.max(1, Math.round((prose + code * 0.5) / 220));
@@ -147,10 +143,10 @@ export function extractProvenance(markdown: string): Provenance | undefined {
   const titles: string[] = [];
   let text = "";
   let captureDepth = 0;
-  let inFence = false;
+  const fence = createFenceTracker();
   for (const line of markdown.split("\n")) {
-    if (/^\s*(```|~~~)/.test(line)) inFence = !inFence;
-    const h = !inFence && /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
+    const inCode = fence.update(line);
+    const h = !inCode && /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
     if (h) {
       const depth = h[1].length;
       if (captureDepth && depth <= captureDepth) captureDepth = 0;
@@ -219,6 +215,11 @@ export function deriveMeta(markdown: string, ctx: DeriveContext): DerivedMeta {
   else if (statusLine) statusRaw = { value: statusLine.value, source: "runbook" };
   else if (ctx.index?.status) statusRaw = { value: ctx.index.status, source: "readme-index" };
   else warnings.push("no status stated");
+
+  if (unclosedFence(markdown)) warnings.push("unclosed code fence: the rest of the document renders as code (same on GitHub) — fix the source Markdown");
+
+  const suspicious = headingsInsideCode(markdown);
+  if (suspicious.length) warnings.push(`Markdown heading(s) inside a code block at line ${suspicious.join(", ")} — likely a missing closing fence (renders the same on GitHub)`);
 
   const platformDetail = findMetaLine(markdown, "Platform")?.value;
   const scope = findMetaLine(markdown, "Scope")?.value;

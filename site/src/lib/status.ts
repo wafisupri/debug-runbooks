@@ -37,6 +37,8 @@ export function normaliseStatus(raw: string | undefined): NormalisedStatus {
   if (!raw) return { kind: "unstated", unrecognised: false };
   const s = raw.toLowerCase();
 
+  // Negated or failed outcomes are never mapped: surface them for a human.
+  if (/\b(not|never|un(?:resolved|fixed|verified)|failed|failing|broken)\b/.test(s)) return { kind: "unstated", unrecognised: true };
   // Most cautious outcome first: an explicitly partial result stays partial
   // even when part of the work is described as verified.
   if (/\b(partial|investigating|in progress|blocked)\b/.test(s)) return { kind: "partial", unrecognised: false };

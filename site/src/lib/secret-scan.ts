@@ -14,7 +14,11 @@ export const SECRET_PATTERNS: Array<{ name: string; re: RegExp }> = [
   { name: "groq key", re: /\bgsk_[A-Za-z0-9]{30,}/ },
   { name: "nvidia key", re: /\bnvapi-[A-Za-z0-9_-]{30,}/ },
   { name: "huggingface token", re: /\bhf_[A-Za-z0-9]{30,}/ },
-  { name: "private key block", re: /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/ },
+  { name: "npm token", re: /\bnpm_[A-Za-z0-9]{36}\b/ },
+  { name: "gitlab token", re: /\bglpat-[A-Za-z0-9_-]{20,}/ },
+  { name: "stripe live key", re: /\b(?:sk|rk)_live_[A-Za-z0-9]{20,}/ },
+  { name: "vercel key", re: /\bvck_[A-Za-z0-9]{20,}/ },
+  { name: "private key block", re: /-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED |PGP )?PRIVATE KEY(?: BLOCK)?-----/ },
 ];
 
 export interface SecretFinding {

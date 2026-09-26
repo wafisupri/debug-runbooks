@@ -8,6 +8,7 @@ import Toc from "../../components/Toc.astro";
 import { formatDate, getRunbooks, type RunbookEntry } from "../../lib/collection.ts";
 import { githubBlobUrl, REPO_URL } from "../../lib/paths.ts";
 import { termById } from "../../lib/taxonomy.ts";
+import { cleanHeading } from "../../lib/sections.ts";
 
 export async function getStaticPaths() {
   const runbooks = await getRunbooks();
@@ -80,6 +81,14 @@ const jsonLd = {
           </dd>
         </div>
         {
+          r.scope && (
+            <div class="meta__wide">
+              <dt>Scope</dt>
+              <dd>{r.scope}</dd>
+            </div>
+          )
+        }
+        {
           r.systems.length > 0 && (
             <div class="meta__wide">
               <dt>Systems</dt>
@@ -105,7 +114,13 @@ const jsonLd = {
           <dt>Source</dt>
           <dd>
             <a class="ext" href={githubBlobUrl(r.repoPath)} rel="noopener">View source on GitHub</a>
-            {r.history?.updated && <span class="meta__note">last changed {formatDate(r.history.updated)} · {r.history.commits} commits</span>}
+            {
+              r.history?.updated && (
+                <span class="meta__note">
+                  last changed {formatDate(r.history.updated)} · {r.history.commits} {r.history.commits === 1 ? "commit" : "commits"}
+                </span>
+              )
+            }
           </dd>
         </div>
       </dl>
@@ -117,21 +132,23 @@ const jsonLd = {
           <aside class="provenance" aria-label="Tooling and provenance">
             <p class="label">Tooling &amp; provenance</p>
             <p>
-              {r.provenance.tools.length > 0 ? (
+              This runbook records its tooling in{" "}
+              {r.provenance.sectionTitles.map((t, i) => {
+                const slug = headings.find((h) => cleanHeading(h.text.replace(/#$/, "")) === t)?.slug;
+                return (
+                  <>
+                    {i > 0 && " and "}
+                    {slug ? <a href={`#${slug}`}>“{t}”</a> : <>“{t}”</>}
+                  </>
+                );
+              })}
+              .
+              {r.provenance.tools.length > 0 && (
                 <>
-                  This runbook credits AI assistance from <strong>{r.provenance.tools.join(", ")}</strong>.{" "}
+                  {" "}
+                  AI tools named there: {r.provenance.tools.join(", ")}. Each tool's role — and any limits on its credit — is described in that section.
                 </>
-              ) : (
-                <>This runbook records its tooling. </>
               )}
-              See{" "}
-              {r.provenance.sectionTitles.map((t, i) => (
-                <>
-                  {i > 0 && " and "}
-                  <a href={`#${headings.find((h) => h.text.replace(/#$/, "").trim().replace(/^\d+(\.\d+)*[.)]?\s+/, "") === t)?.slug ?? ""}`}>“{t}”</a>
-                </>
-              ))}
-              . Credits are shown exactly as the runbook records them.
             </p>
           </aside>
         )

@@ -10,7 +10,7 @@ import { discoverRunbooks } from "../src/lib/runbooks.ts";
 
 const dist = resolve(SITE_ROOT, "dist");
 const PRIVATE = [
-  { name: "unredacted macOS home path", re: /\/Users\/wfspr\b/ },
+  { name: "unredacted macOS home path", re: /\\?\/Users\\?\/wfspr\b/ },
   { name: "unredacted Windows profile path", re: /C:(\\\\|\\|\/)Users\1(?!USERNAME\b)[A-Za-z0-9]/ },
   { name: "machine hostname email", re: /@[A-Za-z0-9-]+\.local\b/ },
 ];
@@ -52,6 +52,11 @@ for (const r of discoverRunbooks().runbooks) {
     problems++;
     console.error(`✖ missing page for ${r.repoPath}`);
   }
+}
+
+const about = readFileSync(join(dist, "about", "index.html"), "utf8");
+if (about.includes("data-placeholder")) {
+  console.warn("⚠ about/index.html still contains author placeholders — fill them in src/pages/about.astro before publishing");
 }
 
 if (problems) {

@@ -28,18 +28,61 @@ export const PHASES = [
 
 export type PhaseId = (typeof PHASES)[number]["id"];
 
-const FENCE = /^\s*(```|~~~)/;
+/**
+ * CommonMark-style fenced-code tracking: a fence closes only on the same
+ * character, at least as long as the opener, with nothing else on the line.
+ * `update(line)` returns true when the line is a fence line or inside code.
+ */
+export function createFenceTracker() {
+  let open: { char: string; len: number } | null = null;
+  return {
+    get inside() {
+      return open !== null;
+    },
+    update(line: string): boolean {
+      if (open) {
+        const close = /^ {0,3}(`{3,}|~{3,})\s*$/.exec(line);
+        if (close && close[1][0] === open.char && close[1].length >= open.len) open = null;
+        return true;
+      }
+      const start = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(line);
+      if (start && !(start[1][0] === "`" && start[2].includes("`"))) {
+        open = { char: start[1][0], len: start[1].length };
+        return true;
+      }
+      return false;
+    },
+  };
+}
+
+/**
+ * Line numbers of Markdown-style subheadings (##–######) found *inside* fenced
+ * code. Usually a sign of a missing closing fence earlier in the document.
+ */
+export function headingsInsideCode(markdown: string): number[] {
+  const fence = createFenceTracker();
+  const hits: number[] = [];
+  markdown.split("\n").forEach((line, i) => {
+    const wasInside = fence.inside;
+    fence.update(line);
+    if (wasInside && fence.inside && /^#{2,6}\s+\S/.test(line)) hits.push(i + 1);
+  });
+  return hits;
+}
+
+/** True when a fence is left open at the end of the document. */
+export function unclosedFence(markdown: string): boolean {
+  const fence = createFenceTracker();
+  for (const line of markdown.split("\n")) fence.update(line);
+  return fence.inside;
+}
 
 /** Returns ATX headings outside fenced code blocks. */
 export function extractHeadings(markdown: string): Heading[] {
   const headings: Heading[] = [];
-  let inFence = false;
+  const fence = createFenceTracker();
   for (const line of markdown.split("\n")) {
-    if (FENCE.test(line)) {
-      inFence = !inFence;
-      continue;
-    }
-    if (inFence) continue;
+    if (fence.update(line)) continue;
     const m = /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
     if (m) headings.push({ depth: m[1].length, text: m[2].trim() });
   }
@@ -64,10 +107,10 @@ export function splitSections(markdown: string): Section[] {
   const depth = sectionDepth(extractHeadings(markdown));
   const sections: Section[] = [];
   let current: Section | null = null;
-  let inFence = false;
+  const fence = createFenceTracker();
   for (const line of markdown.split("\n")) {
-    if (FENCE.test(line)) inFence = !inFence;
-    const m = !inFence && /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
+    const inCode = fence.update(line);
+    const m = !inCode && /^(#{1,6})\s+(.+?)\s*#*\s*$/.exec(line);
     if (m && m[1].length <= depth && m[1].length > 1) {
       current = { title: m[2].trim(), key: cleanHeading(m[2]), body: "" };
       sections.push(current);

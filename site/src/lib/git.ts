@@ -20,7 +20,13 @@ export interface Commit {
 }
 
 function git(args: string[]): string {
-  return execFileSync("git", ["-C", REPO_ROOT, ...args], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "pipe"] });
+  return execFileSync("git", ["-c", "core.quotePath=false", "-C", REPO_ROOT, ...args], {
+    encoding: "utf8",
+    maxBuffer: 64 * 1024 * 1024,
+    stdio: ["ignore", "pipe", "pipe"],
+    timeout: 120_000,
+    env: { ...process.env, GIT_TERMINAL_PROMPT: "0" },
+  });
 }
 
 export function isShallow(): boolean {

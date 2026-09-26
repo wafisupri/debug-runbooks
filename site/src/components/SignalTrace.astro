@@ -216,7 +216,11 @@ const payload = days.map((d) => ({
     const hint = root.querySelector<HTMLElement>("[data-trace-hint]")!;
     let selected = buttons.findIndex((b) => b.getAttribute("aria-pressed") === "true");
 
-    const show = (i: number) => (detail.innerHTML = render(days[i]));
+    // Only deliberate selection (click, tap, keyboard) is announced; hover previews are silent.
+    const show = (i: number, announce = false) => {
+      detail.setAttribute("aria-live", announce ? "polite" : "off");
+      detail.innerHTML = render(days[i]);
+    };
     const select = (i: number, focus = false) => {
       buttons[selected]?.setAttribute("aria-pressed", "false");
       buttons[selected]?.setAttribute("tabindex", "-1");
@@ -225,7 +229,7 @@ const payload = days.map((d) => ({
       buttons[i].setAttribute("tabindex", "0");
       if (focus) buttons[i].focus();
       buttons[i].scrollIntoView({ block: "nearest", inline: "nearest" });
-      show(i);
+      show(i, true);
     };
 
     show(selected);
@@ -283,7 +287,8 @@ const payload = days.map((d) => ({
   }
 
   .trace__days {
-    --col: max(1.2rem, calc((100cqi - 1px) / var(--days)));
+    /* WCAG 2.5.8: day targets never shrink below 24px; longer ranges scroll. */
+    --col: max(1.5rem, calc((100cqi - 1px) / var(--days)));
     display: grid;
     grid-template-columns: repeat(var(--days), var(--col));
     inline-size: max-content;
@@ -296,13 +301,7 @@ const payload = days.map((d) => ({
 
   @media (pointer: coarse) {
     .trace__days {
-      --col: max(1.6rem, calc((100cqi - 1px) / var(--days)));
-    }
-  }
-
-  @container (min-width: 60rem) {
-    .trace__days {
-      --col: calc((100cqi - 1px) / var(--days));
+      --col: max(1.75rem, calc((100cqi - 1px) / var(--days)));
     }
   }
 
@@ -403,6 +402,7 @@ const payload = days.map((d) => ({
   }
 
   .trace__hint {
+    pointer-events: none;
     position: absolute;
     inset-block-start: 0;
     inset-inline-start: 0;

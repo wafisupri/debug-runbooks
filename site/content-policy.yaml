@@ -13,11 +13,15 @@ private: []
 
 # Render-time redactions. Applied to the Markdown before rendering, so they
 # cover page HTML, meta descriptions, the search index and structured data.
-# `pattern` is a JavaScript regular expression (flags: g).
+# `pattern` is a JavaScript regular expression (always global; optional `flags`).
 redactions:
   - id: macos-home
     description: Local macOS home directory
-    pattern: '/Users/wfspr(?=[/\s`"'')\]]|$)'
+    pattern: '/Users/wfspr(?![A-Za-z0-9_.-]*[A-Za-z0-9_-])'
+    replacement: '~'
+  - id: macos-home-json-escaped
+    description: Local macOS home directory with JSON-escaped slashes
+    pattern: '\\/Users\\/wfspr(?![A-Za-z0-9_-])'
     replacement: '~'
   # Windows paths often appear inside JSON/env values where %USERPROFILE% or ~
   # would NOT expand, so an explicit placeholder is used instead of a variable.
@@ -25,6 +29,7 @@ redactions:
     description: Local Windows user profile directory
     pattern: 'C:(\\\\|\\|/)Users\1[^\\/\s"''`]+'
     replacement: 'C:$1Users$1USERNAME'
+    flags: 'i'
 
 # Per-runbook overrides, keyed by repository-relative path. Only add a field
 # here when the Markdown itself cannot express it; record why.

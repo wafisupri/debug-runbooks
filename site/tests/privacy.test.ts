@@ -34,3 +34,12 @@ describe("secret scan", () => {
     expect(scanForSecrets('"apiKey": "<OPENROUTER_API_KEY>"\nBearer $TOKEN')).toEqual([]);
   });
 });
+
+describe("redaction edge cases", () => {
+  it("covers PATH separators, trailing dots, JSON escapes and lowercase Windows paths", () => {
+    expect(redact("PATH=/Users/wfspr/.local/bin:/Users/wfspr:/usr", redactions).text).toBe("PATH=~/.local/bin:~:/usr");
+    expect(redact("cd /Users/wfspr.", redactions).text).toBe("cd ~.");
+    expect(redact(String.raw`"\/Users\/wfspr\/x"`, redactions).text).toBe(String.raw`"~\/x"`);
+    expect(redact(String.raw`c:\users\alice\x`, redactions).text).toBe(String.raw`C:\Users\USERNAME\x`);
+  });
+});

@@ -11,7 +11,7 @@ export function redact(text: string, rules: RedactionRule[]): RedactionResult {
   const counts: Record<string, number> = {};
   let out = text;
   for (const rule of rules) {
-    const re = new RegExp(rule.pattern, "g");
+    const re = new RegExp(rule.pattern, "g" + (rule.flags ?? "").replace("g", ""));
     let n = 0;
     out = out.replace(re, (...args) => {
       n++;

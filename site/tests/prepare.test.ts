@@ -28,3 +28,25 @@ describe("prepareMarkdown", () => {
     expect(out).toContain("```\n[b](b.md)\n```");
   });
 });
+
+describe("review regressions", () => {
+  it("only closes a fence on the same character and length (nested fences stay code)", () => {
+    const md = "# T\n\n## A\n\n````md\n```bash\n# inside\n```\n````\n\n~~~\n```\n# also inside\n~~~\n";
+    const out = prepareMarkdown(md, { repoPath: "macos/a.md", routeFor, headerLines: [] });
+    expect(out).toContain("\n# inside\n");
+    expect(out).toContain("\n# also inside\n");
+  });
+  it("removes header metadata lines from the preamble only, once", () => {
+    const md = "# T\n\n**Status:** Fixed\n\n## Notes\n\n**Status:** Fixed\n";
+    const out = prepareMarkdown(md, { repoPath: "macos/a.md", routeFor, headerLines: ["**Status:** Fixed"] });
+    expect(out.match(/\*\*Status:\*\* Fixed/g)).toHaveLength(1);
+    expect(out.indexOf("**Status:**")).toBeGreaterThan(out.indexOf("## Notes"));
+  });
+  it("does not rewrite links inside inline code, handles reference links and malformed escapes", () => {
+    const md = "# T\n\nUse `[y](b.md)` literally; see [b][ref] and [bad](x%E0.md).\n\n[ref]: ./b.md\n";
+    const out = prepareMarkdown(md, { repoPath: "macos/a.md", routeFor, headerLines: [] });
+    expect(out).toContain("`[y](b.md)`");
+    expect(out).toContain("[ref]: /runbooks/b/");
+    expect(out).toContain("[bad](x%E0.md)");
+  });
+});

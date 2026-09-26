@@ -84,3 +84,17 @@ describe("normaliseStatus", () => {
     expect(normaliseStatus("Looks good")).toEqual({ kind: "unstated", unrecognised: true });
   });
 });
+
+describe("review regressions (metadata)", () => {
+  it("never maps negated outcomes", () => {
+    for (const raw of ["Not fixed", "Not yet verified", "Fix failed; not resolved", "Unresolved"]) {
+      expect(normaliseStatus(raw)).toEqual({ kind: "unstated", unrecognised: true });
+    }
+  });
+  it("warns on an unclosed code fence", () => {
+    expect(deriveMeta("# T\n\n## Summary\n\nx\n\n```\ncode\n", { filename: "a-2026-01-01.md" }).warnings.some((w) => w.startsWith("unclosed code fence"))).toBe(true);
+  });
+  it("keeps identifiers and placeholders intact in plain-text summaries", () => {
+    expect(firstParagraph("Edit __init__.py and set <API_KEY> in **bold** _x_.")).toBe("Edit __init__.py and set <API_KEY> in bold x.");
+  });
+});

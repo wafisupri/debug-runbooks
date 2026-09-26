@@ -26,16 +26,14 @@ export function textContent(node: Node): string {
   return (node.children ?? []).map(textContent).join("");
 }
 
+/** GitHub-compatible heading slug, so fragment links written against GitHub keep working. */
 export function slugify(value: string): string {
   return (
     value
-      .toLowerCase()
-      .normalize("NFKD")
-      .replace(/[̀-ͯ]/g, "")
-      .replace(/[^\p{L}\p{N}\s-]/gu, "")
       .trim()
-      .replace(/\s+/g, "-")
-      .replace(/-+/g, "-") || "section"
+      .toLowerCase()
+      .replace(/[^\p{L}\p{M}\p{N}\p{Pc} -]/gu, "")
+      .replace(/ /g, "-") || "section"
   );
 }
 
@@ -66,7 +64,8 @@ function transformChildren(parent: Node, ids: Map<string, number>): void {
       node.properties = { ...node.properties, id };
       node.children = [
         ...(node.children ?? []),
-        el("a", { className: ["heading-anchor"], href: `#${id}`, ariaLabel: `Link to section: ${label}` }, [text("#")]),
+        // Decorative for assistive tech (the TOC provides navigation); keeps the heading's name clean.
+        el("a", { className: ["heading-anchor"], href: `#${id}`, ariaHidden: "true", tabIndex: -1 }, [text("#")]),
       ];
       continue;
     }

@@ -219,7 +219,7 @@ export function deriveMeta(markdown: string, ctx: DeriveContext): DerivedMeta {
   if (unclosedFence(markdown)) warnings.push("unclosed code fence: the rest of the document renders as code (same on GitHub) — fix the source Markdown");
 
   const suspicious = headingsInsideCode(markdown);
-  if (suspicious.length) warnings.push(`Markdown heading(s) inside a code block at line ${suspicious.join(", ")} — likely a missing closing fence (renders the same on GitHub)`);
+  if (suspicious.length) warnings.push(`heading-like line(s) inside a code block at line ${suspicious.join(", ")} — check whether a closing fence is missing (can be intentional)`);
 
   const platformDetail = findMetaLine(markdown, "Platform")?.value;
   const scope = findMetaLine(markdown, "Scope")?.value;

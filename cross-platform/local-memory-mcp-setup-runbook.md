@@ -166,6 +166,7 @@ pi install npm:pi-mcp-extension
                         "env": { "MEMORY_FILE_PATH": "~/ai-memory/memory.jsonl" } }
   }
 }
+```
 
 ### Windows-only — Antigravity CLI (`agy`) and Kimi Code (`kimi`)
 

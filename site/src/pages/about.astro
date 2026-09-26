@@ -8,15 +8,13 @@ const withCredits = runbooks.filter((r) => r.data.provenance).length;
 // Counted strictly by section title, not by the broader "hypothesize & test" phase.
 const withFailed = runbooks.filter((r) => r.data.sections.some((s) => /did not work|didn['’]t work|failed approach/i.test(s))).length;
 
-/*
- * TODO(author): replace the three marked placeholders below with your own
- * facts (name, background, links). Nothing here is inferred about you.
- */
-const AUTHOR = {
-  name: "[Your name]",
-  background: "[One or two factual sentences about your background and current focus.]",
-  links: [{ label: "GitHub", href: "https://github.com/wafisupri" }],
-};
+// Public links provided by the author. Nothing else personal is published.
+const LINKS = [
+  { label: "LinkedIn", href: "https://linkedin.com/in/wafisupri", text: "linkedin.com/in/wafisupri" },
+  { label: "GitHub", href: "https://github.com/wafisupri", text: "github.com/wafisupri" },
+  { label: "Website", href: "https://wafisupri.vercel.app", text: "wafisupri.vercel.app" },
+];
+const EMAIL = "wafi.supri@outlook.com";
 ---
 
 <Base title="About" description="Why Debug Runbooks exists, how the incidents are investigated, and how AI-assisted tooling is used and checked.">
@@ -27,11 +25,37 @@ const AUTHOR = {
 
     <section aria-labelledby="who">
       <h2 id="who">Who maintains this</h2>
-      <p><strong data-placeholder>{AUTHOR.name}</strong> — <span data-placeholder>{AUTHOR.background}</span></p>
-      <p>I am interested in AI platform engineering: the unglamorous layer where agents, model gateways, credentials and local services have to work together reliably.</p>
-      <ul class="links" role="list">
-        {AUTHOR.links.map((l) => <li><a class="ext" href={l.href} rel="noopener me">{l.label}</a></li>)}
-      </ul>
+      <p>
+        I am <strong>Wafi Supri</strong>, a Computer Science graduate. I began my career at Brunei's E-Government National Centre
+        (EGNC) as an I-Ready IT Officer Apprentice (July 2020 – January 2022). In March 2022 I joined Brunei Fertilizer Industries
+        (BFI) as a CCTV Administrator and was promoted to CCTV Officer in February 2024 — a role that covers the management of the
+        company's broader security systems, not only its cameras.
+      </p>
+      <p>
+        Outside work I am an AI enthusiast and tinkerer: I experiment hands-on with AI agents, coding agents, MCP, developer tooling and the local services that tie
+        them together — a growing technical focus rather than my current job. Debug Runbooks grew out of that experimentation:
+        documenting the problems I run into and how I solved them.
+      </p>
+      <dl class="links">
+        {
+          LINKS.map((l) => (
+            <div>
+              <dt>{l.label}</dt>
+              <dd>
+                <a class="ext" href={l.href} rel="noopener me">
+                  {l.text}
+                </a>
+              </dd>
+            </div>
+          ))
+        }
+        <div>
+          <dt>Email</dt>
+          <dd>
+            <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          </dd>
+        </div>
+      </dl>
     </section>
 
     <section aria-labelledby="why">
@@ -130,16 +154,32 @@ const AUTHOR = {
     color: var(--text-secondary);
   }
 
-  [data-placeholder] {
-    outline: var(--border-thin) dashed var(--status-unstated);
-    outline-offset: 2px;
+  .links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    gap: var(--space-3) var(--space-5);
+    margin: var(--space-4) 0 0;
+    padding-block-start: var(--space-3);
+    border-block-start: var(--border-thin) solid var(--border-subtle);
   }
 
-  .links {
-    display: flex;
-    gap: var(--space-4);
-    padding: 0;
-    list-style: none;
+  .links dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .links dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .links a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--target-min);
   }
 
   .steps li + li {

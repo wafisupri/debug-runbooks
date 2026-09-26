@@ -47,6 +47,26 @@ A custom domain can be added later under **Settings → Domains & Routes**. Work
 
 ## Verification after deploy
 
+Run the automated check against any preview or production URL. It exits non-zero on failure.
+
+```bash
+cd site
+node scripts/verify-deployment.ts https://<preview-host>                       # SITE_URL unset
+node scripts/verify-deployment.ts https://<host> --expect-site-url https://<origin>   # SITE_URL set
+```
+
+It verifies:
+
+- the home page is served, and the activity trace says "From git history"
+- security headers from `public/_headers`
+- 404 status and the site's 404 page
+- the `/runbooks` → `/runbooks/` redirect
+- all runbook pages return 200, and no unredacted home paths are served
+- canonical URLs and sitemap behaviour for the chosen `SITE_URL` mode
+- hashed assets are served with immutable caching
+
+Manual spot checks:
+
 ```bash
 curl -sI https://<site>/ | head -5                 # 200, security headers from public/_headers
 curl -s https://<site>/robots.txt                  # includes Sitemap: when SITE_URL is set

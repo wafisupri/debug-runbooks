@@ -33,9 +33,10 @@ Refresh the snapshot occasionally with `node scripts/build-activity.ts --snapsho
    - **Root directory:** `site`
    - **Build command:** `npm run build`
    - **Deploy command:** `npx wrangler deploy`
+   - **Preview command** (non-production branches): `npx wrangler preview`, the default for new Workers Builds projects
    - **Production branch:** `main`
 3. Under **Settings → Variables**, add the build variable `SITE_URL` once the production URL is known.
-4. Enable **non-production branch builds** to get preview URLs for pull requests.
+4. Enable **preview builds** so that each PR or branch gets a Worker Preview. `site/wrangler.jsonc` sets `workers_dev` and `preview_urls` explicitly. Cloudflare adds `X-Robots-Tag: noindex` to `workers.dev` Preview URLs automatically; a custom-domain Preview would need Cloudflare Access or its own noindex header.
 
 A custom domain can be added later under **Settings → Domains & Routes**. Workers custom domains require the domain's nameservers to be on Cloudflare.
 
@@ -51,7 +52,7 @@ Run the automated check against any preview or production URL. It exits non-zero
 
 ```bash
 cd site
-node scripts/verify-deployment.ts https://<preview-host>                       # SITE_URL unset
+node scripts/verify-deployment.ts https://<preview-host> --preview             # workers.dev Preview, SITE_URL unset
 node scripts/verify-deployment.ts https://<host> --expect-site-url https://<origin>   # SITE_URL set
 ```
 

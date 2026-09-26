@@ -1,6 +1,8 @@
 /**
  * Verifies a deployed copy of the site (preview or production).
- * Usage: node scripts/verify-deployment.ts https://<host> [--expect-site-url https://<canonical-origin>]
+ * Usage: node scripts/verify-deployment.ts https://<host> [--expect-site-url https://<canonical-origin>] [--preview]
+ *   --preview  the URL is a workers.dev Preview: expects X-Robots-Tag: noindex
+ *              (production must NOT send it).
  *
  * Checks what a successful deploy must prove, not just that it answers:
  * home page, security headers, activity source, runbook pages, 404 handling,
@@ -11,6 +13,7 @@ import { discoverRunbooks } from "../src/lib/runbooks.ts";
 const base = process.argv[2]?.replace(/\/$/, "");
 const siteArg = process.argv.indexOf("--expect-site-url");
 const expectedSite = siteArg > 0 ? process.argv[siteArg + 1]?.replace(/\/$/, "") : undefined;
+const isPreview = process.argv.includes("--preview");
 if (!base || !/^https?:\/\//.test(base)) {
   console.error("usage: node scripts/verify-deployment.ts https://<host> [--expect-site-url https://<origin>]");
   process.exit(2);
@@ -34,6 +37,9 @@ check(h.get("x-content-type-options") === "nosniff", "X-Content-Type-Options: no
 check(h.get("referrer-policy") === "strict-origin-when-cross-origin", "Referrer-Policy", h.get("referrer-policy") ?? "missing");
 check(Boolean(h.get("permissions-policy")), "Permissions-Policy present", h.get("permissions-policy") ?? "missing");
 check(h.get("x-frame-options") === "DENY", "X-Frame-Options: DENY", h.get("x-frame-options") ?? "missing");
+const robotsTag = h.get("x-robots-tag") ?? "";
+if (isPreview) check(/noindex/i.test(robotsTag), "preview is not indexable (X-Robots-Tag: noindex)", robotsTag || "missing");
+else check(!/noindex/i.test(robotsTag), "production is indexable (no X-Robots-Tag: noindex)", robotsTag || "none");
 
 const source = /From git history|Snapshot as of/.exec(home.body)?.[0];
 check(source === "From git history", "activity trace built from git history (not the snapshot fallback)", source ?? "trace not found");

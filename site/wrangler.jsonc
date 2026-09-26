@@ -3,6 +3,10 @@
 {
   "name": "debug-runbooks",
   "compatibility_date": "2026-09-26",
+  // Explicit, so the defaults of a given Wrangler version cannot change them.
+  // workers.dev Preview URLs carry X-Robots-Tag: noindex (added by Cloudflare).
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",

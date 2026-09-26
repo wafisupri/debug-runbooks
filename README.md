@@ -3,6 +3,8 @@
 
 Real-world debugging sessions converted into concise, verified recovery guides.
 
+**Live site:** [debug-runbooks.wafi-supri.workers.dev](https://debug-runbooks.wafi-supri.workers.dev) — Debug Runbooks: engineering incidents, documented.
+
 These are not raw chat transcripts. Each runbook records what failed, why it failed, what troubleshooting approaches did not help, the final working solution, and how the fix was verified.
 
 The goal is to preserve practical debugging knowledge so the same problem can be solved faster the next time it appears.

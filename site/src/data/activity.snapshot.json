@@ -3,7 +3,7 @@
   "source": "snapshot",
   "firstDay": "2026-08-07",
   "lastDay": "2026-09-26",
-  "totalCommits": 67,
+  "totalCommits": 79,
   "activeDays": 21,
   "days": [
     {
@@ -939,16 +939,81 @@
     },
     {
       "day": "2026-09-26",
-      "commits": 4,
+      "commits": 16,
       "added": [
         {
           "slug": "hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26",
           "title": "Hermes Agent v0.20 You.com MCP OAuth & Portable/Plugin Resolution"
         }
       ],
-      "updated": [],
-      "otherFiles": 26,
+      "updated": [
+        {
+          "slug": "local-memory-mcp-setup-runbook",
+          "title": "Fix: Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)"
+        }
+      ],
+      "otherFiles": 111,
       "log": [
+        {
+          "short": "60654c8",
+          "hash": "60654c83d7f1f34554ea764204595cc1483ab2b3",
+          "subject": "fix(site): preserve footer licence spacing"
+        },
+        {
+          "short": "52a9b03",
+          "hash": "52a9b03b5479e4ee019c4b5911568b8a9f8f1d40",
+          "subject": "fix(site): add empty previews block required by wrangler preview"
+        },
+        {
+          "short": "405acf0",
+          "hash": "405acf035182477383f2557b26c9e454fa2668c2",
+          "subject": "chore: trigger Cloudflare preview build"
+        },
+        {
+          "short": "efc6f8f",
+          "hash": "efc6f8f879c44cb9556627308cc2c5df4517b35d",
+          "subject": "feat(site): pin workers.dev/preview URL settings; verify preview noindex"
+        },
+        {
+          "short": "fff6b23",
+          "hash": "fff6b2360f434b9fc411b1bbdf79950e9dcdb5b3",
+          "subject": "feat(site): add deployment verification script"
+        },
+        {
+          "short": "64d4e78",
+          "hash": "64d4e789867b394c86ae7695982a9b01376eb975",
+          "subject": "fix(site): soften heading-inside-code warning (can be intentional)"
+        },
+        {
+          "short": "f8f7bae",
+          "hash": "f8f7bae598ca6552b120a19fbfc066d2d2008738",
+          "subject": "docs: close unterminated code fence in local memory MCP runbook"
+        },
+        {
+          "short": "324e652",
+          "hash": "324e65295256e9b622ca5415ce75970045b39d1d",
+          "subject": "feat(site): fill About page with author background and public links"
+        },
+        {
+          "short": "f21130c",
+          "hash": "f21130ca36b7a5bb7435d4baa3bed9a04b336362",
+          "subject": "fix(site): literal /Users/USERNAME placeholder and explicit AI review pipeline"
+        },
+        {
+          "short": "f4a7557",
+          "hash": "f4a75572a2efea9a74f5dde231db3860fb0b76c6",
+          "subject": "fix(site): apply independent review findings"
+        },
+        {
+          "short": "3a3f370",
+          "hash": "3a3f370c1fd37172d865d2224fe55152930b5b2a",
+          "subject": "fix(site): robust site-root resolution, explicit Windows path placeholder, build structure checks"
+        },
+        {
+          "short": "954e19d",
+          "hash": "954e19df41c1ed5b02856309f57418fce4c19f30",
+          "subject": "feat(site): runbook pages, index, systems, activity trace and deployment docs"
+        },
         {
           "short": "13a8f10",
           "hash": "13a8f1058237d593af95b10a4625eaa244d1cbce",

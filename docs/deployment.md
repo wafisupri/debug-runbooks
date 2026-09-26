@@ -35,7 +35,7 @@ Refresh the snapshot occasionally with `node scripts/build-activity.ts --snapsho
    - **Deploy command:** `npx wrangler deploy`
    - **Preview command** (non-production branches): `npx wrangler preview`, the default for new Workers Builds projects
    - **Production branch:** `main`
-3. Under **Settings → Variables**, add the build variable `SITE_URL` once the production URL is known.
+3. Under **Settings → Build → Variables and secrets**, add the build variable `SITE_URL` = `https://debug-runbooks.wafi-supri.workers.dev` (the production origin). If preview builds receive it too, their canonical URLs point at production (harmless, and they still carry `X-Robots-Tag: noindex`); verify such a preview with both `--preview` and `--expect-site-url`.
 4. Enable **preview builds** so that each PR or branch gets a Worker Preview. `site/wrangler.jsonc` sets `workers_dev` and `preview_urls` explicitly. Cloudflare adds `X-Robots-Tag: noindex` to `workers.dev` Preview URLs automatically; a custom-domain Preview would need Cloudflare Access or its own noindex header.
 
 A custom domain can be added later under **Settings → Domains & Routes**. Workers custom domains require the domain's nameservers to be on Cloudflare.
@@ -45,6 +45,12 @@ A custom domain can be added later under **Settings → Domains & Routes**. Work
 - Every push to a non-production branch builds a preview version with its own URL, and production is untouched.
 - Merging to `main` deploys production.
 - Locally: `npm run build && npm run preview` in `site/`.
+
+## Production
+
+- Site: <https://debug-runbooks.wafi-supri.workers.dev>
+- Branch: `main` (Cloudflare Workers Builds deploys every push)
+- Verify: `node scripts/verify-deployment.ts https://debug-runbooks.wafi-supri.workers.dev --expect-site-url https://debug-runbooks.wafi-supri.workers.dev`
 
 ## Verification after deploy
 

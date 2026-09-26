@@ -1,0 +1,231 @@
+---
+import Base from "../layouts/Base.astro";
+import PlatformMark from "../components/PlatformMark.astro";
+import { getRunbooks } from "../lib/collection.ts";
+import { PLATFORMS } from "../lib/paths.ts";
+import { GROUPS, TERMS } from "../lib/taxonomy.ts";
+
+const runbooks = await getRunbooks();
+const platforms = PLATFORMS.map((p) => ({ ...p, runbooks: runbooks.filter((r) => r.data.platform === p.id) })).filter((p) => p.runbooks.length);
+const groups = GROUPS.map((g) => ({
+  ...g,
+  terms: TERMS.filter((t) => t.group === g.id)
+    .map((t) => ({ ...t, runbooks: runbooks.filter((r) => r.data.systems.includes(t.id)) }))
+    .filter((t) => t.runbooks.length)
+    .sort((a, b) => b.runbooks.length - a.runbooks.length || a.label.localeCompare(b.label)),
+})).filter((g) => g.terms.length);
+
+// Systems that most often appear in the same runbook — derived, not curated.
+const pairs = new Map<string, number>();
+for (const r of runbooks) {
+  const s = [...r.data.systems].sort();
+  for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) pairs.set(`${s[i]}|${s[j]}`, (pairs.get(`${s[i]}|${s[j]}`) ?? 0) + 1);
+}
+const label = (id: string) => TERMS.find((t) => t.id === id)?.label ?? id;
+const topPairs = [...pairs.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+---
+
+<Base title="Systems" description="The operating systems, agent runtimes, model gateways, authentication mechanisms and services that appear in the Debug Runbooks, with the runbooks for each.">
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Systems</h1>
+      <p>
+        What the runbooks actually touch. A system is listed for a runbook when the runbook's title names it or its body refers to it
+        at least three times; systems with no runbooks are not shown.
+      </p>
+    </header>
+
+    <section aria-labelledby="platforms-title">
+      <div class="section-head"><h2 id="platforms-title">Platforms</h2><span class="label">from repository folders</span></div>
+      <ul class="platforms" role="list">
+        {
+          platforms.map((p) => (
+            <li>
+              <PlatformMark platform={p.id} label={p.label} />
+              <a href={`/runbooks/?platform=${p.id}`}>{p.runbooks.length} runbooks</a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {
+      groups.map((g) => (
+        <section aria-labelledby={`g-${g.id}`}>
+          <div class="section-head">
+            <h2 id={`g-${g.id}`}>{g.label}</h2>
+          </div>
+          <dl class="terms">
+            {g.terms.map((t) => (
+              <div class="term">
+                <dt>
+                  <a href={`/runbooks/?system=${t.id}`}>{t.label}</a>
+                  <span class="term__n mono" aria-label={`${t.runbooks.length} runbooks`}>
+                    <span class="term__bar" style={`--n: ${t.runbooks.length}; --max: ${runbooks.length}`} aria-hidden="true" />
+                    {t.runbooks.length}
+                  </span>
+                </dt>
+                <dd>
+                  <ul role="list">
+                    {t.runbooks.slice(0, 4).map((r) => (
+                      <li>
+                        <a href={`/runbooks/${r.id}/`}>{r.data.title}</a>
+                      </li>
+                    ))}
+                    {t.runbooks.length > 4 && (
+                      <li>
+                        <a class="muted" href={`/runbooks/?system=${t.id}`}>
+                          + {t.runbooks.length - 4} more
+                        </a>
+                      </li>
+                    )}
+                  </ul>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))
+    }
+
+    <section aria-labelledby="pairs-title">
+      <div class="section-head"><h2 id="pairs-title">Frequently investigated together</h2><span class="label">co-occurrence in runbooks</span></div>
+      <ol class="pairs" role="list">
+        {
+          topPairs.map(([k, n]) => {
+            const [a, b] = k.split("|");
+            return (
+              <li>
+                <span>{label(a)}</span>
+                <span class="muted" aria-hidden="true">
+                  ↔
+                </span>
+                <span class="visually-hidden">with</span>
+                <span>{label(b)}</span>
+                <span class="mono muted">{n} runbooks</span>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .page-head {
+    padding-block: var(--space-6) var(--space-5);
+    max-inline-size: 70ch;
+  }
+
+  .page-head h1 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .page-head p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  section {
+    margin-block-end: var(--space-7);
+  }
+
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+    margin: 0;
+    padding: var(--space-2) 0;
+    list-style: none;
+  }
+
+  .platforms li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-block-size: var(--target-min);
+    font-size: var(--text-sm);
+  }
+
+  .terms {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 0 var(--space-6);
+    margin: 0;
+  }
+
+  .term {
+    padding-block: var(--space-3);
+    border-block-end: var(--border-thin) solid var(--border-subtle);
+  }
+
+  dt {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+    font-weight: 600;
+  }
+
+  dt a {
+    color: var(--text-primary);
+  }
+
+  .term__n {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .term__bar {
+    inline-size: calc(var(--n) / var(--max) * 5rem);
+    min-inline-size: 2px;
+    block-size: 0.35rem;
+    background: var(--signal-high);
+  }
+
+  dd {
+    margin: var(--space-2) 0 0;
+    font-size: var(--text-sm);
+  }
+
+  dd ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  dd li {
+    padding-block: 0.2rem;
+    line-height: 1.35;
+  }
+
+  dd a {
+    color: var(--text-secondary);
+  }
+
+  .pairs {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .pairs li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-block-end: var(--border-thin) solid var(--border-subtle);
+  }
+
+  .pairs li > :last-child {
+    margin-inline-start: auto;
+  }
+</style>

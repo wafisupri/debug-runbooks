@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a documentation-only repository of verified debugging runbooks.
+This repository contains verified debugging runbooks plus a static website (`site/`) that publishes them.
 
 - `macos/`, `windows/`, `linux/`, and `cross-platform/` contain platform-specific runbooks.
 - Each platform directory has a `README.md` index; `README.md` is the master index.
@@ -11,7 +11,7 @@ This is a documentation-only repository of verified debugging runbooks.
 
 ## Build, Test, and Development Commands
 
-There is no build system or automated test suite. Useful checks are:
+The runbooks themselves have no build step. Useful checks are:
 
 ```bash
 git diff --check   # Detect whitespace errors
@@ -53,3 +53,21 @@ Pull requests should:
 ## Security & Configuration Tips
 
 Do not commit credentials, API tokens, private URLs, or unredacted authentication material. Prefer placeholders such as `<API_KEY>` and explain where secrets should be stored. Include machine-specific paths only when they are necessary to reproduce or recover the issue.
+
+## Website (`site/`)
+
+The Astro site reads runbooks directly from the platform folders; runbook Markdown remains the source of truth and must stay readable on GitHub. Do not add frontmatter or edit runbooks for the website's sake.
+
+```bash
+cd site
+npm ci
+npm run check:content  # derived metadata per runbook, with sources and warnings
+npm test               # vitest: pipeline, privacy, activity, brand/contrast guards
+npm run check          # astro check (types)
+npm run build          # activity data + static build + output secret/path scan
+```
+
+- Publishing rules (exclusions, redactions, per-runbook overrides with a reason) live in `site/content-policy.yaml`.
+- Colours come only from `site/src/styles/tokens.css`; see `docs/brand/brand-guidelines.md`.
+- Deployment (Cloudflare Workers static assets) is documented in `docs/deployment.md`.
+- New runbook status wording must be recognised by `site/src/lib/status.ts`; `npm test` fails otherwise.

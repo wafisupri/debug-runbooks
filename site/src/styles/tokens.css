@@ -1,0 +1,245 @@
+/*
+ * Debug Runbooks — design tokens (authoritative).
+ *
+ * Every colour on the site derives from ONE chromatic hue (--brand-h) plus
+ * near-achromatic neutrals tinted towards that hue. To re-brand the site,
+ * change --brand-h (and, if needed, --brand-c-scale). Components must consume
+ * the semantic tokens further down, never raw colour literals.
+ *
+ * See docs/brand/brand-guidelines.md.
+ */
+
+:root {
+  /* ── Primary hue: verdigris (oxidised copper). OKLCH hue angle. ─────────── */
+  --brand-h: 195;
+  --brand-c-scale: 1; /* multiply chroma; 0 = monochrome fallback */
+
+  /* ── Brand tonal scale (lightness / chroma steps are fixed; hue is shared) ─ */
+  --brand-50:  oklch(0.975 calc(0.012 * var(--brand-c-scale)) var(--brand-h));
+  --brand-100: oklch(0.950 calc(0.025 * var(--brand-c-scale)) var(--brand-h));
+  --brand-200: oklch(0.900 calc(0.045 * var(--brand-c-scale)) var(--brand-h));
+  --brand-300: oklch(0.830 calc(0.065 * var(--brand-c-scale)) var(--brand-h));
+  --brand-400: oklch(0.740 calc(0.085 * var(--brand-c-scale)) var(--brand-h));
+  --brand-500: oklch(0.640 calc(0.095 * var(--brand-c-scale)) var(--brand-h));
+  --brand-600: oklch(0.550 calc(0.090 * var(--brand-c-scale)) var(--brand-h));
+  --brand-700: oklch(0.460 calc(0.080 * var(--brand-c-scale)) var(--brand-h));
+  --brand-800: oklch(0.380 calc(0.065 * var(--brand-c-scale)) var(--brand-h));
+  --brand-900: oklch(0.300 calc(0.050 * var(--brand-c-scale)) var(--brand-h));
+  --brand-950: oklch(0.220 calc(0.035 * var(--brand-c-scale)) var(--brand-h));
+
+  /* ── Neutral scale: chroma ≤ 0.008, tinted to brand hue ─────────────────── */
+  --neutral-0:   oklch(1.000 0 0);
+  --neutral-50:  oklch(0.985 0.002 var(--brand-h));
+  --neutral-100: oklch(0.965 0.003 var(--brand-h));
+  --neutral-200: oklch(0.920 0.004 var(--brand-h));
+  --neutral-300: oklch(0.860 0.005 var(--brand-h));
+  --neutral-400: oklch(0.720 0.006 var(--brand-h));
+  --neutral-500: oklch(0.580 0.007 var(--brand-h));
+  --neutral-600: oklch(0.480 0.007 var(--brand-h));
+  --neutral-700: oklch(0.380 0.007 var(--brand-h));
+  --neutral-800: oklch(0.280 0.006 var(--brand-h));
+  --neutral-850: oklch(0.225 0.006 var(--brand-h));
+  --neutral-900: oklch(0.185 0.005 var(--brand-h));
+  --neutral-950: oklch(0.145 0.004 var(--brand-h));
+
+  /* ── Typography ──────────────────────────────────────────────────────────── */
+  --font-sans: "IBM Plex Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Fluid type scale: min at 320px, max at ~1440px. */
+  --text-xs:   clamp(0.72rem, 0.70rem + 0.10vw, 0.78rem);
+  --text-sm:   clamp(0.82rem, 0.80rem + 0.12vw, 0.88rem);
+  --text-base: clamp(0.95rem, 0.92rem + 0.18vw, 1.0625rem);
+  --text-md:   clamp(1.05rem, 1.00rem + 0.25vw, 1.2rem);
+  --text-lg:   clamp(1.2rem, 1.10rem + 0.45vw, 1.5rem);
+  --text-xl:   clamp(1.45rem, 1.25rem + 0.90vw, 2.1rem);
+  --text-2xl:  clamp(1.75rem, 1.40rem + 1.60vw, 2.9rem);
+
+  --leading-tight: 1.2;
+  --leading-body: 1.62;
+  --tracking-label: 0.06em;
+
+  /* ── Spacing (4px base) ─────────────────────────────────────────────────── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+
+  /* ── Layout ─────────────────────────────────────────────────────────────── */
+  --measure: 72ch;
+  --page-max: 88rem;
+  --toc-width: 16rem;
+  --target-min: 44px;
+
+  /* ── Shape ──────────────────────────────────────────────────────────────── */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --border-thin: 1px;
+  --border-thick: 2px;
+
+  /* ── Motion ─────────────────────────────────────────────────────────────── */
+  --duration-fast: 120ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+/* ── Semantic tokens: light (default) ───────────────────────────────────── */
+:root {
+  color-scheme: light dark;
+
+  --surface-page: var(--neutral-50);
+  --surface-primary: var(--neutral-0);
+  --surface-secondary: var(--neutral-100);
+  --surface-sunken: var(--neutral-100);
+  --surface-code: var(--neutral-100);
+  --surface-accent: var(--brand-50);
+
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-muted: var(--neutral-600);
+  --text-on-brand: var(--neutral-0);
+  --text-link: var(--brand-800);
+  --text-link-hover: var(--brand-950);
+  --text-accent: var(--brand-800);
+
+  --border-default: var(--neutral-300);
+  --border-subtle: var(--neutral-200);
+  --border-strong: var(--neutral-600);
+  --border-accent: var(--brand-600);
+
+  --brand-primary: var(--brand-700);
+  --brand-primary-hover: var(--brand-800);
+
+  --focus-ring: var(--brand-600);
+
+  /* Status marks (see StatusMark.astro). Shape + fill carry meaning, not hue. */
+  --status-resolved: var(--brand-700);
+  --status-followup: var(--brand-600);
+  --status-partial: var(--brand-500);
+  --status-unstated: var(--neutral-500);
+
+  /* Platform / category tones (derived from the brand scale). */
+  --category-strong: var(--brand-800);
+  --category-medium: var(--brand-600);
+  --category-soft: var(--brand-400);
+  --category-surface: var(--brand-100);
+
+  /* Activity signal trace. */
+  --signal-baseline: var(--neutral-300);
+  --signal-idle: var(--neutral-300);
+  --signal-low: var(--brand-500);
+  --signal-high: var(--brand-800);
+  --signal-node: var(--brand-800);
+  --signal-selected: var(--neutral-950);
+
+  /* Callouts. */
+  --callout-note-border: var(--brand-500);
+  --callout-warning-border: var(--neutral-800);
+  --callout-surface: var(--surface-secondary);
+}
+
+/* ── Semantic tokens: dark ──────────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --surface-page: var(--neutral-950);
+    --surface-primary: var(--neutral-900);
+    --surface-secondary: var(--neutral-850);
+    --surface-sunken: var(--neutral-950);
+    --surface-code: var(--neutral-850);
+    --surface-accent: var(--brand-950);
+
+    --text-primary: var(--neutral-100);
+    --text-secondary: var(--neutral-300);
+    --text-muted: var(--neutral-400);
+    --text-on-brand: var(--neutral-950);
+    --text-link: var(--brand-300);
+    --text-link-hover: var(--brand-100);
+    --text-accent: var(--brand-300);
+
+    --border-default: var(--neutral-700);
+    --border-subtle: var(--neutral-800);
+    --border-strong: var(--neutral-400);
+    --border-accent: var(--brand-400);
+
+    --brand-primary: var(--brand-300);
+    --brand-primary-hover: var(--brand-200);
+    --focus-ring: var(--brand-400);
+
+    --status-resolved: var(--brand-300);
+    --status-followup: var(--brand-400);
+    --status-partial: var(--brand-500);
+    --status-unstated: var(--neutral-400);
+
+    --category-strong: var(--brand-200);
+    --category-medium: var(--brand-400);
+    --category-soft: var(--brand-600);
+    --category-surface: var(--brand-950);
+
+    --signal-baseline: var(--neutral-700);
+    --signal-idle: var(--neutral-700);
+    --signal-low: var(--brand-600);
+    --signal-high: var(--brand-300);
+    --signal-node: var(--brand-200);
+    --signal-selected: var(--neutral-50);
+
+    --callout-note-border: var(--brand-400);
+    --callout-warning-border: var(--neutral-200);
+  }
+}
+
+:root[data-theme="dark"] {
+  --surface-page: var(--neutral-950);
+  --surface-primary: var(--neutral-900);
+  --surface-secondary: var(--neutral-850);
+  --surface-sunken: var(--neutral-950);
+  --surface-code: var(--neutral-850);
+  --surface-accent: var(--brand-950);
+
+  --text-primary: var(--neutral-100);
+  --text-secondary: var(--neutral-300);
+  --text-muted: var(--neutral-400);
+  --text-on-brand: var(--neutral-950);
+  --text-link: var(--brand-300);
+  --text-link-hover: var(--brand-100);
+  --text-accent: var(--brand-300);
+
+  --border-default: var(--neutral-700);
+  --border-subtle: var(--neutral-800);
+  --border-strong: var(--neutral-400);
+  --border-accent: var(--brand-400);
+
+  --brand-primary: var(--brand-300);
+  --brand-primary-hover: var(--brand-200);
+  --focus-ring: var(--brand-400);
+
+  --status-resolved: var(--brand-300);
+  --status-followup: var(--brand-400);
+  --status-partial: var(--brand-500);
+  --status-unstated: var(--neutral-400);
+
+  --category-strong: var(--brand-200);
+  --category-medium: var(--brand-400);
+  --category-soft: var(--brand-600);
+  --category-surface: var(--brand-950);
+
+  --signal-baseline: var(--neutral-700);
+  --signal-idle: var(--neutral-700);
+  --signal-low: var(--brand-600);
+  --signal-high: var(--brand-300);
+  --signal-node: var(--brand-200);
+  --signal-selected: var(--neutral-50);
+
+  --callout-note-border: var(--brand-400);
+  --callout-warning-border: var(--neutral-200);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+  }
+}

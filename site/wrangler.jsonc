@@ -1,0 +1,18 @@
+// Cloudflare Workers — static assets only (no Worker script, no bindings).
+// Build: `npm ci && npm run build` in site/; output: site/dist.
+{
+  "name": "debug-runbooks",
+  "compatibility_date": "2026-09-26",
+  // Explicit, so the defaults of a given Wrangler version cannot change them.
+  // workers.dev Preview URLs carry X-Robots-Tag: noindex (added by Cloudflare).
+  "workers_dev": true,
+  "preview_urls": true,
+  // Required by `wrangler preview` (Worker Previews). Empty: previews inherit
+  // the top-level assets configuration and need no separate bindings.
+  "previews": {},
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

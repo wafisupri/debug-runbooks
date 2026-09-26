@@ -1,0 +1,497 @@
+---
+/**
+ * Repository activity as a telemetry trace: one vertical signal stroke per day.
+ *
+ * Encoding (single hue):
+ *   height   ∝ √(commits / busiest day) — keeps quiet days visible next to a busy one
+ *   tone     --signal-high when the day touched a runbook, --signal-low for
+ *            index/site-only days, a 1px neutral tick for days without commits
+ *   node     a filled marker above the stroke on days a runbook was first added
+ *
+ * Every day is a button (roving tabindex; ←/→/Home/End). Hover, focus and tap
+ * all drive the same detail panel below the trace. A text summary and a data
+ * table carry the same information without the visual.
+ */
+import { formatDate } from "../lib/collection.ts";
+import { githubCommitUrl } from "../lib/paths.ts";
+import { jsonForScript, type Activity, type ActivityDay } from "../lib/activity.ts";
+
+interface Props {
+  activity: Activity;
+}
+const { activity } = Astro.props;
+const { days } = activity;
+const max = Math.max(1, ...days.map((d) => d.commits));
+const selectedIndex = days.map((d) => d.commits > 0).lastIndexOf(true);
+const selected = days[selectedIndex];
+const added = days.reduce((n, d) => n + d.added.length, 0);
+const updatedDays = days.filter((d) => d.updated.length > 0).length;
+
+const plural = (n: number, one: string, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+const weekday = new Intl.DateTimeFormat("en-GB", { weekday: "short", timeZone: "UTC" });
+const month = new Intl.DateTimeFormat("en-GB", { month: "short", timeZone: "UTC" });
+
+function dayLabel(d: ActivityDay): string {
+  if (!d.commits) return `${formatDate(d.day)}: no commits`;
+  const parts = [plural(d.commits, "commit")];
+  if (d.added.length) parts.push(`${plural(d.added.length, "runbook")} added`);
+  if (d.updated.length) parts.push(`${plural(d.updated.length, "runbook")} updated`);
+  return `${formatDate(d.day)}: ${parts.join(", ")}`;
+}
+
+function monthLabel(d: ActivityDay, i: number): string | undefined {
+  const date = new Date(`${d.day}T00:00:00Z`);
+  if (i === 0 || date.getUTCDate() === 1) return month.format(date);
+  return undefined;
+}
+
+const payload = days.map((d) => ({
+  day: d.day,
+  label: formatDate(d.day),
+  weekday: weekday.format(new Date(`${d.day}T00:00:00Z`)),
+  commits: d.commits,
+  added: d.added,
+  updated: d.updated,
+  otherFiles: d.otherFiles,
+  log: d.log.map((l) => ({ short: l.short, url: githubCommitUrl(l.hash), subject: l.subject })),
+}));
+---
+
+<section class="trace" aria-labelledby="trace-title" data-trace>
+  <div class="section-head">
+    <h2 id="trace-title">Repository activity</h2>
+    <p class="label">
+      {activity.source === "snapshot" ? `Snapshot as of ${formatDate(activity.generatedAt)}` : `From git history · built ${formatDate(activity.generatedAt)}`}
+    </p>
+  </div>
+
+  <p class="trace__summary">
+    {`${plural(activity.totalCommits, "commit")} on ${activity.activeDays} of ${days.length} days since ${formatDate(activity.firstDay)}. `}
+    {`${plural(added, "runbook")} added; existing runbooks revised on ${plural(updatedDays, "day")}. Latest change ${formatDate(selected?.day)}.`}
+  </p>
+
+  <div class="trace__frame">
+    <div class="trace__scroll" data-trace-scroll>
+      <ol class="trace__days" role="list" aria-label={`Daily commits from ${formatDate(activity.firstDay)} to ${formatDate(activity.lastDay)}. Use arrow keys to move between days.`} style={`--days: ${days.length}`}>
+        {
+          days.map((d, i) => {
+            const touched = d.added.length + d.updated.length > 0;
+            const h = d.commits ? Math.sqrt(d.commits / max) : 0;
+            const m = monthLabel(d, i);
+            return (
+              <li class:list={["trace__day", { "trace__day--monday": new Date(`${d.day}T00:00:00Z`).getUTCDay() === 1 }]}>
+                <button
+                  type="button"
+                  class:list={["trace__btn", d.commits ? (touched ? "is-high" : "is-low") : "is-idle", { "has-node": d.added.length > 0 }]}
+                  style={`--h: ${h.toFixed(3)}`}
+                  data-index={i}
+                  aria-label={dayLabel(d)}
+                  aria-pressed={i === selectedIndex ? "true" : "false"}
+                  aria-controls="trace-detail"
+                  tabindex={i === selectedIndex ? 0 : -1}
+                >
+                  <span class="trace__signal" aria-hidden="true">
+                    <span class="trace__node" />
+                    <span class="trace__bar" />
+                  </span>
+                </button>
+                {m && (
+                  <span class="trace__month" aria-hidden="true">
+                    {m}
+                  </span>
+                )}
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+    <p class="trace__hint label" data-trace-hint hidden>← Scroll for earlier days</p>
+  </div>
+
+  <div class="trace__legend label" aria-hidden="true">
+    <span><i class="key key--high"></i>Runbook changed</span>
+    <span><i class="key key--low"></i>Index / site only</span>
+    <span><i class="key key--node"></i>Runbook added</span>
+    <span>Height ∝ √ commits</span>
+  </div>
+
+  <div id="trace-detail" class="trace__detail" aria-live="polite" data-trace-detail>
+    {
+      selected && (
+        <>
+          <p class="trace__detail-head">
+            <strong>{formatDate(selected.day)}</strong>
+            <span class="mono muted">{plural(selected.commits, "commit")}</span>
+          </p>
+          {selected.added.length > 0 && (
+            <p>
+              Added:{" "}
+              {selected.added.map((r, j) => (
+                <>
+                  {j > 0 && ", "}
+                  <a href={`/runbooks/${r.slug}/`}>{r.title}</a>
+                </>
+              ))}
+            </p>
+          )}
+          {selected.updated.length > 0 && (
+            <p>
+              Updated:{" "}
+              {selected.updated.map((r, j) => (
+                <>
+                  {j > 0 && ", "}
+                  <a href={`/runbooks/${r.slug}/`}>{r.title}</a>
+                </>
+              ))}
+            </p>
+          )}
+        </>
+      )
+    }
+  </div>
+
+  <details class="trace__table">
+    <summary>Activity as a table</summary>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Activity table">
+      <table>
+        <thead>
+          <tr><th scope="col">Date</th><th scope="col">Commits</th><th scope="col">Runbooks added</th><th scope="col">Runbooks updated</th><th scope="col">Other files</th></tr>
+        </thead>
+        <tbody>
+          {
+            days
+              .filter((d) => d.commits)
+              .reverse()
+              .map((d) => (
+                <tr>
+                  <td class="mono">{d.day}</td>
+                  <td>{d.commits}</td>
+                  <td>{d.added.map((r) => r.title).join("; ") || "—"}</td>
+                  <td>{d.updated.map((r) => r.title).join("; ") || "—"}</td>
+                  <td>{d.otherFiles}</td>
+                </tr>
+              ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <script type="application/json" data-trace-data set:html={jsonForScript(payload)} />
+</section>
+
+<script>
+  type Ref = { slug: string; title: string };
+  type Day = {
+    day: string; label: string; weekday: string; commits: number;
+    added: Ref[]; updated: Ref[]; otherFiles: number;
+    log: Array<{ short: string; url: string; subject: string }>;
+  };
+
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+  const plural = (n: number, one: string) => `${n} ${n === 1 ? one : one + "s"}`;
+  const links = (refs: Ref[]) => refs.map((r) => `<a href="/runbooks/${esc(r.slug)}/">${esc(r.title)}</a>`).join(", ");
+
+  function render(d: Day): string {
+    const head = `<p class="trace__detail-head"><strong>${esc(d.weekday)} ${esc(d.label)}</strong><span class="mono muted">${d.commits ? plural(d.commits, "commit") : "no commits"}</span></p>`;
+    if (!d.commits) return head;
+    const parts = [head];
+    if (d.added.length) parts.push(`<p>Added: ${links(d.added)}</p>`);
+    if (d.updated.length) parts.push(`<p>Updated: ${links(d.updated)}</p>`);
+    if (d.otherFiles) parts.push(`<p class="muted">${plural(d.otherFiles, "other file")} changed (indexes, docs or site code).</p>`);
+    parts.push(
+      `<ul class="trace__log">${d.log
+        .map((l) => `<li><a class="mono" href="${esc(l.url)}" rel="noopener">${esc(l.short)}</a> ${esc(l.subject)}</li>`)
+        .join("")}</ul>`,
+    );
+    return parts.join("");
+  }
+
+  for (const root of document.querySelectorAll<HTMLElement>("[data-trace]")) {
+    const days: Day[] = JSON.parse(root.querySelector("[data-trace-data]")!.textContent!);
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>(".trace__btn")];
+    const detail = root.querySelector<HTMLElement>("[data-trace-detail]")!;
+    const scroller = root.querySelector<HTMLElement>("[data-trace-scroll]")!;
+    const hint = root.querySelector<HTMLElement>("[data-trace-hint]")!;
+    let selected = buttons.findIndex((b) => b.getAttribute("aria-pressed") === "true");
+
+    // Only deliberate selection (click, tap, keyboard) is announced; hover previews are silent.
+    const show = (i: number, announce = false) => {
+      detail.setAttribute("aria-live", announce ? "polite" : "off");
+      detail.innerHTML = render(days[i]);
+    };
+    const select = (i: number, focus = false) => {
+      buttons[selected]?.setAttribute("aria-pressed", "false");
+      buttons[selected]?.setAttribute("tabindex", "-1");
+      selected = i;
+      buttons[i].setAttribute("aria-pressed", "true");
+      buttons[i].setAttribute("tabindex", "0");
+      if (focus) buttons[i].focus();
+      buttons[i].scrollIntoView({ block: "nearest", inline: "nearest" });
+      show(i, true);
+    };
+
+    show(selected);
+    buttons.forEach((b, i) => {
+      b.addEventListener("click", () => select(i));
+      b.addEventListener("focus", () => select(i));
+      b.addEventListener("pointerenter", (e) => e.pointerType === "mouse" && show(i));
+      b.addEventListener("keydown", (e) => {
+        const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: buttons.length - 1 }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        select(Math.max(0, Math.min(buttons.length - 1, next)), true);
+      });
+    });
+    root.querySelector(".trace__days")!.addEventListener("pointerleave", () => show(selected));
+
+    // Narrow screens: start at the most recent days; reveal the scroll hint only when needed.
+    const sync = () => {
+      const overflow = scroller.scrollWidth > scroller.clientWidth + 1;
+      hint.hidden = !overflow || scroller.scrollLeft < 8;
+      scroller.classList.toggle("is-overflowing", overflow);
+    };
+    scroller.scrollLeft = scroller.scrollWidth;
+    scroller.addEventListener("scroll", sync, { passive: true });
+    new ResizeObserver(sync).observe(scroller);
+    sync();
+  }
+</script>
+
+<style>
+  .trace {
+    container-type: inline-size;
+  }
+
+  .trace__summary {
+    margin: 0 0 var(--space-4);
+    max-inline-size: 70ch;
+    color: var(--text-secondary);
+  }
+
+  .trace__frame {
+    position: relative;
+  }
+
+  .trace__scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+    padding-block-start: var(--space-2);
+  }
+
+  .trace__scroll.is-overflowing {
+    mask-image: linear-gradient(to right, transparent, black 1.5rem);
+  }
+
+  .trace__days {
+    /* WCAG 2.5.8: day targets never shrink below 24px; longer ranges scroll. */
+    --col: max(1.5rem, calc((100cqi - 1px) / var(--days)));
+    display: grid;
+    grid-template-columns: repeat(var(--days), var(--col));
+    inline-size: max-content;
+    min-inline-size: 100%;
+    margin: 0;
+    padding: 0 0 1.4rem;
+    list-style: none;
+    border-block-end: var(--border-thin) solid var(--signal-baseline);
+  }
+
+  @media (pointer: coarse) {
+    .trace__days {
+      --col: max(1.75rem, calc((100cqi - 1px) / var(--days)));
+    }
+  }
+
+  .trace__day {
+    position: relative;
+    display: grid;
+  }
+
+  .trace__day--monday::before {
+    content: "";
+    position: absolute;
+    inset-block-end: -0.35rem;
+    inset-inline-start: 0;
+    block-size: 0.35rem;
+    border-inline-start: var(--border-thin) solid var(--signal-baseline);
+  }
+
+  .trace__btn {
+    display: grid;
+    block-size: clamp(6rem, 18cqi, 9rem);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+  }
+
+  .trace__btn:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .trace__signal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    block-size: 100%;
+  }
+
+  .trace__bar {
+    inline-size: min(60%, 0.45rem);
+    block-size: max(1px, calc(var(--h) * 74%));
+    background: var(--signal-idle);
+  }
+
+  .is-low .trace__bar {
+    block-size: max(4px, calc(var(--h) * 74%));
+    background: var(--signal-low);
+  }
+
+  .is-high .trace__bar {
+    block-size: max(4px, calc(var(--h) * 74%));
+    background: var(--signal-high);
+  }
+
+  .trace__node {
+    inline-size: min(70%, 0.5rem);
+    aspect-ratio: 1;
+    margin-block-end: 3px;
+    border-radius: 50%;
+    visibility: hidden;
+    background: var(--signal-node);
+  }
+
+  .has-node .trace__node {
+    visibility: visible;
+  }
+
+  .trace__btn:hover .trace__bar,
+  .trace__btn[aria-pressed="true"] .trace__bar {
+    background: var(--signal-selected);
+  }
+
+  .trace__btn[aria-pressed="true"]::after {
+    content: "";
+    grid-area: 1 / 1;
+    align-self: end;
+    justify-self: center;
+    inline-size: 70%;
+    block-size: var(--border-thick);
+    margin-block-end: -3px;
+    background: var(--signal-selected);
+  }
+
+  .trace__signal {
+    grid-area: 1 / 1;
+  }
+
+  .trace__month {
+    position: absolute;
+    inset-block-start: calc(100% + 0.35rem);
+    inset-inline-start: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .trace__hint {
+    pointer-events: none;
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    margin: 0;
+    padding-inline-end: var(--space-2);
+    background: var(--surface-page);
+  }
+
+  .trace__legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-block: var(--space-4) var(--space-3);
+  }
+
+  .key {
+    display: inline-block;
+    inline-size: 0.35rem;
+    block-size: 0.9rem;
+    margin-inline-end: var(--space-2);
+    vertical-align: -0.1rem;
+  }
+
+  .key--high {
+    background: var(--signal-high);
+  }
+
+  .key--low {
+    background: var(--signal-low);
+  }
+
+  .key--node {
+    inline-size: 0.5rem;
+    block-size: 0.5rem;
+    border-radius: 50%;
+    vertical-align: 0;
+    background: var(--signal-node);
+  }
+
+  .trace__detail {
+    min-block-size: 5.5rem;
+    padding: var(--space-3) var(--space-4);
+    border-inline-start: var(--border-thick) solid var(--border-accent);
+    background: var(--surface-primary);
+    font-size: var(--text-sm);
+  }
+
+  .trace__detail :global(p) {
+    margin: 0 0 var(--space-2);
+  }
+
+  .trace__detail :global(.trace__detail-head) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-4);
+    align-items: baseline;
+  }
+
+  .trace__detail :global(.trace__log) {
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    color: var(--text-secondary);
+  }
+
+  .trace__detail :global(.trace__log li) {
+    padding-block: 0.15rem;
+  }
+
+  .trace__detail :global(.trace__log a) {
+    display: inline-block;
+    min-inline-size: 5.5ch;
+    margin-inline-end: var(--space-2);
+  }
+
+  .trace__table {
+    margin-block-start: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .trace__table summary {
+    min-block-size: var(--target-min);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-secondary);
+  }
+
+  .trace__table .table-scroll {
+    margin-block-start: var(--space-2);
+  }
+</style>

@@ -1,0 +1,401 @@
+---
+import { render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PhaseStrip from "../../components/PhaseStrip.astro";
+import PlatformMark from "../../components/PlatformMark.astro";
+import StatusMark from "../../components/StatusMark.astro";
+import Toc from "../../components/Toc.astro";
+import { formatDate, getRunbooks, type RunbookEntry } from "../../lib/collection.ts";
+import { githubBlobUrl, REPO_URL } from "../../lib/paths.ts";
+import { termById } from "../../lib/taxonomy.ts";
+import { cleanHeading } from "../../lib/sections.ts";
+
+export async function getStaticPaths() {
+  const runbooks = await getRunbooks();
+  return runbooks.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, newer: runbooks[i - 1], older: runbooks[i + 1] },
+  }));
+}
+
+interface Props {
+  entry: RunbookEntry;
+  newer?: RunbookEntry;
+  older?: RunbookEntry;
+}
+
+const { entry, newer, older } = Astro.props;
+const r = entry.data;
+const { Content, headings } = await render(entry as unknown as Parameters<typeof render>[0]);
+
+const SOURCE_LABEL: Record<string, string> = {
+  runbook: "stated in runbook",
+  filename: "from filename",
+  "readme-index": "from repository index",
+  git: "from git history",
+  "policy-override": "set in content policy",
+  none: "not stated",
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: r.title,
+  description: r.description,
+  datePublished: r.date.value,
+  dateModified: r.history?.updated ?? r.date.value,
+  isBasedOn: githubBlobUrl(r.repoPath),
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  isPartOf: { "@type": "CreativeWork", name: "Debug Runbooks", url: REPO_URL },
+};
+---
+
+<Base title={r.title} description={r.description} type="article" jsonLd={jsonLd}>
+  <article class="wrap runbook">
+    <header class="runbook__header">
+      <p class="runbook__crumbs label"><a href="/runbooks/">Runbooks</a> / {r.platformLabel}</p>
+      <h1>{r.title}</h1>
+
+      <dl class="meta">
+        <div>
+          <dt>Date</dt>
+          <dd>
+            <time datetime={r.date.value}>{formatDate(r.date.value)}</time>
+            <span class="meta__note">
+              {SOURCE_LABEL[r.date.source]}{r.date.note && ` · ${r.date.note}`}
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>
+            <StatusMark kind={r.status} raw={r.statusRaw.value} showRaw />
+            {r.statusRaw.source !== "runbook" && <span class="meta__note">{SOURCE_LABEL[r.statusRaw.source]}</span>}
+          </dd>
+        </div>
+        <div>
+          <dt>Platform</dt>
+          <dd>
+            <PlatformMark platform={r.platform} label={r.platformLabel} />
+            {r.platformDetail && r.platformDetail !== r.platformLabel && <span class="meta__note">{r.platformDetail}</span>}
+          </dd>
+        </div>
+        {
+          r.scope && (
+            <div class="meta__wide">
+              <dt>Scope</dt>
+              <dd>{r.scope}</dd>
+            </div>
+          )
+        }
+        {
+          r.systems.length > 0 && (
+            <div class="meta__wide">
+              <dt>Systems</dt>
+              <dd>
+                <ul class="chips" role="list">
+                  {r.systems.map((s) => (
+                    <li>
+                      <a href={`/runbooks/?system=${s}`}>{termById(s)?.label ?? s}</a>
+                    </li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          )
+        }
+        <div>
+          <dt>Length</dt>
+          <dd>
+            ≈ {r.readingMinutes} min read <span class="meta__note">{r.words.toLocaleString("en-GB")} words · {r.sections.length} sections</span>
+          </dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd>
+            <a class="ext" href={githubBlobUrl(r.repoPath)} rel="noopener">View source on GitHub</a>
+            {
+              r.history?.updated && (
+                <span class="meta__note">
+                  last changed {formatDate(r.history.updated)} · {r.history.commits} {r.history.commits === 1 ? "commit" : "commits"}
+                </span>
+              )
+            }
+          </dd>
+        </div>
+      </dl>
+
+      <PhaseStrip phases={r.phases} />
+
+      {
+        r.provenance && (
+          <aside class="provenance" aria-label="Tooling and provenance">
+            <p class="label">Tooling &amp; provenance</p>
+            <p>
+              This runbook records its tooling in{" "}
+              {r.provenance.sectionTitles.map((t, i) => {
+                const slug = headings.find((h) => cleanHeading(h.text.replace(/#$/, "")) === t)?.slug;
+                return (
+                  <>
+                    {i > 0 && " and "}
+                    {slug ? <a href={`#${slug}`}>“{t}”</a> : <>“{t}”</>}
+                  </>
+                );
+              })}
+              .
+              {r.provenance.tools.length > 0 && (
+                <>
+                  {" "}
+                  AI tools named there: {r.provenance.tools.join(", ")}. Each tool's role — and any limits on its credit — is described in that section.
+                </>
+              )}
+            </p>
+          </aside>
+        )
+      }
+    </header>
+
+    <div class="runbook__layout">
+      <Toc headings={headings} variant="disclosure" />
+      <div class="prose runbook__body">
+        <Content />
+      </div>
+      <aside class="runbook__aside">
+        <Toc headings={headings} variant="sidebar" />
+      </aside>
+    </div>
+
+    <nav class="runbook__pager" aria-label="More runbooks">
+      {
+        newer && (
+          <a href={`/runbooks/${newer.id}/`} rel="prev">
+            <span class="label">Newer</span>
+            {newer.data.title}
+          </a>
+        )
+      }
+      {
+        older && (
+          <a href={`/runbooks/${older.id}/`} rel="next" class="older">
+            <span class="label">Older</span>
+            {older.data.title}
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</Base>
+
+<script>
+  // Copy buttons for code blocks (progressive enhancement: hidden without clipboard API).
+  const status = document.createElement("p");
+  status.className = "visually-hidden";
+  status.setAttribute("aria-live", "polite");
+  document.body.append(status);
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+    if (!navigator.clipboard) {
+      button.hidden = true;
+      continue;
+    }
+    const lang = button.parentElement?.querySelector(".code-block__lang")?.textContent ?? "code";
+    button.setAttribute("aria-label", `Copy ${lang} code to clipboard`);
+    button.addEventListener("click", async () => {
+      const code = button.closest("figure")?.querySelector("pre")?.innerText ?? "";
+      try {
+        await navigator.clipboard.writeText(code.replace(/\n$/, ""));
+        button.textContent = "Copied";
+        status.textContent = "Code copied to clipboard";
+      } catch {
+        button.textContent = "Failed";
+        status.textContent = "Copy failed";
+      }
+      setTimeout(() => (button.textContent = "Copy"), 1800);
+    });
+  }
+</script>
+
+<style>
+  .runbook {
+    container-type: inline-size;
+  }
+
+  .runbook__header {
+    display: grid;
+    gap: var(--space-5);
+    max-inline-size: 64rem;
+    padding-block: var(--space-6) var(--space-5);
+  }
+
+  .runbook__crumbs {
+    margin: 0;
+  }
+
+  .runbook__crumbs a {
+    color: inherit;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: var(--text-xl);
+    max-inline-size: 38ch;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+    gap: var(--space-4) var(--space-5);
+    margin: 0;
+    padding-block: var(--space-4);
+    border-block: var(--border-thin) solid var(--border-default);
+  }
+
+  .meta__wide {
+    grid-column: 1 / -1;
+  }
+
+  .meta dt {
+    margin-block-end: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .meta dd {
+    margin: 0;
+    font-size: var(--text-sm);
+  }
+
+  .meta__note {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .chips a {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2rem;
+    padding-inline: var(--space-2);
+    border: var(--border-thin) solid var(--border-default);
+    border-radius: var(--radius-1);
+    color: var(--text-secondary);
+    font-size: var(--text-xs);
+    font-family: var(--font-mono);
+    text-decoration: none;
+  }
+
+  .chips a:hover {
+    border-color: var(--border-accent);
+    color: var(--text-accent);
+  }
+
+  .provenance {
+    padding: var(--space-3) var(--space-4);
+    border: var(--border-thin) solid var(--border-default);
+    background: var(--surface-accent);
+    font-size: var(--text-sm);
+  }
+
+  .provenance p {
+    margin: 0;
+    max-inline-size: 75ch;
+  }
+
+  .provenance .label {
+    margin-block-end: var(--space-1);
+  }
+
+  .runbook__layout {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .runbook__aside {
+    display: none;
+  }
+
+  @container (min-width: 68rem) {
+    .runbook__layout {
+      grid-template-columns: minmax(0, 50rem) var(--toc-width);
+      justify-content: start;
+      gap: var(--space-7);
+      align-items: start;
+    }
+
+    .runbook__layout > :global(.toc--disclosure) {
+      display: none;
+    }
+
+    .runbook__aside {
+      display: block;
+      grid-column: 2;
+      grid-row: 1;
+      align-self: stretch;
+    }
+
+    .runbook__body {
+      grid-column: 1;
+      grid-row: 1;
+    }
+  }
+
+  /* Dual-screen / foldable (progressive enhancement): contents on one segment, body on the other. */
+  @media (horizontal-viewport-segments: 2) {
+    .runbook__layout {
+      grid-template-columns: calc(env(viewport-segment-right 0 0) - var(--gutter)) minmax(0, 1fr);
+      column-gap: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0) + var(--space-5));
+    }
+
+    .runbook__layout > :global(.toc--disclosure) {
+      display: none;
+    }
+
+    .runbook__aside {
+      display: block;
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .runbook__body {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  .runbook__pager {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-4);
+    margin-block-start: var(--space-8);
+    padding-block-start: var(--space-4);
+    border-block-start: var(--border-thick) solid var(--text-primary);
+  }
+
+  .runbook__pager a {
+    display: grid;
+    gap: var(--space-1);
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .runbook__pager a:hover {
+    color: var(--text-link);
+  }
+
+  .runbook__pager .older {
+    text-align: end;
+  }
+</style>

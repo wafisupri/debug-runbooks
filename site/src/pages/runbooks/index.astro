@@ -1,0 +1,214 @@
+---
+import Base from "../../layouts/Base.astro";
+import RunbookList from "../../components/RunbookList.astro";
+import { getRunbooks } from "../../lib/collection.ts";
+import { PLATFORMS } from "../../lib/paths.ts";
+import { STATUS_KINDS, STATUS_LABELS } from "../../lib/status.ts";
+import { GROUPS, TERMS } from "../../lib/taxonomy.ts";
+
+const runbooks = await getRunbooks();
+const count = (pred: (r: (typeof runbooks)[number]) => boolean) => runbooks.filter(pred).length;
+
+// Only offer filter values that at least one published runbook has.
+const platforms = PLATFORMS.map((p) => ({ ...p, n: count((r) => r.data.platform === p.id) })).filter((p) => p.n);
+const statuses = STATUS_KINDS.map((k) => ({ id: k, label: STATUS_LABELS[k], n: count((r) => r.data.status === k) })).filter((s) => s.n);
+const systemGroups = GROUPS.map((g) => ({
+  ...g,
+  terms: TERMS.filter((t) => t.group === g.id)
+    .map((t) => ({ ...t, n: count((r) => r.data.systems.includes(t.id)) }))
+    .filter((t) => t.n),
+})).filter((g) => g.terms.length);
+---
+
+<Base title="Runbooks" description={`All ${runbooks.length} debugging runbooks: symptoms, root causes, fixes and verification for AI agent tooling, model gateways and local services.`}>
+  <div class="wrap">
+    <header class="page-head">
+      <h1>Runbooks</h1>
+      <p>
+        Every incident in the repository, newest first. Each records what failed, why, what did not work, the fix, and how it was verified.
+      </p>
+    </header>
+
+    <form class="filters" role="search" aria-label="Filter runbooks" data-filters>
+      <div class="field field--search">
+        <label for="q">Search</label>
+        <input id="q" name="q" type="search" autocomplete="off" spellcheck="false" placeholder="e.g. OAuth, launchd, 401" />
+      </div>
+      <div class="field">
+        <label for="platform">Platform</label>
+        <select id="platform" name="platform">
+          <option value="">All platforms</option>
+          {platforms.map((p) => <option value={p.id}>{p.label} ({p.n})</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="system">System</label>
+        <select id="system" name="system">
+          <option value="">All systems</option>
+          {
+            systemGroups.map((g) => (
+              <optgroup label={g.label}>
+                {g.terms.map((t) => (
+                  <option value={t.id}>
+                    {t.label} ({t.n})
+                  </option>
+                ))}
+              </optgroup>
+            ))
+          }
+        </select>
+      </div>
+      <div class="field">
+        <label for="status">Status</label>
+        <select id="status" name="status">
+          <option value="">Any status</option>
+          {statuses.map((s) => <option value={s.id}>{s.label} ({s.n})</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="sort">Order</label>
+        <select id="sort" name="sort">
+          <option value="new">Newest first</option>
+          <option value="old">Oldest first</option>
+        </select>
+      </div>
+      <p class="filters__count" aria-live="polite" data-count>{runbooks.length} runbooks</p>
+      <button class="button filters__reset" type="reset" data-reset>Clear filters</button>
+    </form>
+    <noscript><p class="muted">Filtering needs JavaScript; the complete list is shown below.</p></noscript>
+
+    <RunbookList runbooks={runbooks} filterable headingLevel="h2" />
+    <p class="empty muted" data-empty hidden>No runbooks match these filters.</p>
+  </div>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("[data-filters]")!;
+  const list = document.querySelector<HTMLOListElement>(".runbook-list")!;
+  const rows = [...list.querySelectorAll<HTMLLIElement>(".runbook-row")];
+  const countEl = document.querySelector<HTMLElement>("[data-count]")!;
+  const emptyEl = document.querySelector<HTMLElement>("[data-empty]")!;
+  const fields = ["q", "platform", "system", "status", "sort"] as const;
+
+  // Restore state from the URL (links from runbook pages use ?system=…).
+  const params = new URLSearchParams(location.search);
+  for (const f of fields) {
+    const el = form.elements.namedItem(f) as HTMLInputElement | HTMLSelectElement;
+    const v = params.get(f);
+    if (v && (el.tagName !== "SELECT" || [...(el as HTMLSelectElement).options].some((o) => o.value === v))) el.value = v;
+  }
+
+  function apply() {
+    const data = new FormData(form);
+    const q = String(data.get("q") ?? "").trim().toLowerCase();
+    const terms = q.split(/\s+/).filter(Boolean);
+    const platform = String(data.get("platform") ?? "");
+    const system = String(data.get("system") ?? "");
+    const status = String(data.get("status") ?? "");
+    const sort = String(data.get("sort") ?? "new");
+
+    let shown = 0;
+    for (const row of rows) {
+      const ok =
+        (!platform || row.dataset.platform === platform) &&
+        (!system || (row.dataset.systems ?? "").split(" ").includes(system)) &&
+        (!status || row.dataset.status === status) &&
+        terms.every((t) => (row.dataset.search ?? "").includes(t));
+      row.hidden = !ok;
+      if (ok) shown++;
+    }
+    const ordered = [...rows].sort((a, b) => (a.dataset.date ?? "").localeCompare(b.dataset.date ?? ""));
+    if (sort === "new") ordered.reverse();
+    list.append(...ordered);
+
+    countEl.textContent = shown === rows.length ? `${rows.length} runbooks` : `${shown} of ${rows.length} runbooks`;
+    emptyEl.hidden = shown > 0;
+
+    const next = new URLSearchParams();
+    for (const f of fields) {
+      const v = String(data.get(f) ?? "").trim();
+      if (v && !(f === "sort" && v === "new")) next.set(f, v);
+    }
+    const qs = next.toString();
+    history.replaceState(null, "", qs ? `?${qs}` : location.pathname);
+  }
+
+  form.addEventListener("input", apply);
+  form.addEventListener("submit", (e) => e.preventDefault());
+  form.addEventListener("reset", () => setTimeout(apply));
+  apply();
+</script>
+
+<style>
+  .page-head {
+    padding-block: var(--space-6) var(--space-5);
+    max-inline-size: 70ch;
+  }
+
+  .page-head h1 {
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-xl);
+  }
+
+  .page-head p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr));
+    gap: var(--space-3) var(--space-4);
+    align-items: end;
+    padding-block: var(--space-4);
+    border-block: var(--border-thick) solid var(--text-primary);
+    border-block-end: var(--border-thin) solid var(--border-default);
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-1);
+    min-inline-size: 0;
+  }
+
+  .field--search {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  input,
+  select {
+    inline-size: 100%;
+    min-block-size: var(--target-min);
+    padding-inline: var(--space-3);
+    border: var(--border-thin) solid var(--border-strong);
+    border-radius: var(--radius-1);
+    background: var(--surface-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: max(16px, var(--text-sm));
+  }
+
+  .filters__count {
+    margin: 0;
+    align-self: center;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .filters__reset {
+    justify-self: start;
+  }
+
+  .empty {
+    padding-block: var(--space-6);
+  }
+</style>

@@ -1,0 +1,40 @@
+# Content policy for the Debug Runbooks website.
+#
+# The Markdown runbooks in ../macos, ../windows, ../linux and ../cross-platform
+# are the source of truth and are never modified by the site build. This file
+# controls only how they are *published* on the website.
+
+# Runbooks (repository-relative paths) that must never be published.
+exclude: []
+
+# Runbooks marked private are skipped exactly like excluded ones, but the
+# content report lists them separately so the decision stays visible.
+private: []
+
+# Render-time redactions. Applied to the Markdown before rendering, so they
+# cover page HTML, meta descriptions, the search index and structured data.
+# `pattern` is a JavaScript regular expression (always global; optional `flags`).
+# Placeholders are literal paths, never variables: "~" and "%USERPROFILE%" only
+# expand in some shells, so inside JSON/YAML/config values they would change
+# the meaning of a copied example.
+redactions:
+  - id: macos-home
+    description: Local macOS home directory
+    pattern: '/Users/wfspr(?![A-Za-z0-9_.-]*[A-Za-z0-9_-])'
+    replacement: '/Users/USERNAME'
+  - id: macos-home-json-escaped
+    description: Local macOS home directory with JSON-escaped slashes
+    pattern: '\\/Users\\/wfspr(?![A-Za-z0-9_-])'
+    replacement: '\/Users\/USERNAME'
+  - id: windows-home
+    description: Local Windows user profile directory
+    pattern: 'C:(\\\\|\\|/)Users\1[^\\/\s"''`]+'
+    replacement: 'C:$1Users$1USERNAME'
+    flags: 'i'
+
+# Per-runbook overrides, keyed by repository-relative path. Only add a field
+# here when the Markdown itself cannot express it; record why.
+overrides: {}
+#  macos/example-2026-01-01.md:
+#    status: "Fixed"          # raw status text, shown verbatim
+#    reason: "Status confirmed in root README index"

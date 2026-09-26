@@ -1,0 +1,30 @@
+{
+  "name": "debug-runbooks-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "activity": "node scripts/build-activity.ts",
+    "dev": "npm run activity && astro dev",
+    "build": "npm run activity && astro build && node scripts/scan-output.ts",
+    "preview": "astro preview",
+    "check": "astro check",
+    "check:content": "node scripts/content-report.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "astro": "^7.3.5",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.2"
+  }
+}

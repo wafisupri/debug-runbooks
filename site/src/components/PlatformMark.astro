@@ -1,0 +1,59 @@
+---
+/**
+ * Platform marker. Platforms differ by glyph shape and tone of the one brand
+ * hue — never by separate hues.
+ */
+import type { PlatformId } from "../lib/paths.ts";
+
+interface Props {
+  platform: PlatformId;
+  label: string;
+}
+const { platform, label } = Astro.props;
+---
+
+<span class:list={["platform", `platform--${platform}`]}>
+  <span class="platform__glyph" aria-hidden="true"></span>{label}
+</span>
+
+<style>
+  .platform {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .platform__glyph {
+    inline-size: 0.7em;
+    block-size: 0.7em;
+    flex: none;
+  }
+
+  /* macOS: solid square, strongest tone */
+  .platform--macos .platform__glyph {
+    background: var(--category-strong);
+  }
+
+  /* Windows: outlined square, medium tone */
+  .platform--windows .platform__glyph {
+    border: var(--border-thick) solid var(--category-medium);
+  }
+
+  /* Linux: circle, medium tone */
+  .platform--linux .platform__glyph {
+    border-radius: 50%;
+    background: var(--category-medium);
+  }
+
+  /* Cross-platform: split square, strong + soft */
+  .platform--cross-platform .platform__glyph {
+    border: var(--border-thin) solid var(--category-strong);
+    background: linear-gradient(135deg, var(--category-strong) 50%, var(--category-surface) 50%);
+  }
+</style>

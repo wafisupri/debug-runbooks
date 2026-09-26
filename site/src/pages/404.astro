@@ -1,0 +1,22 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not found" description="This page does not exist." noindex>
+  <div class="wrap nf">
+    <p class="label">HTTP 404</p>
+    <h1>No runbook at this address.</h1>
+    <p>It may have been renamed. Every runbook is listed on the <a href="/runbooks/">runbooks index</a>.</p>
+  </div>
+</Base>
+
+<style>
+  .nf {
+    padding-block: var(--space-8);
+  }
+
+  h1 {
+    margin: var(--space-2) 0 var(--space-3);
+    font-size: var(--text-xl);
+  }
+</style>

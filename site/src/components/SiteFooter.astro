@@ -1,0 +1,35 @@
+---
+import { REPO_URL } from "../lib/paths.ts";
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      Runbooks © their author, licensed <a class="ext" href="https://creativecommons.org/licenses/by/4.0/" rel="noopener license">CC BY 4.0</a>.
+      Source of truth: <a class="ext" href={REPO_URL} rel="noopener">the repository</a>.
+    </p>
+    <p class="muted">Statically generated from Markdown and git history. No tracking.</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: var(--space-8);
+    border-block-start: var(--border-thin) solid var(--border-default);
+    padding-block-end: env(safe-area-inset-bottom);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0 var(--space-5);
+    padding-block: var(--space-5);
+  }
+
+  p {
+    margin: 0;
+  }
+</style>

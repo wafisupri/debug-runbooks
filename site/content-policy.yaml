@@ -19,10 +19,12 @@ redactions:
     description: Local macOS home directory
     pattern: '/Users/wfspr(?=[/\s`"'')\]]|$)'
     replacement: '~'
+  # Windows paths often appear inside JSON/env values where %USERPROFILE% or ~
+  # would NOT expand, so an explicit placeholder is used instead of a variable.
   - id: windows-home
     description: Local Windows user profile directory
     pattern: 'C:(\\\\|\\|/)Users\1[^\\/\s"''`]+'
-    replacement: '%USERPROFILE%'
+    replacement: 'C:$1Users$1USERNAME'
 
 # Per-runbook overrides, keyed by repository-relative path. Only add a field
 # here when the Markdown itself cannot express it; record why.

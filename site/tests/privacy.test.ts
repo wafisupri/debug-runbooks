@@ -11,8 +11,9 @@ describe("redaction policy", () => {
     expect(redact("/Users/wfsprx/y", redactions).text).toBe("/Users/wfsprx/y");
   });
   it("replaces Windows profile paths in plain and JSON-escaped form", () => {
-    expect(redact(String.raw`C:\Users\1\.config`, redactions).text).toBe(String.raw`%USERPROFILE%\.config`);
-    expect(redact(String.raw`"C:\\Users\\1\\AppData"`, redactions).text).toBe(String.raw`"%USERPROFILE%\\AppData"`);
+    expect(redact(String.raw`C:\Users\1\.config`, redactions).text).toBe(String.raw`C:\Users\USERNAME\.config`);
+    expect(redact(String.raw`"C:\\Users\\1\\AppData"`, redactions).text).toBe(String.raw`"C:\\Users\\USERNAME\\AppData"`);
+    expect(redact("C:/Users/1/x", redactions).text).toBe("C:/Users/USERNAME/x");
   });
   it("counts replacements per rule", () => {
     expect(redact("/Users/wfspr/a /Users/wfspr/b", redactions).counts).toEqual({ "macos-home": 2 });

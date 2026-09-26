@@ -13,9 +13,10 @@ export function redact(text: string, rules: RedactionRule[]): RedactionResult {
   for (const rule of rules) {
     const re = new RegExp(rule.pattern, "g");
     let n = 0;
-    out = out.replace(re, () => {
+    out = out.replace(re, (...args) => {
       n++;
-      return rule.replacement;
+      // Support $1…$9 back-references to capture groups (e.g. path separators).
+      return rule.replacement.replace(/\$(\d)/g, (_m, i: string) => String(args[Number(i)] ?? ""));
     });
     if (n) counts[rule.id] = n;
   }

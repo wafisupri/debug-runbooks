@@ -2,15 +2,16 @@
  * Post-build guard over dist/: known-format secrets and unredacted home paths.
  * Reports file, line and rule only — never the matched value.
  */
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
 import { SITE_ROOT } from "../src/lib/paths.ts";
 import { scanForSecrets } from "../src/lib/secret-scan.ts";
+import { discoverRunbooks } from "../src/lib/runbooks.ts";
 
 const dist = resolve(SITE_ROOT, "dist");
 const PRIVATE = [
   { name: "unredacted macOS home path", re: /\/Users\/wfspr\b/ },
-  { name: "unredacted Windows profile path", re: /C:(\\\\|\\|\/)Users\1(?!%)[A-Za-z0-9]/ },
+  { name: "unredacted Windows profile path", re: /C:(\\\\|\\|\/)Users\1(?!USERNAME\b)[A-Za-z0-9]/ },
   { name: "machine hostname email", re: /@[A-Za-z0-9-]+\.local\b/ },
 ];
 
@@ -40,6 +41,19 @@ for (const file of files(dist)) {
     }
   });
 }
+// Structural checks: silent degradation should fail the build, not ship.
+const home = readFileSync(join(dist, "index.html"), "utf8");
+if (!home.includes('id="trace-title"')) {
+  problems++;
+  console.error("✖ index.html: repository activity trace missing");
+}
+for (const r of discoverRunbooks().runbooks) {
+  if (!existsSync(join(dist, "runbooks", r.slug, "index.html"))) {
+    problems++;
+    console.error(`✖ missing page for ${r.repoPath}`);
+  }
+}
+
 if (problems) {
   console.error(`[scan-output] ${problems} problem(s) in ${scanned} files (values not shown)`);
   process.exit(1);

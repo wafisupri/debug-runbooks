@@ -2,7 +2,10 @@
  * Repository activity, aggregated per calendar day from git history.
  * Author names and emails are never read or stored.
  */
+import { existsSync, readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import type { Commit } from "./git.ts";
+import { SITE_ROOT } from "./paths.ts";
 
 export interface ActivityRunbookRef {
   slug: string;
@@ -92,18 +95,15 @@ export function aggregateActivity(
 
 /**
  * Reads build-time activity data: the freshly generated activity.json, or the
- * committed snapshot when git history was unavailable. Never throws; returns
- * undefined only if neither file exists (the home page then omits the trace).
+ * committed snapshot when git history was unavailable. Throws if neither
+ * exists — silently dropping the visualisation would hide a broken build.
  */
-export async function loadActivity(): Promise<Activity | undefined> {
-  const { existsSync, readFileSync } = await import("node:fs");
-  const { resolve } = await import("node:path");
-  const { SITE_ROOT } = await import("./paths.ts");
+export function loadActivity(): Activity {
   for (const name of ["activity.json", "activity.snapshot.json"]) {
     const file = resolve(SITE_ROOT, "src/data", name);
     if (existsSync(file)) return JSON.parse(readFileSync(file, "utf8")) as Activity;
   }
-  return undefined;
+  throw new Error(`No activity data in ${resolve(SITE_ROOT, "src/data")}; run \`npm run activity\``);
 }
 
 /** JSON safe to embed inside a <script> element (no "</script>" break-out). */

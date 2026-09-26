@@ -6,7 +6,7 @@ import { getRunbooks } from "../lib/collection.ts";
 import { PLATFORMS, REPO_URL } from "../lib/paths.ts";
 import { loadActivity } from "../lib/activity.ts";
 
-const activity = await loadActivity();
+const activity = loadActivity();
 const runbooks = await getRunbooks();
 const recent = runbooks.slice(0, 6);
 const platforms = PLATFORMS.map((p) => ({ ...p, n: runbooks.filter((r) => r.data.platform === p.id).length })).filter((p) => p.n);
@@ -40,7 +40,7 @@ const loop = [
       </div>
     </section>
 
-    {activity && <SignalTrace activity={activity} />}
+    <SignalTrace activity={activity} />
 
     <section class="recent" aria-labelledby="recent-title">
       <div class="section-head">

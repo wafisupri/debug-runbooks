@@ -15,7 +15,7 @@ describe("repository content", () => {
   it("leaves no unredacted local home paths in published Markdown", () => {
     for (const r of result.runbooks) {
       expect(r.markdown, r.repoPath).not.toMatch(/\/Users\/wfspr\b/);
-      expect(r.markdown, r.repoPath).not.toMatch(/C:(\\\\|\\|\/)Users\1(?!%)/);
+      expect(r.markdown, r.repoPath).not.toMatch(/C:(\\\\|\\|\/)Users\1(?!USERNAME\b)[^\\/\s"'`]+/);
     }
   });
   it("gives every runbook a date and a summary", () => {

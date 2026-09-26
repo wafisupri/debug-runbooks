@@ -6,7 +6,7 @@ The website in [`site/`](../site) is a fully static Astro build, served by **Clo
 
 | Item | Value |
 | --- | --- |
-| Runtime | Node.js ≥ 22.12 (`site/.nvmrc`) |
+| Runtime | Node.js ≥ 22.12 (`site/.nvmrc`; if the build image ignores it, set the build variable `NODE_VERSION=22`) |
 | Install | `npm ci` (in `site/`) |
 | Build command | `npm run build` (in `site/`) |
 | Output directory | `site/dist` |

@@ -159,9 +159,6 @@ hermes mcp list
 CFG="$(hermes config path)"
 echo "Config path: $CFG"
 
-# Inspect mcp_servers block in configuration
-grep -n -A 50 '^mcp_servers:' "$CFG"
-
 # Inspect the complete mcp_servers block without relying on machine-specific line numbers
 grep -n -A 80 '^mcp_servers:' "$CFG"
 ```
@@ -312,23 +309,6 @@ cp ~/.hermes/config.yaml.bak-<TIMESTAMP> ~/.hermes/config.yaml
 
 ---
 
-## 13. If This Happens Again
-
-1. **Check Log for HTTP 401s:**
-   ```bash
-   tail -100 ~/.hermes/logs/agent.log | grep -iE '401|api\.you\.com'
-   ```
-2. **Verify Native Entries in Config:**
-   ```bash
-   grep -A 20 '^mcp_servers:' ~/.hermes/config.yaml
-   ```
-3. **If missing natively, add `mcp_servers:` blocks and run login:**
-   ```bash
-   hermes mcp login <server-name>
-   hermes mcp test <server-name>
-   ```
-
----
 
 ## 15. Lessons Learned & Prevention
 

@@ -7,6 +7,9 @@
   // workers.dev Preview URLs carry X-Robots-Tag: noindex (added by Cloudflare).
   "workers_dev": true,
   "preview_urls": true,
+  // Required by `wrangler preview` (Worker Previews). Empty: previews inherit
+  // the top-level assets configuration and need no separate bindings.
+  "previews": {},
   "assets": {
     "directory": "./dist",
     "not_found_handling": "404-page",

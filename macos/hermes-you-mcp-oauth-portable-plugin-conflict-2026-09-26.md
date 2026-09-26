@@ -74,10 +74,10 @@ The issue was resolved by establishing explicit native definitions in `~/.hermes
 ### Root Cause 1: Portable vs Native MCP Configuration Isolation
 You.com MCP servers were made available to the Hermes Agent runtime via a portable/plugin integration. However, Hermes CLI authentication management (`hermes mcp login` and `hermes mcp test`) operates exclusively on native `mcp_servers:` blocks inside `~/.hermes/config.yaml`. Without explicit native entries in `config.yaml`, the CLI could neither initiate the OAuth PKCE flow nor store token credentials for the You.com endpoints.
 
-### Root Cause 2: `/reload-mcp` Health Check Fallibility
-The `/reload-mcp` command checked basic transport connection attempts rather than HTTP response status codes or OAuth token validity. As a result, it declared endpoints "Reconnected" upon opening an HTTP stream, obscuring downstream `401 Unauthorized` responses.
+### Observed Status Inconsistency: `/reload-mcp`
+The `/reload-mcp` command reported the You.com servers as "Reconnected" even though subsequent backend requests still failed OAuth with `401 Unauthorized`. The incident established the contradiction between the TUI status and backend HTTP results, but did **not** establish the internal implementation reason for that discrepancy.
 
-### Root Cause 3: Decoupled `enabled:` Flag in `hermes mcp configure`
+### Root Cause 2: Decoupled `enabled:` Flag in `hermes mcp configure`
 The `hermes mcp configure` command toggled individual tool selection masks under an MCP server, but did not alter the top-level `enabled: false` boolean in `config.yaml`. `you-research` remained disabled globally despite all of its sub-tools being enabled.
 
 ---
@@ -162,8 +162,8 @@ echo "Config path: $CFG"
 # Inspect mcp_servers block in configuration
 grep -n -A 50 '^mcp_servers:' "$CFG"
 
-# Target inspection of specific config lines
-sed -n '1480,1510p' ~/.hermes/config.yaml
+# Inspect the complete mcp_servers block without relying on machine-specific line numbers
+grep -n -A 80 '^mcp_servers:' "$CFG"
 ```
 
 ### Log Analysis
@@ -233,12 +233,42 @@ Verification confirmed full discovery across all 4 native MCP servers:
   - You: 4 tools
   - You Research: 1 tool
   - You Finance: 1 tool
-- **OAuth Status:** All 4 servers authorized and auto-refreshing.
+- **OAuth Status:** All 4 servers authorized; cached credentials were accepted on subsequent connection and test requests.
 - **Config State:** All 4 native entries present under `mcp_servers:` with `enabled: true`.
 
 ---
 
-## 10. Expected / Harmless Warnings
+## 10. Optional Cleanup
+
+No cleanup is required for the working configuration. Keep the timestamped `config.yaml` backup until the repaired MCP configuration has remained stable across normal Hermes restarts. Portable/plugin definitions for the same server names may remain installed; Hermes logs show the native definitions taking precedence.
+
+---
+
+## 11. If This Happens Again
+
+1. **Check logs for HTTP 401s:**
+   ```bash
+   tail -100 ~/.hermes/logs/agent.log | grep -iE '401|api\.you\.com'
+   ```
+2. **Verify native entries in the active config:**
+   ```bash
+   CFG="$(hermes config path)"
+   grep -n -A 80 '^mcp_servers:' "$CFG"
+   ```
+3. **If a required server is missing natively, add it under `mcp_servers:`, authenticate, and test:**
+   ```bash
+   hermes mcp login <server-name>
+   hermes mcp test <server-name>
+   ```
+4. **Cross-check runtime status against backend registration logs rather than relying only on the TUI:**
+   ```bash
+   tail -120 ~/.hermes/logs/agent.log | grep -iE \
+     'registered.*tool|api\.you\.com|401|you-research|you-finance'
+   ```
+
+---
+
+## 12. Expected / Harmless Warnings
 
 After defining native MCP servers, Hermes logged conflict warnings during startup:
 ```text
@@ -250,7 +280,7 @@ Portable MCP server 'you-finance' conflicts with native config; skipping
 
 ---
 
-## 11. Remaining Anomaly
+## 13. Remaining Anomaly
 
 Following a `/reload-mcp` invocation, the Hermes TUI initially logs:
 ```text
@@ -261,11 +291,11 @@ but immediately follows with a secondary rendering update:
 Agent updated — 0 tool(s) available
 ```
 
-**Assessment:** Backend log entries confirm that all 27 tools remain registered and accessible to the agent. This issue is documented separately as a live-tool-registry TUI display or reconciliation anomaly in Hermes Agent v0.20. The underlying tool execution pipeline functions normally.
+**Assessment:** Backend log entries confirm that all 27 MCP tools remained registered. The incident did not independently prove whether the `0 tool(s)` TUI message affected the live callable tool registry at that exact moment. Treat this as an unresolved TUI/live-registry status inconsistency rather than a proven execution failure or a proven display-only bug.
 
 ---
 
-## 12. Recovery & Rollback
+## 14. Recovery & Rollback
 
 If a configuration edit corrupts `~/.hermes/config.yaml`, restore the snapshot:
 
@@ -300,7 +330,7 @@ cp ~/.hermes/config.yaml.bak-<TIMESTAMP> ~/.hermes/config.yaml
 
 ---
 
-## 14. Lessons Learned & Prevention
+## 15. Lessons Learned & Prevention
 
 1. **Native Precedence for OAuth:** Portable/plugin MCP definitions must be mirrored natively in `mcp_servers:` in `~/.hermes/config.yaml` if they require interactive OAuth token flows.
 2. **Do Not Rely Solely on TUI Reconnect Messages:** Always cross-reference `/reload-mcp` or TUI connection indicators with backend HTTP status logs.
@@ -308,7 +338,7 @@ cp ~/.hermes/config.yaml.bak-<TIMESTAMP> ~/.hermes/config.yaml
 
 ---
 
-## 15. Credits
+## 16. Credits
 
 Troubleshooting, root-cause investigation, and runbook preparation were performed with assistance from:
 

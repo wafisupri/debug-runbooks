@@ -1,0 +1,11 @@
+// Cloudflare Workers — static assets only (no Worker script, no bindings).
+// Build: `npm ci && npm run build` in site/; output: site/dist.
+{
+  "name": "debug-runbooks",
+  "compatibility_date": "2026-09-26",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}

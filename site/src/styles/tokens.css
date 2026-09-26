@@ -132,10 +132,10 @@
   /* Activity signal trace. */
   --signal-baseline: var(--neutral-300);
   --signal-idle: var(--neutral-300);
-  --signal-low: var(--brand-300);
-  --signal-high: var(--brand-600);
+  --signal-low: var(--brand-500);
+  --signal-high: var(--brand-800);
   --signal-node: var(--brand-800);
-  --signal-selected: var(--brand-900);
+  --signal-selected: var(--neutral-950);
 
   /* Callouts. */
   --callout-note-border: var(--brand-500);
@@ -182,10 +182,10 @@
 
     --signal-baseline: var(--neutral-700);
     --signal-idle: var(--neutral-700);
-    --signal-low: var(--brand-700);
-    --signal-high: var(--brand-400);
+    --signal-low: var(--brand-600);
+    --signal-high: var(--brand-300);
     --signal-node: var(--brand-200);
-    --signal-selected: var(--brand-100);
+    --signal-selected: var(--neutral-50);
 
     --callout-note-border: var(--brand-400);
     --callout-warning-border: var(--neutral-200);
@@ -229,10 +229,10 @@
 
   --signal-baseline: var(--neutral-700);
   --signal-idle: var(--neutral-700);
-  --signal-low: var(--brand-700);
-  --signal-high: var(--brand-400);
+  --signal-low: var(--brand-600);
+  --signal-high: var(--brand-300);
   --signal-node: var(--brand-200);
-  --signal-selected: var(--brand-100);
+  --signal-selected: var(--neutral-50);
 
   --callout-note-border: var(--brand-400);
   --callout-warning-border: var(--neutral-200);

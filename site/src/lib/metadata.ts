@@ -5,7 +5,7 @@
  * the content report (npm run check:content) can show it for review.
  */
 import { AI_TOOLS, matchTerms } from "./taxonomy.ts";
-import { cleanHeading, extractHeadings, phasesPresent, sectionDepth, splitSections, type PhaseId, type Section } from "./sections.ts";
+import { cleanHeading, extractHeadings, phasesPresent, sectionDepth, splitSections, type PhaseId } from "./sections.ts";
 
 export type Source = "runbook" | "filename" | "readme-index" | "git" | "policy-override" | "none";
 

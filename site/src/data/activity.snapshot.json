@@ -1,0 +1,975 @@
+{
+  "generatedAt": "2026-09-26",
+  "source": "snapshot",
+  "firstDay": "2026-08-07",
+  "lastDay": "2026-09-26",
+  "totalCommits": 67,
+  "activeDays": 21,
+  "days": [
+    {
+      "day": "2026-08-07",
+      "commits": 5,
+      "added": [
+        {
+          "slug": "hermes-composio-github-session-2026-08-07",
+          "title": "Session Documentation — Hermes Agent + Composio + GitHub Fix"
+        },
+        {
+          "slug": "terminal-crash-recovery-runbook",
+          "title": "Recovery Runbook — OmniRoute, OpenCode, FreeLLM, and Hermes Agent"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 17,
+      "log": [
+        {
+          "short": "1bfdb21",
+          "hash": "1bfdb21a77dc34d40cb4452d9e46cf59964bc9bc",
+          "subject": "Revise README for improved runbook documentation"
+        },
+        {
+          "short": "761ebca",
+          "hash": "761ebca9bcc0b106ed2f972324657ff7fb84708f",
+          "subject": "chore: normalize runbook directory names"
+        },
+        {
+          "short": "31bfddd",
+          "hash": "31bfddd2dfab3745ef32c4f1f0374692e7aaeec1",
+          "subject": "chore: ignore macOS metadata files"
+        },
+        {
+          "short": "4452772",
+          "hash": "4452772cee9a45dcb86fd890cab4f0257f129bd3",
+          "subject": "docs: add CC BY 4.0 license"
+        },
+        {
+          "short": "f24d699",
+          "hash": "f24d6995c46c40410f67e9142cc8f1c267310506",
+          "subject": "docs: initialize debug runbooks repository"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-08",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-09",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-10",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-11",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-12",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-13",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-14",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-15",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-16",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-17",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-18",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-19",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-20",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-21",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-22",
+      "commits": 5,
+      "added": [
+        {
+          "slug": "freellm-multi-cli-free-models-setup-2026-08-22",
+          "title": "FreeLLM Multi-CLI Free-Tier Model Aggregation & Failover Setup"
+        },
+        {
+          "slug": "claude-code-permissions-setup-2026-08-22",
+          "title": "Claude Code Permissions Setup (Global)"
+        },
+        {
+          "slug": "opencode-vercel-ai-gateway-setup-2026-08-22",
+          "title": "OpenCode + Vercel AI Gateway Setup (Free-Tier Model Labeling)"
+        },
+        {
+          "slug": "tokenrouter-multi-cli-setup-2026-08-22",
+          "title": "TokenRouter Multi-CLI Integration & Claude Code Bridge Setup"
+        },
+        {
+          "slug": "claude-code-omniroute-env-setup-2026-08-21",
+          "title": "Claude Code + OmniRoute Environment Setup"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 5,
+      "log": [
+        {
+          "short": "511c1cb",
+          "hash": "511c1cbbf0a5b1fda7fbf31c6107ecbf5e6406c6",
+          "subject": "docs(macos): add FreeLLM multi-CLI free-tier aggregation runbook"
+        },
+        {
+          "short": "441012f",
+          "hash": "441012fb0ff67634c1ea5c8c3893cb6f5f7f3980",
+          "subject": "Add runbook: Claude Code Permissions Setup (Global) - 2026-08-22"
+        },
+        {
+          "short": "706c750",
+          "hash": "706c7501492a840e712b38e0cd37111faaac41be",
+          "subject": "docs(macos): add OpenCode + Vercel AI Gateway free-tier model labeling runbook"
+        },
+        {
+          "short": "2bf454c",
+          "hash": "2bf454c21b178a0c1b5c9cc83dcc974aab5d1afa",
+          "subject": "docs(macos): add TokenRouter multi-CLI integration and Claude Code bridge runbook"
+        },
+        {
+          "short": "4f5feb2",
+          "hash": "4f5feb26bcaf373bb4706d890dadbd6b78ec6938",
+          "subject": "Add runbook: Claude Code + OmniRoute environment setup (2026-08-21)"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-23",
+      "commits": 3,
+      "added": [
+        {
+          "slug": "2026-08-23-windows-multi-cli-free-model-setup",
+          "title": "Windows Multi-CLI Free-Tier Model Setup (OmniRoute + OpenClaw + Hermes)"
+        },
+        {
+          "slug": "2026-08-23-windows-multi-provider-kimi-deepseek-setup",
+          "title": "Windows Multi-Provider Free-Tier Model Setup (PWA + OpenCode + Pi + OpenClaude + Kimi Code)"
+        },
+        {
+          "slug": "local-memory-mcp-setup-runbook",
+          "title": "Fix: Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)"
+        },
+        {
+          "slug": "2026-08-23-pm2-windows-dual-router-setup",
+          "title": "PM2 Windows Dual-Router Setup (OmniRoute + 9Router Port Mapping & Daemonization)"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 7,
+      "log": [
+        {
+          "short": "b148c09",
+          "hash": "b148c0959d7428a123c7444f3991a9d8b4ca71f1",
+          "subject": "docs: add multi-provider Kimi/DeepSeek setup across PWA, OpenCode, Pi, OpenClaude, Kimi Code"
+        },
+        {
+          "short": "d42c709",
+          "hash": "d42c7099c71ed83b1eba3cb29f92e18360cabdcf",
+          "subject": "docs(cross-platform): add local memory MCP fleet setup runbook"
+        },
+        {
+          "short": "ca23065",
+          "hash": "ca23065e007e6ef2d5d47c40f9f495de16fc46b1",
+          "subject": "docs(runbook): add 2026-08-23 pm2 windows dual-router setup"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-24",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-25",
+      "commits": 4,
+      "added": [
+        {
+          "slug": "kimi-code-0.38-provider-recovery-2026-08-25",
+          "title": "Kimi Code 0.38 Provider Recovery & Verified 9Router Gemini Default"
+        }
+      ],
+      "updated": [
+        {
+          "slug": "local-memory-mcp-setup-runbook",
+          "title": "Fix: Agent Amnesia Across the CLI Fleet (Local Memory MCP Servers)"
+        }
+      ],
+      "otherFiles": 4,
+      "log": [
+        {
+          "short": "1dacfc4",
+          "hash": "1dacfc4ecad59c1f247619951d330b4a098dbe8b",
+          "subject": "docs: match Cross-platform runbook title to doc header in README index"
+        },
+        {
+          "short": "70cb78a",
+          "hash": "70cb78a77d31fe49ff15c708d21d3776265fd997",
+          "subject": "docs(cross-platform): mark macOS setup verified for memory MCP fleet"
+        },
+        {
+          "short": "afab6a0",
+          "hash": "afab6a09f0036d15a03c9da53400c7d14d521665",
+          "subject": "docs: normalize all OS sections to markdown tables with links"
+        },
+        {
+          "short": "15e6f09",
+          "hash": "15e6f09a0d182fedc61cb5f4a5cf9d71a0d61e6d",
+          "subject": "docs(macos): add Kimi Code 0.38 provider recovery runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-26",
+      "commits": 2,
+      "added": [
+        {
+          "slug": "9router-apple-silicon-headless-openclaude-recovery-2026-08-26",
+          "title": "9Router Apple Silicon Headless Recovery, Persistence Repair & Gateway Topology"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "79f6cff",
+          "hash": "79f6cff825b7d0b60e1233a59c64f228b8734608",
+          "subject": "docs: finalize 9Router persistent backend recovery runbook"
+        },
+        {
+          "short": "11f24e5",
+          "hash": "11f24e551797690861e453d4553859d5696de8bb",
+          "subject": "docs: add macOS 9Router headless recovery runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-27",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-08-28",
+      "commits": 1,
+      "added": [
+        {
+          "slug": "stage-f0d-launchd-gateway-optimization-2026-08-28",
+          "title": "Stage F0D Policy Gateway: launchd Port Binding & DFlash 2 Optimization"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 0,
+      "log": [
+        {
+          "short": "b61a24b",
+          "hash": "b61a24b07b7691e7fdb80554e53d15efbcb91504",
+          "subject": "Add Stage F0D launchd deployment runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-29",
+      "commits": 3,
+      "added": [
+        {
+          "slug": "tokenrouter-credential-rotation-post-verification-2026-08-29",
+          "title": "TokenRouter Credential Rotation — Post-Rotation Verification"
+        },
+        {
+          "slug": "omniroute-asymmetric-combo-timeouts-2026-08-29",
+          "title": "OmniRoute Asymmetric Combo Timeout Optimisation"
+        },
+        {
+          "slug": "tokenrouter-glm53-claude-launcher-recovery-2026-08-29",
+          "title": "TokenRouter GLM 5.3 Free + Claude/OpenClaude Launcher Recovery"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 2,
+      "log": [
+        {
+          "short": "36f32ed",
+          "hash": "36f32ed6fc0c7f5f4b3187113b976b998e12dd89",
+          "subject": "docs: add TokenRouter rotation verification runbook"
+        },
+        {
+          "short": "d9ab65a",
+          "hash": "d9ab65a1abc097199176f119aa0cbb3d4f965696",
+          "subject": "docs: add OmniRoute asymmetric timeout runbook"
+        },
+        {
+          "short": "c8f80fe",
+          "hash": "c8f80fee8345c9f3e438777f0e6fcdd8e982b013",
+          "subject": "Add TokenRouter GLM and Claude launcher recovery runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-30",
+      "commits": 3,
+      "added": [
+        {
+          "slug": "openclaude-omniroute-model-catalogue-repair-2026-08-30",
+          "title": "OpenClaude / OmniRoute Model Catalogue Repair — 2026-08-30"
+        },
+        {
+          "slug": "openclaude-9router-silvermbn-auth-recovery-2026-08-30",
+          "title": "OpenClaude → 9Router silverMBN Authentication & Persistent Wrapper Recovery"
+        },
+        {
+          "slug": "kimi-freellm-ingress-compatibility-recovery-2026-08-30",
+          "title": "Kimi Code → FreeLLM Ingress Compatibility Recovery"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 3,
+      "log": [
+        {
+          "short": "199d5f8",
+          "hash": "199d5f8eb0eb2642186dc9455e0b423cb87e541d",
+          "subject": "docs(macos): add OpenClaude OmniRoute model catalogue repair runbook"
+        },
+        {
+          "short": "a7529f3",
+          "hash": "a7529f3705eafd429aa24d6d7458849e4225ee7f",
+          "subject": "docs(macos): record OpenClaude 9Router silverMBN auth recovery"
+        },
+        {
+          "short": "6a95598",
+          "hash": "6a9559815cfcd0344f643ddd28f788c5e845507d",
+          "subject": "docs(macos): record Kimi FreeLLM ingress compatibility recovery"
+        }
+      ]
+    },
+    {
+      "day": "2026-08-31",
+      "commits": 5,
+      "added": [
+        {
+          "slug": "omniroute-3.8.50-launchd-pm2-upgrade-recovery-2026-08-31",
+          "title": "OmniRoute v3.8.50 Upgrade & LaunchAgent/PM2 Conflict Recovery — 2026-08-31"
+        },
+        {
+          "slug": "omniroute-asymmetric-timeout-hardening-2026-08-29",
+          "title": "OmniRoute Asymmetric Timeout Hardening — Free-First / Paid-Fallback"
+        },
+        {
+          "slug": "claude-freefirst-openrouter-routing-2026-08-31",
+          "title": "Claude Code Free-First / OpenRouter Routing — Validated 3-Stage Fallback, Then Intentionally Disabled"
+        },
+        {
+          "slug": "kimi-cross-provider-payload-compatibility-repair-2026-08-31",
+          "title": "Kimi Code Cross-Provider Payload Compatibility & Model Catalogue Repair — 2026-08-31"
+        }
+      ],
+      "updated": [
+        {
+          "slug": "omniroute-asymmetric-combo-timeouts-2026-08-29",
+          "title": "OmniRoute Asymmetric Combo Timeout Optimisation"
+        }
+      ],
+      "otherFiles": 5,
+      "log": [
+        {
+          "short": "08509b6",
+          "hash": "08509b632cbf3d54a1a4902aab6edcf87bfdb725",
+          "subject": "docs: document OmniRoute 3.8.50 launchd recovery"
+        },
+        {
+          "short": "f0f4b1a",
+          "hash": "f0f4b1a755165318df72df5e7178669cb94ccb13",
+          "subject": "docs: close OmniRoute asymmetric timeout hardening"
+        },
+        {
+          "short": "4e6119f",
+          "hash": "4e6119fa05327468ddcdec85f79706ec2c7d20eb",
+          "subject": "docs: add Claude free-first OpenRouter routing runbook"
+        },
+        {
+          "short": "c0d18e9",
+          "hash": "c0d18e98864bcc6414d8a232cdeacc1a9ce60d97",
+          "subject": "docs: index OmniRoute asymmetric timeout runbook"
+        },
+        {
+          "short": "9e72fba",
+          "hash": "9e72fba77af708cfcfa3bed01e3296c007d8b680",
+          "subject": "docs(macos): add Kimi cross-provider compatibility runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-01",
+      "commits": 2,
+      "added": [
+        {
+          "slug": "cli-environment-keychain-hardening-2026-09-01",
+          "title": "macOS CLI Environment & Keychain Hardening Runbook"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "5567f9f",
+          "hash": "5567f9f721caa38b04e5ed701b8dcaedbf628240",
+          "subject": "docs: add macOS CLI keychain hardening runbook"
+        },
+        {
+          "short": "fe8acc6",
+          "hash": "fe8acc6bd13e52355c9be0f683a56fc0ddc9c824",
+          "subject": "docs: add macOS CLI keychain hardening runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-02",
+      "commits": 3,
+      "added": [
+        {
+          "slug": "chatgpt-desktop-omniroute-launchd-auth-recovery-2026-09-02",
+          "title": "ChatGPT Desktop + OmniRoute launchd Authentication Recovery — 2026-09-02"
+        }
+      ],
+      "updated": [
+        {
+          "slug": "claude-code-omniroute-env-setup-2026-08-21",
+          "title": "Claude Code + OmniRoute Environment Setup"
+        }
+      ],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "19d4476",
+          "hash": "19d44767b68ce6175b10e0ab6f31573bab6b9524",
+          "subject": "docs: index ChatGPT Desktop OmniRoute recovery"
+        },
+        {
+          "short": "c7f9295",
+          "hash": "c7f92953cf79b35cf0a7f91c09c9a56e519844ad",
+          "subject": "docs: add ChatGPT Desktop OmniRoute auth recovery"
+        },
+        {
+          "short": "37a8b10",
+          "hash": "37a8b106ca9cd965295230b42685d4e0e2fe901e",
+          "subject": "security: redact exposed gateway credential"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-03",
+      "commits": 1,
+      "added": [
+        {
+          "slug": "bai-free-models-cli-configuration-2026-09-03",
+          "title": "B.AI Free Models — macOS CLI Configuration Runbook"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "44bd8be",
+          "hash": "44bd8be807525de30f789afc64785d56f68b45b0",
+          "subject": "docs: add B.AI macOS CLI runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-04",
+      "commits": 4,
+      "added": [
+        {
+          "slug": "universal-ai-cli-gateway-launcher-2026-09-04",
+          "title": "Universal AI CLI Gateway Launcher — Cross-Platform Runbook"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 2,
+      "log": [
+        {
+          "short": "3610143",
+          "hash": "3610143a7d0627faa43a5d1b09f69085512d0e60",
+          "subject": "docs: index universal AI launcher in root README"
+        },
+        {
+          "short": "6c58ff0",
+          "hash": "6c58ff0b0daeeb5dd87b47aeada3704dd1304432",
+          "subject": "docs: index universal AI launcher runbook"
+        },
+        {
+          "short": "dab5fd3",
+          "hash": "dab5fd33ac18d1b4838224b3a58a4d360b667c48",
+          "subject": "docs: update universal AI launcher v0.4 validation"
+        },
+        {
+          "short": "1f99113",
+          "hash": "1f99113d36fe0da70781342f22fb7a59c1c6936c",
+          "subject": "docs: add universal AI CLI gateway launcher runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-05",
+      "commits": 11,
+      "added": [
+        {
+          "slug": "9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05",
+          "title": "9Router v0.5.65 Policy Guard Persistence Hardening — Universal AI Launcher v0.5.2"
+        }
+      ],
+      "updated": [
+        {
+          "slug": "9router-apple-silicon-headless-openclaude-recovery-2026-08-26",
+          "title": "9Router Apple Silicon Headless Recovery, Persistence Repair & Gateway Topology"
+        },
+        {
+          "slug": "universal-ai-cli-gateway-launcher-2026-09-04",
+          "title": "Universal AI CLI Gateway Launcher — Cross-Platform Runbook"
+        }
+      ],
+      "otherFiles": 4,
+      "log": [
+        {
+          "short": "fa81642",
+          "hash": "fa816425043b05818e113b753e215d9bc14a8b6f",
+          "subject": "docs: link verified 9Router hardening from cross-platform index"
+        },
+        {
+          "short": "e0dde3a",
+          "hash": "e0dde3a48076134e9626a5f30176943382b857f3",
+          "subject": "docs: index 9Router policy guard hardening"
+        },
+        {
+          "short": "09ed6db",
+          "hash": "09ed6db3d3b43175331d6edabb99182f7477e2dd",
+          "subject": "docs: supersede temporary 9Router policy guard source path"
+        },
+        {
+          "short": "87a1814",
+          "hash": "87a181419de1f0e24af8cdbe09f6b0485c5dd451",
+          "subject": "docs: mark v0.5.2 policy guard hardening verified"
+        },
+        {
+          "short": "1b2a8e1",
+          "hash": "1b2a8e10425e71577167a5eb9fd2e8b8bf2df27d",
+          "subject": "docs: add 9Router policy guard persistence hardening runbook"
+        },
+        {
+          "short": "63d39c6",
+          "hash": "63d39c64c2a0174e1a133aaab41b30af7e895d41",
+          "subject": "docs: record v0.5.2 guard launch readiness fix"
+        },
+        {
+          "short": "bfc2f0f",
+          "hash": "bfc2f0f8b8b970b6b7ff7cc41367dd816c36b470",
+          "subject": "docs: fix macOS self-contained launcher bootstrap"
+        },
+        {
+          "short": "bda539c",
+          "hash": "bda539c0b28719327b293a1ccf8c3b5e4eb63cb1",
+          "subject": "docs: record v0.5.1 stale-source install guard"
+        },
+        {
+          "short": "204eff6",
+          "hash": "204eff6bf33292d9b5187416da1b78350aa1ba5f",
+          "subject": "docs: update cross-platform launcher status"
+        },
+        {
+          "short": "8ad4258",
+          "hash": "8ad42588c542702ee533526a45a21dee5dc90d4a",
+          "subject": "docs: index universal launcher v0.5 hardening"
+        },
+        {
+          "short": "f6b6371",
+          "hash": "f6b6371da9f39e45294cb5fb8282c17e6cdcfd0e",
+          "subject": "docs: harden universal AI launcher policy guard"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-06",
+      "commits": 1,
+      "added": [
+        {
+          "slug": "openclaw-2026.9.1-skills-dependency-hardening-2026-09-06",
+          "title": "OpenClaw 2026.9.1 Skills Dependency Hardening — 97 Ready, 5 Intentionally Disabled, 0 Missing Requirements"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "0d364df",
+          "hash": "0d364df3e53b2ba8b0a50c52009a726cf91928f0",
+          "subject": "docs: add OpenClaw 2026.9.1 skills hardening runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-07",
+      "commits": 1,
+      "added": [
+        {
+          "slug": "macos-free-claude-code-fcc-multi-cli-routing",
+          "title": "macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "ab9bbf7",
+          "hash": "ab9bbf73c27ea60e12e24dd64dd7ba6fadbef154",
+          "subject": "docs: add macOS FCC multi-CLI routing runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-08",
+      "commits": 1,
+      "added": [],
+      "updated": [
+        {
+          "slug": "macos-free-claude-code-fcc-multi-cli-routing",
+          "title": "macOS Free Claude Code (FCC) — Multi-CLI Routing Runbook"
+        }
+      ],
+      "otherFiles": 1,
+      "log": [
+        {
+          "short": "a9d5082",
+          "hash": "a9d5082bcb96158454122a6693406eb0d4053f3f",
+          "subject": "docs: finalize free-only FCC macOS runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-09",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-10",
+      "commits": 3,
+      "added": [
+        {
+          "slug": "openclaw-secretref-migration-macos-2026-09-10",
+          "title": "OpenClaw 2026.9.1 SecretRef migration and Gateway recovery on macOS"
+        },
+        {
+          "slug": "openclaw-provider-auth-routing-hardening-macos-2026-09-09",
+          "title": "OpenClaw Provider Authentication, Model Routing, and Security Hardening on macOS"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 3,
+      "log": [
+        {
+          "short": "6d85fa4",
+          "hash": "6d85fa4528e3eb7d93904868dc3c571bd0f63767",
+          "subject": "docs: add OpenClaw SecretRef migration runbook"
+        },
+        {
+          "short": "aee7007",
+          "hash": "aee7007bb18e55f2bce36051caa3ff685d3c4668",
+          "subject": "docs: finalize OpenClaw provider hardening runbook"
+        },
+        {
+          "short": "e43e9e5",
+          "hash": "e43e9e5b8e9c56c91123d5b10349a5862b1e55ce",
+          "subject": "docs: add OpenClaw provider hardening runbook"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-11",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-12",
+      "commits": 1,
+      "added": [
+        {
+          "slug": "localhost-ai-service-hardening-security-cleanup-macos-2026-09-10",
+          "title": "macOS Localhost AI-Service Hardening and Security Cleanup"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 2,
+      "log": [
+        {
+          "short": "fcaea6b",
+          "hash": "fcaea6becada41935e12881f4528f685a77dbe37",
+          "subject": "docs: document macOS localhost AI service hardening"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-13",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-14",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-15",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-16",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-17",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-18",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-19",
+      "commits": 4,
+      "added": [
+        {
+          "slug": "openclaw-2026.9.4-gateway-node-omniroute-recovery-2026-09-19",
+          "title": "OpenClaw 2026.9.4 Gateway, Node Runtime, and OmniRoute Credential Recovery on macOS"
+        },
+        {
+          "slug": "localhost-hardening-20260906",
+          "title": "macOS Persistent Localhost AI Service Hardening"
+        },
+        {
+          "slug": "macos-localhost-ai-service-hardening-2026-09-07",
+          "title": "macOS Localhost AI Service Hardening"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 5,
+      "log": [
+        {
+          "short": "0ff9d99",
+          "hash": "0ff9d9955f365330ce9b486633b5e7b4a515f4d5",
+          "subject": "docs: add OpenClaw 2026.9.4 gateway, Node, and OmniRoute recovery runbook"
+        },
+        {
+          "short": "de1d65b",
+          "hash": "de1d65b49feb4cd456ac0bbf6c97df6604b17f35",
+          "subject": "docs: add repository guidelines and ignore local backups"
+        },
+        {
+          "short": "f661150",
+          "hash": "f6611500a048f34c119d36127852159cb3a5dee5",
+          "subject": "docs: document macOS localhost AI service hardening (2026-09-06)"
+        },
+        {
+          "short": "f8adfa7",
+          "hash": "f8adfa7980b43f4a8a712b446802eedfdad99770",
+          "subject": "docs: document macOS localhost AI service hardening"
+        }
+      ]
+    },
+    {
+      "day": "2026-09-20",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-21",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-22",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-23",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-24",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-25",
+      "commits": 0,
+      "added": [],
+      "updated": [],
+      "otherFiles": 0,
+      "log": []
+    },
+    {
+      "day": "2026-09-26",
+      "commits": 4,
+      "added": [
+        {
+          "slug": "hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26",
+          "title": "Hermes Agent v0.20 You.com MCP OAuth & Portable/Plugin Resolution"
+        }
+      ],
+      "updated": [],
+      "otherFiles": 26,
+      "log": [
+        {
+          "short": "13a8f10",
+          "hash": "13a8f1058237d593af95b10a4625eaa244d1cbce",
+          "subject": "feat(site): add runbook content pipeline for the portfolio website"
+        },
+        {
+          "short": "6ca64c0",
+          "hash": "6ca64c0b46493b73b9068d18e57ca2fd65d2efd8",
+          "subject": "docs: clean Hermes runbook structure"
+        },
+        {
+          "short": "49c6c06",
+          "hash": "49c6c06056f2009bbb7a15a3e6bb25aa18247d6f",
+          "subject": "docs: tighten Hermes MCP runbook evidence"
+        },
+        {
+          "short": "c593d8a",
+          "hash": "c593d8af816e39c20c3cbfb8f0958ab3c4d06f24",
+          "subject": "docs: add Hermes v0.20 You.com MCP OAuth recovery runbook"
+        }
+      ]
+    }
+  ]
+}

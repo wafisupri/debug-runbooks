@@ -1,0 +1,69 @@
+---
+/**
+ * Status indicator. Meaning is carried by shape + fill + text, all within the
+ * single-hue system: resolved = filled square, follow-up = half-filled,
+ * partial = outline, unstated = dashed neutral. The raw text is the tooltip-free
+ * secondary line wherever space allows.
+ */
+import { STATUS_LABELS, type StatusKind } from "../lib/status.ts";
+
+interface Props {
+  kind: StatusKind;
+  raw?: string;
+  showRaw?: boolean;
+}
+const { kind, raw, showRaw = false } = Astro.props;
+---
+
+<span class:list={["status", `status--${kind}`]}>
+  <span class="status__mark" aria-hidden="true"></span>
+  <span class="status__label">{STATUS_LABELS[kind]}</span>
+  {showRaw && raw && <span class="status__raw">“{raw}”</span>}
+</span>
+
+<style>
+  .status {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--text-secondary);
+  }
+
+  .status__mark {
+    flex: none;
+    inline-size: 0.7em;
+    block-size: 0.7em;
+    align-self: center;
+    border: var(--border-thick) solid var(--status-resolved);
+    background: var(--status-resolved);
+  }
+
+  .status--followup .status__mark {
+    border-color: var(--status-followup);
+    background: linear-gradient(to top, var(--status-followup) 50%, transparent 50%);
+  }
+
+  .status--partial .status__mark {
+    border-color: var(--status-partial);
+    background: transparent;
+  }
+
+  .status--unstated .status__mark {
+    border: var(--border-thin) dashed var(--status-unstated);
+    background: transparent;
+  }
+
+  .status__raw {
+    flex-basis: 100%;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--text-secondary);
+  }
+</style>

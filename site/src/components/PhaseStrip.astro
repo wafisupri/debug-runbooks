@@ -1,0 +1,78 @@
+---
+/**
+ * The engineering loop — Observe → Hypothesize/Test → Isolate → Remediate →
+ * Verify → Document — showing only which phases this runbook's own section
+ * headings cover. Absent phases are shown as absent, never filled in.
+ */
+import { PHASES, type PhaseId } from "../lib/sections.ts";
+
+interface Props {
+  phases: Record<PhaseId, string[]>;
+}
+const { phases } = Astro.props;
+const covered = PHASES.filter((p) => phases[p.id].length).length;
+---
+
+<figure class="phases">
+  <figcaption class="label">Engineering loop · {covered} of {PHASES.length} phases have their own section</figcaption>
+  <ol class="phases__list" role="list">
+    {
+      PHASES.map((p) => {
+        const sections = phases[p.id];
+        return (
+          <li class:list={["phase", { "phase--present": sections.length > 0 }]}>
+            <span class="phase__name">{p.label}</span>
+            <span class="phase__sections">{sections.length ? sections.join(" · ") : "No dedicated section"}</span>
+          </li>
+        );
+      })
+    }
+  </ol>
+</figure>
+
+<style>
+  .phases {
+    margin: 0;
+    container-type: inline-size;
+  }
+
+  .phases__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: var(--border-thin) solid var(--border-default);
+  }
+
+  .phase {
+    padding: var(--space-2) var(--space-3) var(--space-2) 0;
+    border-block-start: var(--border-thick) dashed var(--border-default);
+    margin-block-start: -1px;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .phase--present {
+    border-block-start: 3px solid var(--brand-primary);
+    color: var(--text-secondary);
+  }
+
+  .phase__name {
+    display: block;
+    font-family: var(--font-mono);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+
+  .phase--present .phase__name {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+
+  .phase__sections {
+    display: block;
+    margin-block-start: var(--space-1);
+    line-height: 1.4;
+  }
+</style>

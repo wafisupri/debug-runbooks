@@ -37,8 +37,14 @@ export function normaliseStatus(raw: string | undefined): NormalisedStatus {
   if (!raw) return { kind: "unstated", unrecognised: false };
   const s = raw.toLowerCase();
 
-  // TODO(you): decide the mapping rules — see the hand-off note in the
-  // implementation report. Order matters: check the most cautious outcomes first.
+  // Most cautious outcome first: an explicitly partial result stays partial
+  // even when part of the work is described as verified.
+  if (/\b(partial|investigating|in progress|blocked)\b/.test(s)) return { kind: "partial", unrecognised: false };
+  // Remaining work, debt or accepted exceptions must never read as plain "resolved".
+  if (/\b(remains?|remaining|debt|exceptions?|follow-?up|outstanding|pending|workaround)\b/.test(s)) {
+    return { kind: "followup", unrecognised: false };
+  }
+  if (/\b(fixed|resolved|completed|closed|pass|verified|healthy)\b/.test(s)) return { kind: "resolved", unrecognised: false };
 
   return { kind: "unstated", unrecognised: true };
 }

@@ -65,3 +65,22 @@ describe("reading time", () => {
     expect(readingMinutes("word ".repeat(660))).toBe(3);
   });
 });
+
+import { normaliseStatus } from "../src/lib/status.ts";
+
+describe("normaliseStatus", () => {
+  it.each([
+    ["Fixed / Verified (PASS / CLOSED)", "resolved"],
+    ["Fixed (validated end-to-end, then intentionally disabled with the tuned build preserved as a backup)", "resolved"],
+    ["Completed; credential rotation and one launchd inheritance check remain follow-up work", "followup"],
+    ["Resolved in the reported incident; diagnostic technical debt remains", "followup"],
+    ["PASS WITH ACCEPTED EXCEPTIONS", "followup"],
+    ["Partial / v0.5.2 policy-guard hardening verified", "partial"],
+  ])("%s → %s", (raw, kind) => {
+    expect(normaliseStatus(raw)).toEqual({ kind, unrecognised: false });
+  });
+  it("never guesses", () => {
+    expect(normaliseStatus(undefined)).toEqual({ kind: "unstated", unrecognised: false });
+    expect(normaliseStatus("Looks good")).toEqual({ kind: "unstated", unrecognised: true });
+  });
+});

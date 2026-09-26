@@ -1,0 +1,109 @@
+---
+/**
+ * Table of contents. Rendered twice by the page: a sticky sidebar on wide
+ * layouts and a collapsible disclosure on narrow ones; CSS shows exactly one.
+ */
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  variant: "sidebar" | "disclosure";
+}
+const { headings, variant } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const label = (t: string) => t.replace(/#$/, "").trim();
+---
+
+{
+  items.length > 1 &&
+    (variant === "sidebar" ? (
+      <nav class="toc toc--sidebar" aria-label="On this page">
+        <p class="label">On this page</p>
+        <ol role="list">
+          {items.map((h) => (
+            <li class={`depth-${h.depth}`}>
+              <a href={`#${h.slug}`}>{label(h.text)}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    ) : (
+      <details class="toc toc--disclosure">
+        <summary>
+          On this page <span class="muted mono">({items.filter((h) => h.depth === 2).length} sections)</span>
+        </summary>
+        <nav aria-label="On this page">
+          <ol role="list">
+            {items.map((h) => (
+              <li class={`depth-${h.depth}`}>
+                <a href={`#${h.slug}`}>{label(h.text)}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </details>
+    ))
+}
+
+<style>
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--text-sm);
+  }
+
+  .toc a {
+    display: block;
+    padding-block: 0.3rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  .toc a:hover {
+    color: var(--text-link);
+  }
+
+  .depth-3 a {
+    padding-inline-start: var(--space-3);
+    font-size: var(--text-xs);
+  }
+
+  .toc--sidebar {
+    position: sticky;
+    inset-block-start: var(--space-4);
+    max-block-size: calc(100dvh - var(--space-6));
+    overflow-y: auto;
+    padding-inline-end: var(--space-2);
+    border-inline-start: var(--border-thin) solid var(--border-default);
+    padding-inline-start: var(--space-4);
+    overscroll-behavior: contain;
+  }
+
+  .toc--sidebar .label {
+    margin: 0 0 var(--space-2);
+  }
+
+  .toc--disclosure {
+    border-block: var(--border-thin) solid var(--border-default);
+  }
+
+  .toc--disclosure summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-block-size: var(--target-min);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .toc--disclosure nav {
+    padding-block-end: var(--space-3);
+  }
+
+  .toc--disclosure a {
+    padding-block: 0.55rem;
+  }
+</style>

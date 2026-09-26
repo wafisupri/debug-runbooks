@@ -80,6 +80,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-26</td>
+      <td><a href="macos/hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md">Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution — resolved portable vs native config precedence, 401 Unauthorized OAuth authentication, disabled server flag resolution, misleading /reload-mcp status, and registered 27 tools across 4 MCP servers</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-19</td>
       <td><a href="macos/openclaw-2026.9.4-gateway-node-omniroute-recovery-2026-09-19.md">OpenClaw 2026.9.4 Gateway, Node runtime, and OmniRoute credential recovery — Desktop/CLI/Gateway version skew, managed Gateway on too-old Hermes Node.js v22.23.2, LaunchAgent reinstall and official plugin alignment, <code>gateway.mode</code> restored from <code>remote</code> to <code>local</code>, and OmniRoute credential routing corrected through the supported secrets migration with a clean audit</a></td>
       <td style="white-space: nowrap;">Fixed</td>

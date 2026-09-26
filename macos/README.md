@@ -2,6 +2,14 @@
 
 The [root README](../README.md#macos) contains the complete dated macOS index.
 
+## Hermes Agent and MCP integration
+
+| Date | Runbook | Status |
+| --- | --- | --- |
+| 2026-09-26 | [Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution](hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md) | Fixed |
+
+This runbook covers Hermes Agent v0.20 You.com MCP integration (`you`, `you-research`, `you-finance`), resolving the conflict between portable/plugin definitions and native `mcp_servers` configuration, OAuth PKCE flow authorization, top-level `enabled: false` flag resolution, misleading `/reload-mcp` status messages, expected conflict warnings, remaining TUI status display anomaly, and successful registration of 27 tools across 4 MCP servers.
+
 ## Local service security
 
 | Date | Runbook | Status |

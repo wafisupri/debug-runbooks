@@ -25,9 +25,12 @@ The 2026-09-07 hardening runbook documents the verified current state (FreeLLM :
 
 | Date | Runbook | Status |
 | --- | --- | --- |
+| 2026-09-27 | [OpenClaude Plugin/MCP Cleanup](openclaude-plugin-mcp-cleanup-2026-09-27.md) | Fixed |
 | 2026-09-19 | [OpenClaw 2026.9.4 Gateway, Node runtime, and OmniRoute credential recovery](openclaw-2026.9.4-gateway-node-omniroute-recovery-2026-09-19.md) | Fixed |
 
-This runbook covers Desktop/CLI/Gateway version skew after the Desktop app reached 2026.9.4, a managed Gateway running on a too-old Hermes Node.js v22.23.2, the LaunchAgent reinstall against the supported 2026.9.4 CLI, official plugin alignment, `gateway.mode` restored from `remote` to `local`, and OmniRoute credential routing corrected through the supported secrets migration with a clean audit.
+This runbook covers the OpenClaw v0.31.0 plugin ecosystem cleanup: 310+ installed plugins causing excessive MCP startup surface, stale orphaned processes blocking verification, systematic separation of installed vs enabled plugin states, targeted disabling of unwanted plugins, authentication discipline for only needed MCP integrations, plaintext shadow credential removal, and cold-start verification resulting in 44 enabled plugins with 22 functional MCP servers.
+
+The 2026-09-19 runbook covers Desktop/CLI/Gateway version skew after the Desktop app reached 2026.9.4, a managed Gateway running on a too-old Hermes Node.js v22.23.2, the LaunchAgent reinstall against the supported 2026.9.4 CLI, official plugin alignment, `gateway.mode` restored from `remote` to `local`, and OmniRoute credential routing corrected through the supported secrets migration with a clean audit.
 
 ## OpenClaw credential recovery
 

@@ -82,6 +82,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-27</td>
+      <td><a href="macos/openclaude-plugin-mcp-cleanup-2026-09-27.md">OpenClaude Plugin/MCP Cleanup — 310+ installed plugins reduced to 44 enabled, 22 functional MCP servers, process cleanup, credential hygiene, cold-start verification</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-26</td>
       <td><a href="macos/hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md">Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution — resolved portable vs native config precedence, 401 Unauthorized OAuth authentication, disabled server flag resolution, misleading /reload-mcp status, and registered 27 tools across 4 MCP servers</a></td>
       <td style="white-space: nowrap;">Fixed</td>

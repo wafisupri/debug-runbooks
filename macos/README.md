@@ -6,7 +6,10 @@ The [root README](../README.md#macos) contains the complete dated macOS index.
 
 | Date | Runbook | Status |
 | --- | --- | --- |
+| 2026-09-27 | [Hermes Agent partial-clone updater and WhatsApp autostash recovery](hermes-agent-partial-clone-autostash-whatsapp-recovery-2026-09-27.md) | Fixed |
 | 2026-09-26 | [Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution](hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md) | Fixed |
+
+The 2026-09-27 runbook covers the Hermes partial/promisor-clone updater failure, guarded no-lazy-fetch diagnostics, orphaned updater autostash triage, and a regression-tested local port of missing WhatsApp inbound deduplication and stale self-chat replay protection.
 
 This runbook covers Hermes Agent v0.20 You.com MCP integration (`you`, `you-research`, `you-finance`), resolving the conflict between portable/plugin definitions and native `mcp_servers` configuration, OAuth PKCE flow authorization, top-level `enabled: false` flag resolution, misleading `/reload-mcp` status messages, expected conflict warnings, remaining TUI status display anomaly, and successful registration of 27 tools across 4 MCP servers.
 

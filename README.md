@@ -83,6 +83,11 @@ The shortest reliable diagnostic and recovery procedure.
   <tbody>
     <tr>
       <td style="white-space: nowrap;">2026-09-27</td>
+      <td><a href="macos/hermes-agent-partial-clone-autostash-whatsapp-recovery-2026-09-27.md">Hermes Agent partial-clone updater and WhatsApp autostash recovery — guarded promisor/lazy-fetch diagnostics, successful update to 60e531cb, safe autostash triage, WhatsApp inbound dedup/stale-append port, regression tests, and clean local commit</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-09-27</td>
       <td><a href="macos/openclaude-plugin-mcp-cleanup-2026-09-27.md">OpenClaude Plugin/MCP Cleanup — 310+ installed plugins reduced to 44 enabled, 22 functional MCP servers, process cleanup, credential hygiene, cold-start verification</a></td>
       <td style="white-space: nowrap;">Fixed</td>
     </tr>

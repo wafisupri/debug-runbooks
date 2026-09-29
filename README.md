@@ -92,6 +92,11 @@ The shortest reliable diagnostic and recovery procedure.
       <td style="white-space: nowrap;">Fixed</td>
     </tr>
     <tr>
+      <td style="white-space: nowrap;">2026-09-29</td>
+      <td><a href="macos/hermes-update-stale-warning-2026-09-29.md">Hermes Agent "4 commits behind" Update Warning — Stale Source-Check Cache Recovery — persistent `⚠ 4 commits behind` banner despite clean local `main` up to date with `origin/main`; stale local `origin/main` ref plus 24-hour shared source-check cache (`~/.hermes/source-checks/<install_id>.json`) served a stale positive count; resolved by refreshing local ref, clearing the installation cache, and cold-restarting the CLI</a></td>
+      <td style="white-space: nowrap;">Fixed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-26</td>
       <td><a href="macos/hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md">Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution — resolved portable vs native config precedence, 401 Unauthorized OAuth authentication, disabled server flag resolution, misleading /reload-mcp status, and registered 27 tools across 4 MCP servers</a></td>
       <td style="white-space: nowrap;">Fixed</td>

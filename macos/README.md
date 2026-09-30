@@ -6,6 +6,7 @@ The [root README](../README.md#macos) contains the complete dated macOS index.
 
 | Date | Runbook | Status |
 | --- | --- | --- |
+| 2026-09-30 | [Hermes Agent Resend Plugin Integration](hermes-resend-plugin-integration-2026-09-30.md) | Completed |
 | 2026-09-27 | [Hermes Agent partial-clone updater and WhatsApp autostash recovery](hermes-agent-partial-clone-autostash-whatsapp-recovery-2026-09-27.md) | Fixed |
 | 2026-09-26 | [Hermes Agent v0.20 You.com MCP OAuth and Portable/Plugin Resolution](hermes-you-mcp-oauth-portable-plugin-conflict-2026-09-26.md) | Fixed |
 

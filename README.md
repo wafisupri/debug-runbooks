@@ -82,6 +82,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-09-30</td>
+      <td><a href="macos/hermes-resend-plugin-integration-2026-09-30.md">Hermes Agent Resend Plugin Integration — installed/enabled resend/resend-skills plugin, 5 skills exposed, no core pyproject.toml dependency, live email test via REST API, recipient confirmed delivery</a></td>
+      <td style="white-space: nowrap;">Completed</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-27</td>
       <td><a href="macos/hermes-agent-partial-clone-autostash-whatsapp-recovery-2026-09-27.md">Hermes Agent partial-clone updater and WhatsApp autostash recovery — guarded promisor/lazy-fetch diagnostics, successful update to 60e531cb, safe autostash triage, WhatsApp inbound dedup/stale-append port, regression tests, and clean local commit</a></td>
       <td style="white-space: nowrap;">Fixed</td>

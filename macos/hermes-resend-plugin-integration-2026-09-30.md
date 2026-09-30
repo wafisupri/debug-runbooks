@@ -49,7 +49,7 @@ During a prior Hermes update, the updater stashed local changes before pulling. 
 The stash was created against an older version of the Hermes codebase. Applying it blindly to the current `pyproject.toml` risked:
 
 - Merge conflicts if the dependencies section had been restructured.
-- Introducing an unnecessary core dependency that would be paid for on every API call (Hermes core dependencies are loaded process-wide).
+- Introducing an unnecessary core dependency would increase Hermes core's dependency surface and create avoidable version-conflict, maintenance, and update risk.
 - Potentially breaking the build if the `resend` package version conflicted with other pinned dependencies.
 
 The correct approach was to first verify whether the dependency was actually needed, then decide.
@@ -66,7 +66,9 @@ The plugin was already cloned, registered, and enabled before this verification 
 
 ## 7. Security Scanner Behavior Encountered During Plugin Installation
 
-During the original plugin installation, Hermes's security scanner flagged the plugin for review. This is expected behavior for any new plugin — the scanner checks for potentially dangerous patterns (network access, file system writes, subprocess execution, etc.). The Resend plugin was reviewed and approved. No security concerns were identified.
+During the installation attempt, Hermes' plugin security scanner returned a **CAUTION** result and stopped at the override decision gate. No force override was needed. Subsequent inspection confirmed that the Resend plugin was already cloned, registered, and enabled, and `hermes plugins doctor resend` later passed successfully.
+
+The CAUTION findings warranted review, but they were not an explicit scanner approval — the install path simply did not proceed past the override gate, and the plugin was already present and functional. No blocking security defect was identified, and no override was exercised.
 
 ---
 

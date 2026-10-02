@@ -87,6 +87,16 @@ The shortest reliable diagnostic and recovery procedure.
       <td style="white-space: nowrap;">Fixed / Verified</td>
     </tr>
     <tr>
+      <td style="white-space: nowrap;">2026-10-03</td>
+      <td><a href="macos/fcc-messaging-gateway-integration-2026-10-03.md">FreeClaudeCode (FCC) Messaging Gateway Integration — Telegram → OpenClaw and WhatsApp → Hermes — routed two persistent messaging gateways through FCC on <code>127.0.0.1:8082</code>: FCC registered in OpenClaw as an <code>anthropic-messages</code> provider and added to the model allowlist, the Hermes Gateway model section repointed with <code>api_mode: anthropic_messages</code>, both gateways restarted, and both paths confirmed working. Records the wrapper-vs-launchd-Gateway distinction, the rendered-Markdown URL pitfall, the <code>curl | python3 - &lt;&lt;'PY'</code> stdin conflict, timestamped rollback, and the verified results <code>Telegram → OpenClaw → FCC ✅</code> and <code>WhatsApp → Hermes → FCC ✅</code></a></td>
+      <td style="white-space: nowrap;">Fixed / Verified</td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">2026-10-03</td>
+      <td><a href="macos/omp-fcc-provider-404-transport-mismatch-2026-10-03.md">OhMyPi (OMP) → FreeClaudeCode (FCC) <code>404</code> Transport Mismatch — OhMyPi discovers FCC models through <code>/v1/models</code> but every request fails with <code>404 {"detail":"Not Found"}</code> because its FCC provider is declared as <code>api: openai-completions</code> while FCC serves the Anthropic Messages shape (<code>POST /v1/messages</code> 200, <code>POST /v1/chat/completions</code> 404). Unresolved; documented separately from the verified integrations. Also covers <code>fcc-pi != fcc-omp</code></a></td>
+      <td style="white-space: nowrap;">Partial / Investigating</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-30</td>
       <td><a href="macos/hermes-resend-plugin-integration-2026-09-30.md">Hermes Agent Resend Plugin Integration — installed/enabled resend/resend-skills plugin, 5 skills exposed, no core pyproject.toml dependency, live email test via REST API, recipient confirmed delivery</a></td>
       <td style="white-space: nowrap;">Completed</td>

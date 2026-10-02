@@ -53,3 +53,14 @@ The 2026-09-19 runbook covers Desktop/CLI/Gateway version skew after the Desktop
 | 2026-09-09 | [OpenClaw provider authentication, model routing, and security hardening](openclaw-provider-auth-routing-hardening-macos-2026-09-09.md) | Earlier store-backed canary evidence; preserved as historical context |
 
 The migration runbook covers env-backed provider recovery, Keychain/login-shell loading, safe Gateway token rotation after dotenv truncation, audit interpretation, protected backups, and JSON/SQLite rollback. Its evidence section distinguishes operator-reported outcomes from documentation-session checks.
+
+## FCC messaging gateway integration
+
+| Date | Runbook | Status |
+| --- | --- | --- |
+| 2026-10-03 | [FreeClaudeCode (FCC) messaging gateway integration — Telegram → OpenClaw and WhatsApp → Hermes](fcc-messaging-gateway-integration-2026-10-03.md) | Fixed / Verified |
+| 2026-10-03 | [OhMyPi (OMP) → FCC — `404 {"detail":"Not Found"}` transport mismatch](omp-fcc-provider-404-transport-mismatch-2026-10-03.md) | Partial / Investigating |
+
+The integration runbook documents routing two persistent messaging gateways through the local FCC service: registering FCC as an Anthropic Messages provider in OpenClaw (plus adding the FCC model to the model allowlist and setting it as the default), repointing the Hermes Gateway model section at `127.0.0.1:8082` with `api_mode: anthropic_messages`, and restarting both gateways. It records the central distinction between a CLI wrapper (one process) and a launchd Gateway (a service), the rendered-Markdown-in-config pitfall, the `curl | python3 - <<'PY'` stdin conflict, timestamped rollback for both systems, and the verified results `Telegram → OpenClaw → FCC ✅` and `WhatsApp → Hermes → FCC ✅`.
+
+The OMP runbook is deliberately separate and **not** a success record: OhMyPi discovers FCC models through `/v1/models` but every request fails with `404 {"detail":"Not Found"}` because its FCC provider is declared as `api: openai-completions` while FCC serves the Anthropic Messages shape (`POST /v1/messages` → 200, `POST /v1/chat/completions` → 404). It remains open, with the fix direction identified but unverified.

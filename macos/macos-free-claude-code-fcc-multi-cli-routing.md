@@ -382,6 +382,8 @@ Maintain it with `pipx upgrade aider-chat` or `pipx reinstall aider-chat`.
 
 Hermes was upgraded, its stale gateway definition was refreshed, and the gateway was restarted. Final checks showed the launchd job running, a valid plist, a current service definition, and removal of the pending-restart marker. Non-FCC Hermes configuration, authentication, channels, and cron were not disturbed.
 
+> **Messaging gateways (2026-10-03):** the Telegram/OpenClaw and WhatsApp/Hermes persistent Gateways were later repointed at FCC in a separate session — see [FreeClaudeCode (FCC) messaging gateway integration](fcc-messaging-gateway-integration-2026-10-03.md). The `fcc-hermes` client result in §12 above is a wrapper-based CLI test and does **not** imply that a running Gateway serving WhatsApp was using FCC. A wrapper affects one process; a launchd Gateway must be changed in its own configuration and restarted.
+
 ---
 
 ## 18. Corrected Cline Status

@@ -82,6 +82,11 @@ The shortest reliable diagnostic and recovery procedure.
   </thead>
   <tbody>
     <tr>
+      <td style="white-space: nowrap;">2026-10-03</td>
+      <td><a href="macos/9router-v0.5.95-launchagent-policy-guard-port-hijack-2026-10-03.md">9Router v0.5.95 LaunchAgent Recovery — Policy Guard Port Hijack on 20138 — stale <code>ai.f0d.policyguard</code> launchd job held <code>127.0.0.1:20138</code> and respawned on kill, blocking the new 9Router build; recovered with a clean single-owner <code>ai.9router.local</code> LaunchAgent and verified <code>/dashboard</code> 307 → <code>/login</code></a></td>
+      <td style="white-space: nowrap;">Fixed / Verified</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-30</td>
       <td><a href="macos/hermes-resend-plugin-integration-2026-09-30.md">Hermes Agent Resend Plugin Integration — installed/enabled resend/resend-skills plugin, 5 skills exposed, no core pyproject.toml dependency, live email test via REST API, recipient confirmed delivery</a></td>
       <td style="white-space: nowrap;">Completed</td>

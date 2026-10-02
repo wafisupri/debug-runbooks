@@ -25,6 +25,15 @@ This runbook records loopback binding for FreeLLM, FCC, and OmniRoute, persisten
 
 The 2026-09-07 hardening runbook documents the verified current state (FreeLLM :3001, FreeLLM custom :3002, FCC :8082, OmniRoute :20128 all localhost-only), the persistent LaunchAgent architecture (ai.fcc.server, ai.freellm.gateway, ai.freellm.gateway-3002, ai.9router.backend, ai.omniroute.gateway, ai.omniroute.openrouter-free-sync, ai.f0d.policyguard, ai.openclaw.gateway, ai.groq-kimi.compat), the port 3002 ownership discovery, FreeLLM source-patch technical debt (server.ts modified from 0.0.0.0 to 127.0.0.1), the CODEX_OMNIROUTE_API_KEY launchd inheritance security finding requiring user rotation, and the read-only final QA across 12 ports.
 
+## 9Router gateway recovery
+
+| Date | Runbook | Status |
+| --- | --- | --- |
+| 2026-10-03 | [9Router v0.5.95 LaunchAgent Recovery — Policy Guard Port Hijack on 20138](9router-v0.5.95-launchagent-policy-guard-port-hijack-2026-10-03.md) | Fixed / Verified |
+| 2026-09-05 | [9Router v0.5.65 Policy Guard Persistence Hardening](9router-v0.5.65-policy-guard-persistence-hardening-2026-09-05.md) | Fixed / Verified |
+
+The 2026-10-03 runbook covers the stale `ai.f0d.policyguard` launchd job hijacking `127.0.0.1:20138` (respawn-on-kill), the resulting `EADDRINUSE` loop and stale dashboard version, the noisy Apple Silicon tray warning, removal of the legacy guard owner, and a clean single-owner `ai.9router.local` LaunchAgent with read-only end-state verification. The 2026-09-05 runbook covers the original policy-guard topology (`:20138` fronting the `:20139` backend) and the vendor autostart/tray limitations on this host.
+
 ## OpenClaw version, runtime, and Gateway recovery
 
 | Date | Runbook | Status |

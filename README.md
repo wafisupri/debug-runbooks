@@ -102,6 +102,11 @@ The shortest reliable diagnostic and recovery procedure.
       <td style="white-space: nowrap;">Completed</td>
     </tr>
     <tr>
+      <td style="white-space: nowrap;">2026-09-30</td>
+      <td><a href="macos/openclaw-update-recovery-2026-09-30.md">OpenClaw Update Recovery — 2026.9.6 rollout, stale triage process, and shell PATH cleanup — a routine update surfaced errors on the CLI, dashboard, Desktop app, and Telegram; a shadowing <code>~/.local/bin/node</code> forced an OpenClaw runtime-fallback, a stale <code>openclaw triage</code> process still reasoned against 2026.9.4 context, Telegram error spam was separated from the expected 4-hour heartbeat, and provider probe timeouts plus non-blocking warnings were deferred. Recovery reinstalled the Gateway LaunchAgent, terminated the stale process, reordered <code>PATH</code> rather than deleting tooling, and re-verified versions, loopback bind, connectivity, and update state</a></td>
+      <td style="white-space: nowrap;">Fixed / Verified; provider-model, secrets, and dead-letter cleanup remain follow-up</td>
+    </tr>
+    <tr>
       <td style="white-space: nowrap;">2026-09-27</td>
       <td><a href="macos/hermes-agent-partial-clone-autostash-whatsapp-recovery-2026-09-27.md">Hermes Agent partial-clone updater and WhatsApp autostash recovery — guarded promisor/lazy-fetch diagnostics, successful update to 60e531cb, safe autostash triage, WhatsApp inbound dedup/stale-append port, regression tests, and clean local commit</a></td>
       <td style="white-space: nowrap;">Fixed</td>

@@ -38,8 +38,11 @@ The 2026-10-03 runbook covers the stale `ai.f0d.policyguard` launchd job hijacki
 
 | Date | Runbook | Status |
 | --- | --- | --- |
+| 2026-09-30 | [OpenClaw Update Recovery — 2026.9.6 rollout, stale triage process, and shell PATH cleanup](openclaw-update-recovery-2026-09-30.md) | Fixed / Verified; provider-model, secrets, and dead-letter cleanup remain follow-up |
 | 2026-09-27 | [OpenClaude Plugin/MCP Cleanup](openclaude-plugin-mcp-cleanup-2026-09-27.md) | Fixed |
 | 2026-09-19 | [OpenClaw 2026.9.4 Gateway, Node runtime, and OmniRoute credential recovery](openclaw-2026.9.4-gateway-node-omniroute-recovery-2026-09-19.md) | Fixed |
+
+The 2026-09-30 runbook covers a routine update that surfaced errors across the CLI, dashboard, Desktop app, and Telegram at once: a `~/.local/bin/node` shadowing the intended nvm runtime (visible as a runtime-fallback line from `openclaw --version`), a stale `openclaw triage` process still reasoning against 2026.9.4 context, Telegram error spam versus the expected 4-hour heartbeat, provider/model probe timeouts, and a set of non-blocking warnings. Recovery reinstalled the Gateway LaunchAgent, terminated the stale process, reordered `PATH` instead of deleting tooling, and deferred every optional cleanup. Live facts were re-verified on 2026-10-03 at 2026.9.7.
 
 This runbook covers the OpenClaw v0.31.0 plugin ecosystem cleanup: 310+ installed plugins causing excessive MCP startup surface, stale orphaned processes blocking verification, systematic separation of installed vs enabled plugin states, targeted disabling of unwanted plugins, authentication discipline for only needed MCP integrations, plaintext shadow credential removal, and cold-start verification resulting in 44 enabled plugins with 22 functional MCP servers.
 
